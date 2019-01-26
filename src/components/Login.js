@@ -59,6 +59,7 @@ class Login extends Component {
             console.log(response.data);
             if(response.data.success) {
                 console.log(response.data.user);
+                this.props.history.push('/home');
             }
             else {
                 console.error(response.data.message);

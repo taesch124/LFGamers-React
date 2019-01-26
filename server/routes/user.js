@@ -16,4 +16,12 @@ router.post('/login', (req, res) => {
     });
 });
 
+router.post('/create-account', (req, res) => {
+    console.log(req.body);
+    AuthController.createAccount(req.body, (results) => {
+        console.log(results);
+        res.json(results);
+    })
+});
+
 module.exports = router;

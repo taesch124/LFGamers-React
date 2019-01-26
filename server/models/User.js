@@ -17,6 +17,23 @@ const UserSchema = new Schema({
         //     },
         //     "Password should be at least 6 characters."
         //   ]
+    },
+    email: {
+        type: String,
+        unique: true,
+        match: [/.+@.+\..+/, "Please enter a valid e-mail address"]
+    },
+    playstationAccount: {
+        type: String,
+        unique: true
+    },
+    xboxAccount: {
+        type: String,
+        unique: true
+    },
+    steamAccount: {
+        type: String,
+        unique: true
     }
 });
 
