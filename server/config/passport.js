@@ -2,15 +2,22 @@ const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcryptjs');
 
 // Load User model
-const User = require('../models/user');
+const AuthController = require('../controllers/authController');
+const User = require('./../models/User');
 
 module.exports = function(passport) {
   passport.use(
     new LocalStrategy((username, password, done) => {
       // Match user
       let user = {username: username, password: password};
-      let error = {error: true, message: 'Not set up yet'};
-      return done(null, false, error);
+      AuthController.login(user, (results) => {
+        if(results.success) {
+          return done(null, results);
+        } else {
+          return done(null, false, results);
+        }
+      })
+      
     })
   );
 
@@ -19,8 +26,7 @@ module.exports = function(passport) {
   });
 
   passport.deserializeUser(function(user, done) {
-    User.getUser(user.id, (results) => {
-      console.log(user.id, results);
+    User.find({username: user.username}, (results) => {
       done(null, results);
     });
   });

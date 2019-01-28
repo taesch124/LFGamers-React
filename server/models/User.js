@@ -20,20 +20,20 @@ const UserSchema = new Schema({
     },
     email: {
         type: String,
-        unique: true,
+        sparse: true,
         match: [/.+@.+\..+/, "Please enter a valid e-mail address"]
     },
     playstationAccount: {
         type: String,
-        unique: true
+        sparse: true
     },
     xboxAccount: {
         type: String,
-        unique: true
+        sparse: true
     },
     steamAccount: {
         type: String,
-        unique: true
+        sparse: true
     }
 });
 

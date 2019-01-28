@@ -7,7 +7,8 @@ class CreateAccount extends Component {
 
         this.state = {
             username: '', 
-            password: ''
+            password: '',
+            email: ''
         };
     }
 
@@ -16,7 +17,7 @@ class CreateAccount extends Component {
             <div className="container">
                 <div className="row">
                     <div className="input-field col s12">
-                        <input placeholder="Enter username" id="username" type="text" onChange={this.handleUsernameChange}/>
+                        <input placeholder="Enter username" id="username" name="username" type="text" onChange={this.handleUsernameChange}/>
                         <label htmlFor="username" className="active">Username</label>
                         <span className="helper-text" ref={input => this.usernameValidation = input}></span>
                     </div> 
@@ -24,15 +25,17 @@ class CreateAccount extends Component {
 
                 <div className="row">
                     <div className="input-field col s12">
-                        <input placeholder="Enter password" id="password" type="password" onChange={this.handlePasswordChange}/>
+                        <input placeholder="Enter password" id="password" name="password" type="password" onChange={this.onChange}/>
                         <label htmlFor="password" className="active">Password</label>
+                        <span className="helper-text" ref={input => this.passwordValidation = input}></span>
                     </div>
                 </div>
 
                 <div className="row">
                     <div className="input-field col s12">
-                        <input placeholder="Enter email (optional)" id="email" type="email" onChange={this.handleEmailChange}/>
+                        <input placeholder="Enter email (optional)" id="email" name="email" type="email" onChange={this.onChange}/>
                         <label htmlFor="email" className="active">E-mail</label>
+                        <span className="helper-text" ref={input => this.emailValidation = input}></span>
                     </div>
                 </div>
 
@@ -54,8 +57,10 @@ class CreateAccount extends Component {
     }
 
     createAccount = () => {
+        console.log(this.state.username, this.state.password);
+        if(!this.validateInput()) return;
+    
         console.log('Creating acount');
-        console.log(this.state.username);
         axios.post('http://localhost:8080/auth/create-account',  {
             username: this.state.username,
             password: this.state.password
@@ -64,6 +69,7 @@ class CreateAccount extends Component {
             console.log(response.data);
             if(response.data.success) {
                 console.log(response.data.user);
+                this.props.history.push('/auth/login/');
             }
             else {
                 console.error(response.data.message);
@@ -92,6 +98,29 @@ class CreateAccount extends Component {
         this.setState({
             password: e.target.value
         });
+    }
+
+    onChange = (e) => {
+        this.setState({
+            [e.target.name]: e.target.value
+        });
+    }
+
+    validateInput = () => {
+        let validated = true;
+
+        if(this.state.username.length < 6) {
+            this.usernameValidation.textContent = 'Username must be 6 characters long.';
+            validated = false;
+        }
+
+        if(!this.state.password) {
+            this.passwordValidation.textContent = 'Password is required';
+            validated = false;
+        }
+
+        console.log(validated);
+        return validated;
     }
 }
 

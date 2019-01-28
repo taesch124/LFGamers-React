@@ -5,7 +5,6 @@ const User = require('./../models/User');
 function login(user, callback) {
     User.findOne({username: user.username})
     .then(results => {
-        console.log(results);
         if(results) {
             //use bcrypt to match password
             bcrypt.compare(user.password, results.password, (err, match) => {
@@ -64,7 +63,6 @@ function createAccount(user, callback) {
                 user.password = hash;
                 User.create(user)
                 .then(results => {
-                    console.log(results);
                     let response = {
                         success: true,
                         results: results

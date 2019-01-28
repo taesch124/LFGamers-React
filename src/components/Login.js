@@ -16,12 +16,12 @@ class Login extends Component {
             <div className="container">
                 <div className="row">
                     <div className="input-field col s6">
-                        <input placeholder="Enter username" id="username" type="text" onChange={this.handleUsernameChange}/>
+                        <input placeholder="Enter username" id="username" name="username" type="text" onChange={this.onChange}/>
                         <label htmlFor="username" className="active">Username</label>
                         <span className="helper-text" ref={input => this.usernameValidation = input}></span>
                     </div>
                     <div className="input-field col s6">
-                        <input placeholder="Enter password" id="password" type="password" onChange={this.handlePasswordChange}/>
+                        <input placeholder="Enter password" id="password" name="password" type="password" onChange={this.onChange}/>
                         <label htmlFor="password" className="active">Password</label>
                     </div>
                 </div>
@@ -36,7 +36,7 @@ class Login extends Component {
                     <div className="col s4 offset-s4">
                         <div className="flex-row">
                             <button className="btn btn-primary waves-effect blue" onClick={this.login}>Login</button>
-                            <a href="/auth/create-account" onClick={this.createAccount}>Create an account</a>
+                            <a href="/auth/create-account">Create an account</a>
                         </div>
                     </div>
                 </div>
@@ -44,13 +44,8 @@ class Login extends Component {
         )
     }
 
-    createAccount = () => {
-        console.log('Creating account');
-    }
-
     login = () => {
         console.log('Logging in');
-        console.log(this.state.username);
         axios.post('http://localhost:8080/auth/login',  {
             username: this.state.username,
             password: this.state.password
@@ -58,7 +53,7 @@ class Login extends Component {
         .then(response => {
             console.log(response.data);
             if(response.data.success) {
-                console.log(response.data.user);
+                this.props.loginHandler(response.data.user);
                 this.props.history.push('/home');
             }
             else {
@@ -72,21 +67,9 @@ class Login extends Component {
         });
     }
 
-    handleUsernameChange = (e) => {
-        let text = e.target.value;
-        if(text.length < 6) {
-            this.usernameValidation.textContent = 'Username must be 6 characters long.';
-        } else {
-            this.usernameValidation.textContent = '';
-            this.setState({
-                username: text
-            });
-        }
-    }
-
-    handlePasswordChange = (e) => {
+    onChange = (e) => {
         this.setState({
-            password: e.target.value
+            [e.target.name]: e.target.value
         });
     }
 }
