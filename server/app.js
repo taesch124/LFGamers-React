@@ -9,6 +9,7 @@ const gamesRouter = require('./routes/games');
 
 const app = express();
 const PORT = process.env.PORT || 8080;
+require('./config/passport')(passport);
 
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/LFGamers";
 
@@ -25,9 +26,10 @@ app.use(
         saveUninitialized: true
     })
 );
+
 app.use(passport.initialize());
 app.use(passport.session());
-require('./config/passport')(passport);
+
 
 
 app.use('/auth', authRouter);

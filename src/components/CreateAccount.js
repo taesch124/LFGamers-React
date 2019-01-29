@@ -61,18 +61,15 @@ class CreateAccount extends Component {
         if(!this.validateInput()) return;
     
         console.log('Creating acount');
-        axios.post('http://localhost:8080/auth/create-account',  {
+        axios.post('/auth/create-account',  {
             username: this.state.username,
             password: this.state.password
         })
         .then(response => {
-            console.log(response.data);
             if(response.data.success) {
-                console.log(response.data.user);
                 this.props.history.push('/auth/login/');
             }
             else {
-                console.error(response.data.message);
                 this.errorMessage.textContent = response.data.message;
             }
         })
@@ -119,7 +116,6 @@ class CreateAccount extends Component {
             validated = false;
         }
 
-        console.log(validated);
         return validated;
     }
 }

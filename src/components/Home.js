@@ -11,9 +11,8 @@ class Home extends Component {
     }
 
     componentWillMount() {
-        axios.get('http://localhost:8080/games')
+        axios.get('/games')
         .then(response => {
-            console.log(response.data);
             this.setState({
                 games: response.data
             });
@@ -25,14 +24,26 @@ class Home extends Component {
     }
 
     render() {
-        console.log(this);
+        console.log(props);
         return(
             <div className="container">
                 {/* <h1>Welcome {this.props.userSate.currentUser.username}</h1> */}
                 <h2>Welcome</h2>
-                {this.state.games.map(e => <h3>{e.name}</h3>)}
+                {this.state.games.map(e => <h3 key={e.id}>{e.name}</h3>)}
+                <button onClick={this.getUser}>User</button>
             </div>
         )
+    }
+
+    getUser = () => {
+        axios.get('/auth')
+        .then(response => {
+            console.log(response.data);
+        })
+        .catch(error => {
+            console.error(error);
+            //this.errorMessage.textContent = error.message;
+        });
     }
 
 }

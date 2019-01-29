@@ -4,6 +4,6 @@ module.exports = {
             return next();
         }
 
-        res.redirect('/auth/login');
+        res.json({redirect: true, location: '/auth/login'});
     }
   };

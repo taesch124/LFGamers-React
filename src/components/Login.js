@@ -46,7 +46,7 @@ class Login extends Component {
 
     login = () => {
         console.log('Logging in');
-        axios.post('http://localhost:8080/auth/login',  {
+        axios.post('/auth/login',  {
             username: this.state.username,
             password: this.state.password
         })

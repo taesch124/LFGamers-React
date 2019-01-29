@@ -54,7 +54,8 @@ function searchPopularGames(callback) {
         for(let i = 0; i < jsonArr.length; i++) {
             
             let game = {
-                name: jsonArr[i].name
+                name: jsonArr[i].name,
+                id: jsonArr[i].id
             }
             games.push(game);
         }
