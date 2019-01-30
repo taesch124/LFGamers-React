@@ -30,6 +30,12 @@ router.post('/login', (req, res, next) => {
     // });
 });
 
+router.get('/logout', (req, res) => {
+    console.log('logging out');
+    req.logout();
+    res.json({success: true, message: "Logged out"});
+});
+
 router.post('/create-account', (req, res) => {
     AuthController.createAccount(req.body, (results) => {
         res.json(results);

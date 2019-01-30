@@ -24,11 +24,10 @@ class Home extends Component {
     }
 
     render() {
-        console.log(props);
+        console.log(this.props);
         return(
             <div className="container">
-                {/* <h1>Welcome {this.props.userSate.currentUser.username}</h1> */}
-                <h2>Welcome</h2>
+                <h2>Welcome {this.props.user.username}</h2>
                 {this.state.games.map(e => <h3 key={e.id}>{e.name}</h3>)}
                 <button onClick={this.getUser}>User</button>
             </div>

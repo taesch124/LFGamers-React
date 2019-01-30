@@ -36,8 +36,8 @@ const igdbClient = IGDB(Keys.igdb);
 function searchPopularGames(callback) {
     igdbClient.games({
         filters: {
-            'release_dates.date-gt': '2018-11-19',
-            'release_dates.date-lt': '2020-01-01',
+            'release_dates.date-gt': '2019-01-01',
+            'release_dates.date-lt': '2019-02-01',
             'popularity-gt': '80'
         },
         limit: 5,

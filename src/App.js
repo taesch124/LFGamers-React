@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import {Route, Redirect} from 'react-router-dom';
-import PrivateRoute from './PrivateRoute';
-import NavBar from './components/NavBar';
-import Login from './components/Login';
-import CreateAccount from './components/CreateAccount';
-import Home from './components/Home';
+import NavBar from './components/header/NavBar';
+import Login from './components/pages/Login';
+import CreateAccount from './components/pages/CreateAccount';
+import Home from './components/pages/Home';
 import './App.css';
 import axios from 'axios';
 
@@ -34,14 +33,14 @@ class App extends Component {
   render() {
     return this.state.loaded ? (
       <div className="App">
-        <NavBar />
+        <NavBar loggedIn={this.state.loggedIn} logout={this.logout}/>
 
         <Route exact path='/' render={() => ( <Redirect to="/auth/login"/>)}/>
         <Route exact path='/auth/login'  render={props => <Login {...props} loginHandler={this.loginHandler}/>}/>
         <Route exact path='/auth/create-account' component={CreateAccount}/>
         <Route exact path='/home' render={(props) => (
           this.state.loggedIn
-          ? <Home {...props}/>
+          ? <Home user={this.state.currentUser} {...props}/>
           : <Redirect to='/auth/login' />
         )} />
         
@@ -57,6 +56,18 @@ class App extends Component {
     });
   }
 
+  logout = () => {
+    axios.get('/auth/logout')
+    .then(response => {
+      console.log(response.data);
+        if(response.data.success) {
+          this.loginHandler(null);
+        }
+    })
+    .catch(error => {
+        throw error;
+    });
+  }
   
 }
 
