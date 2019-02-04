@@ -5,9 +5,11 @@ function getAndSaveGames(callback) {
     igdb.searchPopularGames(results => {
         //console.log(results);
         let bulk = [];
+        let response = [];
         for(let i = 0; i < results.length; i++) {
             let game = Game.createGame(results[i]);
             const {_id, ...update} = game._doc;
+            response.push(update);
             let command = {
                 updateOne: {
                     "filter": {id: game.id},
@@ -26,7 +28,7 @@ function getAndSaveGames(callback) {
 
         Game.bulkWrite(bulk)
         .then(results => {
-            if (typeof callback === 'function') callback(results);
+            if (typeof callback === 'function') callback(response);
         })
         .catch(err => {
             throw err;
@@ -46,7 +48,6 @@ function searchGameByTitle(searchPhrase, callback) {
         for(let i = 0; i < results.length; i++) {
             let game = Game.createGame(results[i]);
             const {_id, ...update} = game._doc;
-            console.log(update);
             response.push(update);
             let command = {
                 updateOne: {

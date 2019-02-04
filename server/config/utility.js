@@ -34,14 +34,17 @@ const igdbGenres = {
 
 const igdbPlatforms = {
     166: 'Pokemon mini',
+    7: 'Playstation',
+    8: 'Playstation 2',
     9: 'PlayStation 3',
     48: 'Playstation 4',
     11: 'Xbox',
+    12: 'Xbox 360',
+    49: 'Xbox One',
     25: 'Amstrad CPC',
     30: 'Sega 32X',
     47: 'Virtual',
     6: 'PC (Windows)',
-    49: 'Xbox One'
 }
 
 module.exports = {

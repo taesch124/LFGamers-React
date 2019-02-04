@@ -13,11 +13,10 @@ function searchGameByPhrase(searchPhrase, callback) {
     igdbClient.games({
         search: searchPhrase,
         fields: fieldList,
-        limit: 5
+        limit: 10
     }).then(response => {
         let jsonArr = response.body;
 
-        console.log(jsonArr);
         if(jsonArr.genres && jsonArr.genres.length > 0) jsonArr.genres = parseEnumeratedField(jsonArr.genres, genres);
         if(jsonArr.platforms && jsonArr.platforms.length > 0) jsonArr.platforms = parseEnumeratedField(jsonArr.platforms, platforms);
         if (typeof callback === 'function') callback(jsonArr);
@@ -52,15 +51,17 @@ function searchPopularGames(callback) {
             'release_dates.date-lt': '2019-02-01',
             'popularity-gt': '80'
         },
-        limit: 5,
+        limit: 10,
         fields: fieldList
     }).then(response => {
         let jsonArr = response.body;
+        console.log(jsonArr);
 
-        if(jsonArr.genres.length > 0) jsonArr.genres = parseEnumeratedField(jsonArr.genres, genres);
-        if(jsonArr.platforms.length > 0) jsonArr.platforms = parseEnumeratedField(jsonArr.platforms, platforms);
+        if(jsonArr.genres && jsonArr.genres.length > 0) jsonArr.genres = parseEnumeratedField(jsonArr.genres, genres);
+        if(jsonArr.platforms && jsonArr.platforms.length > 0) jsonArr.platforms = parseEnumeratedField(jsonArr.platforms, platforms);
         if (typeof callback === 'function') callback(jsonArr);
     }).catch(err => {
+        console.log(err);
         let error = {
             error: true,
             message: err
@@ -84,6 +85,7 @@ function parseEnumeratedField(json, data) {
     let fieldValues = [];
     if(!json) return fieldValues;
     for (let i = 0; i < json.length; i++) {
+        if(!data.hasOwnProperty(json[i])) continue;
         let value = data[json[i]];
         fieldValues.push(value);
     }

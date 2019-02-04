@@ -5,9 +5,7 @@ const gameController = require('./../controllers/igdbController');
 
 router.get('/', (req, res) => {
     gameController.getAndSaveGames(results => {
-        gameController.getGames(results => {
-            res.json(results);
-        });
+        res.json(results);
     });
 });
 
