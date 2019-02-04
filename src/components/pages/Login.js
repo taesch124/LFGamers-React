@@ -14,37 +14,40 @@ class Login extends Component {
     render() {
         return(
             <div className="container">
-                <div className="row">
-                    <div className="input-field col s6">
-                        <input placeholder="Enter username" id="username" name="username" type="text" onChange={this.onChange}/>
-                        <label htmlFor="username" className="active">Username</label>
-                        <span className="helper-text" ref={input => this.usernameValidation = input}></span>
-                    </div>
-                    <div className="input-field col s6">
-                        <input placeholder="Enter password" id="password" name="password" type="password" onChange={this.onChange}/>
-                        <label htmlFor="password" className="active">Password</label>
-                    </div>
-                </div>
-
-                <div className="row">
-                    <div className="col s10 offset-s1">
-                        <span className="helper-text" ref={input => this.errorMessage = input}></span>
-                    </div>
-                </div>
-
-                <div className="row">
-                    <div className="col s4 offset-s4">
-                        <div className="flex-row">
-                            <button className="btn btn-primary waves-effect blue" onClick={this.login}>Login</button>
-                            <a href="/auth/create-account">Create an account</a>
+                <form id="login-form" onSubmit={this.login}>
+                    <div className="row">
+                        <div className="input-field col s6">
+                            <input placeholder="Enter username" id="username" name="username" type="text" onChange={this.onChange}/>
+                            <label htmlFor="username" className="active">Username</label>
+                            <span className="helper-text" ref={input => this.usernameValidation = input}></span>
+                        </div>
+                        <div className="input-field col s6">
+                            <input placeholder="Enter password" id="password" name="password" type="password" onChange={this.onChange}/>
+                            <label htmlFor="password" className="active">Password</label>
                         </div>
                     </div>
-                </div>
+
+                    <div className="row">
+                        <div className="col s10 offset-s1">
+                            <span className="helper-text" ref={input => this.errorMessage = input}></span>
+                        </div>
+                    </div>
+
+                    <div className="row">
+                        <div className="col s4 offset-s4">
+                            <div className="flex-row">
+                                <button className="btn btn-primary waves-effect blue" onClick={this.login}>Login</button>
+                                <a href="/auth/create-account">Create an account</a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
         )
     }
 
-    login = () => {
+    login = (e) => {
+        e.preventDefault();
         console.log('Logging in');
         axios.post('/auth/login',  {
             username: this.state.username,

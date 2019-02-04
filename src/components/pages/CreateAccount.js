@@ -15,48 +15,51 @@ class CreateAccount extends Component {
     render() {
         return(
             <div className="container">
-                <div className="row">
-                    <div className="input-field col s12">
-                        <input placeholder="Enter username" id="username" name="username" type="text" onChange={this.handleUsernameChange}/>
-                        <label htmlFor="username" className="active">Username</label>
-                        <span className="helper-text" ref={input => this.usernameValidation = input}></span>
-                    </div> 
-                </div>
-
-                <div className="row">
-                    <div className="input-field col s12">
-                        <input placeholder="Enter password" id="password" name="password" type="password" onChange={this.onChange}/>
-                        <label htmlFor="password" className="active">Password</label>
-                        <span className="helper-text" ref={input => this.passwordValidation = input}></span>
+                <form id="login-form" onSubmit={this.createAccount}>
+                    <div className="row">
+                        <div className="input-field col s12">
+                            <input placeholder="Enter username" id="username" name="username" type="text" onChange={this.handleUsernameChange}/>
+                            <label htmlFor="username" className="active">Username</label>
+                            <span className="helper-text" ref={input => this.usernameValidation = input}></span>
+                        </div> 
                     </div>
-                </div>
 
-                <div className="row">
-                    <div className="input-field col s12">
-                        <input placeholder="Enter email (optional)" id="email" name="email" type="email" onChange={this.onChange}/>
-                        <label htmlFor="email" className="active">E-mail</label>
-                        <span className="helper-text" ref={input => this.emailValidation = input}></span>
-                    </div>
-                </div>
-
-                <div className="row">
-                    <div className="col s10 offset-s1">
-                        <span className="helper-text" ref={input => this.errorMessage = input}></span>
-                    </div>
-                </div>
-
-                <div className="row">
-                    <div className="col s4 offset-s4">
-                        <div className="flex-row">
-                            <button className="btn btn-primary waves-effect blue" onClick={this.createAccount}>CreateAccount</button>
+                    <div className="row">
+                        <div className="input-field col s12">
+                            <input placeholder="Enter password" id="password" name="password" type="password" onChange={this.onChange}/>
+                            <label htmlFor="password" className="active">Password</label>
+                            <span className="helper-text" ref={input => this.passwordValidation = input}></span>
                         </div>
                     </div>
-                </div>
+
+                    <div className="row">
+                        <div className="input-field col s12">
+                            <input placeholder="Enter email (optional)" id="email" name="email" type="email" onChange={this.onChange}/>
+                            <label htmlFor="email" className="active">E-mail</label>
+                            <span className="helper-text" ref={input => this.emailValidation = input}></span>
+                        </div>
+                    </div>
+
+                    <div className="row">
+                        <div className="col s10 offset-s1">
+                            <span className="helper-text" ref={input => this.errorMessage = input}></span>
+                        </div>
+                    </div>
+
+                    <div className="row">
+                        <div className="col s4 offset-s4">
+                            <div className="flex-row">
+                                <button className="btn btn-primary waves-effect blue" onClick={this.createAccount}>CreateAccount</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
         )
     }
 
-    createAccount = () => {
+    createAccount = (e) => {
+        e.preventDefault();
         console.log(this.state.username, this.state.password);
         if(!this.validateInput()) return;
     

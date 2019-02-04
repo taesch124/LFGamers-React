@@ -1,12 +1,17 @@
 const express = require('express');
-const passport = require('passport');
 
 const router = express.Router();
-const igdb = require('./../api/igdb');
-const {ensureAuthenticated} = require('./../config/auth');
+const gameController = require('./../controllers/igdbController');
 
 router.get('/', (req, res) => {
-    igdb.searchPopularGames((results) => {
+    gameController.getAndSaveGames(results => {
+        res.json(results);
+    });
+});
+
+router.get('/search-title/:title', (req, res) => {
+    console.log('searching for game');
+    gameController.searchGameByTitle(req.params.title, results => {
         res.json(results);
     });
 });
