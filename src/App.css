@@ -36,6 +36,10 @@
   color: rgb(201, 47, 47) !important;
 }
 
+.container {
+  width: 80%;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

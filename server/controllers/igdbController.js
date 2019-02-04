@@ -1,0 +1,88 @@
+const igdb = require('./../api/igdb');
+const Game = require('./../models/Game');
+
+function getAndSaveGames(callback) {
+    igdb.searchPopularGames(results => {
+        //console.log(results);
+        let bulk = [];
+        for(let i = 0; i < results.length; i++) {
+            let game = Game.createGame(results[i]);
+            const {_id, ...update} = game._doc;
+            let command = {
+                updateOne: {
+                    "filter": {id: game.id},
+                    "replacement": update,
+                    "upsert": true,
+                    "multi": true
+                }
+            }
+            bulk.push(command);
+        }
+
+        if(bulk.length === 0 ) {
+            callback();
+            return;
+        }
+
+        Game.bulkWrite(bulk)
+        .then(results => {
+            if (typeof callback === 'function') callback(results);
+        })
+        .catch(err => {
+            throw err;
+        });
+    });
+}
+
+function searchGameByTitle(searchPhrase, callback) {
+    igdb.searchGame(searchPhrase, results => {
+        if(results.error) {
+            if (typeof callback === 'function') callback(results);
+            return;
+        }
+
+        let bulk = [];
+        let response = [];
+        for(let i = 0; i < results.length; i++) {
+            let game = Game.createGame(results[i]);
+            const {_id, ...update} = game._doc;
+            console.log(update);
+            response.push(update);
+            let command = {
+                updateOne: {
+                    "filter": {id: game.id},
+                    "replacement": update,
+                    "upsert": true,
+                    "multi": true
+                }
+            }
+            bulk.push(command);
+        }
+        
+        if(bulk.length === 0 ) {
+            callback();
+            return;
+        }
+
+        Game.bulkWrite(bulk)
+        .then(dbRresults => {
+            if (typeof callback === 'function') callback(response);
+        })
+        .catch(err => {
+            throw err;
+        });
+    });
+}
+
+function getGames(callback) {
+    Game.find().limit(10)
+    .then(results => {
+        if(typeof callback === 'function') callback(results);
+    });
+}
+
+module.exports = {
+    getGames: getGames,
+    getAndSaveGames: getAndSaveGames,
+    searchGameByTitle: searchGameByTitle,
+}

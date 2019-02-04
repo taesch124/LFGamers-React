@@ -2,22 +2,30 @@ const Dotenv = require('dotenv').config();
 const IGDB = require('igdb-api-node').default;
 const Keys = require('../config/keys');
 const igdbClient = IGDB(Keys.igdb);
+
+const fieldList = require('./../config/utility').igdbGameFieldList;
 //const Game = require('../models/game.js');
 
-// function searchGameByPhrase(searchPhrase, callback) {
-//     igdbClient.games({
-//         search: searchPhrase,
-//         fields: '*',
-//         limit: 5
-//     }).then(response => {
-//         let jsonArr = response.body;
-//         let games = Game.getGamesFromIGDB(jsonArr);
-
-//         if (typeof callback === 'function') callback(games);
-//     }).catch(error => {
-//         throw error;
-//     });
-// }
+function searchGameByPhrase(searchPhrase, callback) {
+    console.log('Search phrase: ' + searchPhrase);
+    igdbClient.games({
+        search: searchPhrase,
+        fields: fieldList,
+        limit: 5,
+        expand: ['genres', 'platforms']
+    }).then(response => {
+        let jsonArr = response.body;
+        console.log(response);
+        console.log(jsonArr);
+        if (typeof callback === 'function') callback(jsonArr);
+    }).catch(err => {
+        let error = {
+            error: true,
+            message: err
+        }
+        if (typeof callback === 'function') callback(error);
+    });
+}
 
 // function searchGameById(id, callback) {
 //     igdbClient.games({
@@ -41,28 +49,18 @@ function searchPopularGames(callback) {
             'popularity-gt': '80'
         },
         limit: 5,
-        fields: ['name', 
-        'release_dates.date', 
-        'rating',
-        'popularity',
-        'genres',
-        'platforms']
+        fields: fieldList,
+        expand: ['genres', 'platforms']
     }).then(response => {
         let jsonArr = response.body;
-        console.log(jsonArr);
-        let games = [];
-        for(let i = 0; i < jsonArr.length; i++) {
-            
-            let game = {
-                name: jsonArr[i].name,
-                id: jsonArr[i].id
-            }
-            games.push(game);
-        }
 
-        if (typeof callback === 'function') callback(games);
-    }).catch(error => {
-        throw error;
+        if (typeof callback === 'function') callback(jsonArr);
+    }).catch(err => {
+        let error = {
+            error: true,
+            message: err
+        }
+        if (typeof callback === 'function') callback(error);
     });
 }
 
@@ -72,13 +70,13 @@ function getGenres() {
         limit: 50
     }).then(response => {
         console.log(response.body);
-    }).catch(error => {
-        console.log(error);
+    }).catch(err => {
+        throw err;
     });
 }
 
 module.exports = {
-    // searchGame: searchGameByPhrase,
+    searchGame: searchGameByPhrase,
     // searchGameById: searchGameById,
     searchPopularGames: searchPopularGames,
     getGenres: getGenres

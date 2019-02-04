@@ -1,0 +1,27 @@
+.card {
+    cursor: pointer;
+}
+
+.card-image {
+    margin-left: 1rem;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.card-content {
+    max-width: 100%;
+}
+
+.game-poster {
+    height: 100%;
+    width: 180px;
+    max-width: 1800px;
+    max-height: 180px;
+}
+
+.game-summary {
+    max-height: 120px;
+    overflow: hidden;
+}
