@@ -6,7 +6,7 @@ function GamePanel(props) {
     return (
         <div className="card horizontal">
             <div className="card-image">
-                <img className="game-poster" alt={game.name} src={`https:${game.cover.url}`} />
+                <img className="game-poster" alt={game.name} src={game.cover ? `https:${game.cover.url}` : 'https://via.placeholder.com/180'} />
             </div>
             <div className="card-content">
                 <h4>{game.name}</h4>

@@ -4,6 +4,8 @@ const Keys = require('../config/keys');
 const igdbClient = IGDB(Keys.igdb);
 
 const fieldList = require('./../config/utility').igdbGameFieldList;
+const genres = require('./../config/utility').igdbGenres;
+const platforms = require('./../config/utility').igdbPlatforms;
 //const Game = require('../models/game.js');
 
 function searchGameByPhrase(searchPhrase, callback) {
@@ -11,14 +13,16 @@ function searchGameByPhrase(searchPhrase, callback) {
     igdbClient.games({
         search: searchPhrase,
         fields: fieldList,
-        limit: 5,
-        expand: ['genres', 'platforms']
+        limit: 5
     }).then(response => {
         let jsonArr = response.body;
-        console.log(response);
+
         console.log(jsonArr);
+        if(jsonArr.genres && jsonArr.genres.length > 0) jsonArr.genres = parseEnumeratedField(jsonArr.genres, genres);
+        if(jsonArr.platforms && jsonArr.platforms.length > 0) jsonArr.platforms = parseEnumeratedField(jsonArr.platforms, platforms);
         if (typeof callback === 'function') callback(jsonArr);
     }).catch(err => {
+        console.error(err);
         let error = {
             error: true,
             message: err
@@ -49,11 +53,12 @@ function searchPopularGames(callback) {
             'popularity-gt': '80'
         },
         limit: 5,
-        fields: fieldList,
-        expand: ['genres', 'platforms']
+        fields: fieldList
     }).then(response => {
         let jsonArr = response.body;
 
+        if(jsonArr.genres.length > 0) jsonArr.genres = parseEnumeratedField(jsonArr.genres, genres);
+        if(jsonArr.platforms.length > 0) jsonArr.platforms = parseEnumeratedField(jsonArr.platforms, platforms);
         if (typeof callback === 'function') callback(jsonArr);
     }).catch(err => {
         let error = {
@@ -73,6 +78,16 @@ function getGenres() {
     }).catch(err => {
         throw err;
     });
+}
+
+function parseEnumeratedField(json, data) {
+    let fieldValues = [];
+    if(!json) return fieldValues;
+    for (let i = 0; i < json.length; i++) {
+        let value = data[json[i]];
+        fieldValues.push(value);
+    }
+    return fieldValues;
 }
 
 module.exports = {
