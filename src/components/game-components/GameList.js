@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import GamePanel from './../game-components/GamePanel';
+import CircleLoader from './../loaders/CircleLoader';
 import axios from 'axios';
 
 class GameList extends Component {
@@ -48,12 +49,12 @@ class GameList extends Component {
                 <div className="row">
                     <div className="col s12 m8">
                         {this.state.games.length === 0 ?
-                         <h3>No games found</h3> :
+                         <CircleLoader /> :
                          this.state.games.map(e => <GamePanel key={e.id} game={e} />)}
                     </div>
                 </div>
             </div>
-            
+                
         )
     }
 
@@ -66,6 +67,7 @@ class GameList extends Component {
     handleFormSubmit = (e) => {
         e.preventDefault();
         console.log(this.state.search);
+        this.setState({games: []});
         axios.get(`/games/search-title/${this.state.search}`)
         .then(response => {
             console.log(response);

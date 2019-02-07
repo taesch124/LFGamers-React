@@ -34,10 +34,8 @@ class App extends Component {
     return this.state.loaded ? (
       <div className="App">
         <NavBar loggedIn={this.state.loggedIn} logout={this.logout}/>
-
-        <Route exact path='/' render={(props) => (
-          this.state.loggedIn ? <Redirect to='/home' /> : <Redirect to='/auth/login' />
-          )} />
+      
+        <Route exact path='/' render={(props => <Redirect to="/home"/>)} />
         <Route exact path='/auth/login'  render={props => <Login {...props} loginHandler={this.loginHandler}/>}/>
         <Route exact path='/auth/create-account' component={CreateAccount}/>
         <Route exact path='/home' render={(props) => (
