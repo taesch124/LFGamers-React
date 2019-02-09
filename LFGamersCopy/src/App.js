@@ -6,7 +6,6 @@ import CreateAccount from './components/pages/CreateAccount';
 import Home from './components/pages/Home';
 import './App.css';
 import axios from 'axios';
-import Profile from './components/pages/Profile';
 import GameDetail from './components/pages/GameDetail';
 
 class App extends Component {
@@ -36,8 +35,10 @@ class App extends Component {
     return this.state.loaded ? (
       <div className="App">
         <NavBar loggedIn={this.state.loggedIn} logout={this.logout}/>
-      
-        <Route exact path='/' render={(props => <Redirect to="/home"/>)} />
+
+        <Route exact path='/' render={(props) => (
+          this.state.loggedIn ? <Redirect to='/home' /> : <Redirect to='/auth/login' />
+          )} />
         <Route exact path='/auth/login'  render={props => <Login {...props} loginHandler={this.loginHandler}/>}/>
         <Route exact path='/auth/create-account' component={CreateAccount}/>
         <Route exact path='/home' render={(props) => (
@@ -45,12 +46,7 @@ class App extends Component {
           ? <Home user={this.state.currentUser} {...props}/>
           : <Redirect to='/auth/login' />
         )} />
-        <Route exact path='/profile' render={(props) => (
-          this.state.loggedIn
-          ? <Profile user={this.state.currentUser} {...props}/>
-          : <Redirect to='/auth/login' />
-        )} />
-        <Route path='/games/:id' component={GameDetail}/>
+        <Route path='/auth/game-detail' component={GameDetail}/>      
       </div>
     ) : null;
   }
