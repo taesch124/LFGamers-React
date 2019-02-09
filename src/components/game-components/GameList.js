@@ -14,7 +14,6 @@ class GameList extends Component {
     }
 
     componentDidMount() {
-        console.log('game list mounted');
         axios.get('/games')
         .then(response => {
             if(response.data.error) {
@@ -50,7 +49,7 @@ class GameList extends Component {
                     <div className="col s12 m8">
                         {this.state.games.length === 0 ?
                          <CircleLoader /> :
-                         this.state.games.map(e => <GamePanel key={e.id} game={e} />)}
+                         this.state.games.map(e => <GamePanel onGameClick={this.onGameClick} key={e.id} id={e._id} game={e} />)}
                     </div>
                 </div>
             </div>
@@ -62,6 +61,11 @@ class GameList extends Component {
         this.setState({
             [e.target.name]: e.target.value
         });
+    }
+
+    onGameClick = (_id) => {
+        console.log(_id);
+        this.props.history.push(`/games/${_id}`);
     }
 
     handleFormSubmit = (e) => {

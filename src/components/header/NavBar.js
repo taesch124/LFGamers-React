@@ -6,8 +6,8 @@ function NavBar(props) {
     <div className="nav-wrapper blue-grey lighten-2">
       <a href="/" className="brand-logo">LFGamer</a>
       <ul id="nav-mobile" className="right hide-on-med-and-down">
-        <li><a href="/">Browse</a></li>
-        <li><a href="/profile">Profile</a></li>
+        {props.loggedIn ? <li><a href="/">Browse</a></li> : null}
+        {props.loggedIn ? <li><a href="/profile">Profile</a></li> : null}
         {props.loggedIn ? <li><a onClick={props.logout}>Logout</a></li> : null}
       </ul>
     </div>
