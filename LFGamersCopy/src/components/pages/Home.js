@@ -15,7 +15,8 @@ class Home extends Component {
         console.log(this.props);
         return(
             <div className="container">
-                <GameList {...this.props} />
+                <h2>Welcome {this.props.user.username}</h2>
+                <GameList />
             </div>
         )
     }
