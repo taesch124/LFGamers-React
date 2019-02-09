@@ -4,7 +4,7 @@ import './styles/GamePanel.css';
 function GamePanel(props) {
     let game = props.game;
     return (
-        <div id={game._id} className="card horizontal" onClick={e => props.onGameClick(game._id)}>
+        <div id={game.id} className="card horizontal" onClick={e => props.onGameClick(game.id)}>
             <div className="card-image">
                 <img className="game-poster" alt={game.name} src={game.cover ? `https:${game.cover.url}` : 'https://via.placeholder.com/180'} />
             </div>

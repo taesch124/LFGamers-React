@@ -17,6 +17,7 @@ router.get('/search-title/:title', (req, res) => {
 });
 
 router.get('/:id', (req, res) => {
+    console.log(req.params.id);
     gameController.searchGameById(req.params.id)
     .then(results => res.json(results))
     .catch(err => res.json(err));
