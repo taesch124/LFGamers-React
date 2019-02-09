@@ -6,6 +6,7 @@ import CreateAccount from './components/pages/CreateAccount';
 import Home from './components/pages/Home';
 import './App.css';
 import axios from 'axios';
+import Profile from './components/pages/Profile';
 
 class App extends Component {
   constructor(props) {
@@ -41,6 +42,11 @@ class App extends Component {
         <Route exact path='/home' render={(props) => (
           this.state.loggedIn
           ? <Home user={this.state.currentUser} {...props}/>
+          : <Redirect to='/auth/login' />
+        )} />
+        <Route exact path='/profile' render={(props) => (
+          this.state.loggedIn
+          ? <Profile user={this.state.currentUser} {...props}/>
           : <Redirect to='/auth/login' />
         )} />
         

@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
+import EmailInput from '../forms/EmailInput';
 
 class CreateAccount extends Component {
     constructor(props) {
@@ -8,7 +9,8 @@ class CreateAccount extends Component {
         this.state = {
             username: '', 
             password: '',
-            email: ''
+            email: '',
+            emailValidation: ''
         };
     }
 
@@ -33,10 +35,13 @@ class CreateAccount extends Component {
                     </div>
 
                     <div className="row">
+                        <EmailInput onChange={this.handleEmailChange} emailValidation={this.state.emailValidation}  />
+                    </div>
+
+                    <div className="row">
                         <div className="input-field col s12">
-                            <input placeholder="Enter email (optional)" id="email" name="email" type="email" onChange={this.onChange}/>
-                            <label htmlFor="email" className="active">E-mail</label>
-                            <span className="helper-text" ref={input => this.emailValidation = input}></span>
+                            <input placeholder="PS4 Gamertag (optional)" id="PS4" name="PS4" type="text" onChange={this.onChange} />
+                            <label htmlFor="PS4" className="active">PlayStation 4</label>
                         </div>
                     </div>
 
@@ -47,10 +52,14 @@ class CreateAccount extends Component {
                     </div>
 
                     <div className="row">
-                        <div className="col s4 offset-s4">
+                        <div className="col m2 s12 offset-m4">
                             <div className="flex-row">
                                 <button className="btn btn-primary waves-effect blue" onClick={this.createAccount}>CreateAccount</button>
                             </div>
+                        </div>
+                        
+                        <div className="col s12 m2">
+                            <a href="/auth/login">Login</a>
                         </div>
                     </div>
                 </form>
@@ -100,6 +109,22 @@ class CreateAccount extends Component {
         });
     }
 
+    handleEmailChange = (e) => {
+        let email = e.target.value;
+        let regex = new RegExp('.*@.*');
+        if(email && !regex.test(email)) {
+            this.setState({
+                emailValidation: 'Email must include @ symbol.'
+            });
+            console.log(this.state)
+        } else {
+            this.setState({
+                email: email,
+                emailValidation: ''
+            });
+        }
+    }
+
     onChange = (e) => {
         this.setState({
             [e.target.name]: e.target.value
@@ -109,8 +134,8 @@ class CreateAccount extends Component {
     validateInput = () => {
         let validated = true;
 
-        if(this.state.username.length < 6) {
-            this.usernameValidation.textContent = 'Username must be 6 characters long.';
+        if(this.state.username) {
+            this.usernameValidation.textContent = 'Username is required.';
             validated = false;
         }
 
