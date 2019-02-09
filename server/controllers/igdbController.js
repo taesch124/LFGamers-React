@@ -1,6 +1,9 @@
 const igdb = require('./../api/igdb');
 const Game = require('./../models/Game');
 
+const genres = require('./../config/utility').igdbGenres;
+const platforms = require('./../config/utility').igdbPlatforms;
+
 function getAndSaveGames(callback) {
     igdb.searchPopularGames(results => {
         //console.log(results);
@@ -8,6 +11,8 @@ function getAndSaveGames(callback) {
         let response = [];
         for(let i = 0; i < results.length; i++) {
             let game = Game.createGame(results[i]);
+            if (game.genres) game.genres = igdb.parseEnumeratedField(game.genres, genres);
+            if(game.platforms) game.platforms = igdb.parseEnumeratedField(game.platforms, platforms);
             const {_id, ...update} = game._doc;
             response.push(update);
             let command = {

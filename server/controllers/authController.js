@@ -10,6 +10,9 @@ function login(user, callback) {
             bcrypt.compare(user.password, results.password, (err, match) => {
                 if(err) throw err;
 
+                //strip password from going to front end
+                
+
                 if(match) {
                     let response = {
                         success: true,

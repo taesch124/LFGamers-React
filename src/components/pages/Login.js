@@ -16,12 +16,12 @@ class Login extends Component {
             <div className="container">
                 <form id="login-form" onSubmit={this.login}>
                     <div className="row">
-                        <div className="input-field col s6">
+                        <div className="input-field col s12 m6">
                             <input placeholder="Enter username" id="username" name="username" type="text" onChange={this.onChange}/>
                             <label htmlFor="username" className="active">Username</label>
                             <span className="helper-text" ref={input => this.usernameValidation = input}></span>
                         </div>
-                        <div className="input-field col s6">
+                        <div className="input-field col s12 m6">
                             <input placeholder="Enter password" id="password" name="password" type="password" onChange={this.onChange}/>
                             <label htmlFor="password" className="active">Password</label>
                         </div>
@@ -34,11 +34,13 @@ class Login extends Component {
                     </div>
 
                     <div className="row">
-                        <div className="col s4 offset-s4">
+                        <div className="col s12 m3 offset-m5">
                             <div className="flex-row">
                                 <button className="btn btn-primary waves-effect blue" onClick={this.login}>Login</button>
-                                <a href="/auth/create-account">Create an account</a>
                             </div>
+                        </div>
+                        <div className="col s12 m2">
+                            <a href="/auth/create-account">Create an account</a>
                         </div>
                     </div>
                 </form>

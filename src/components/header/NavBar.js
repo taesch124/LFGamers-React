@@ -7,7 +7,7 @@ function NavBar(props) {
       <a href="/" className="brand-logo">LFGamer</a>
       <ul id="nav-mobile" className="right hide-on-med-and-down">
         <li><a href="/">Browse</a></li>
-        <li><a href="/">Profile</a></li>
+        <li><a href="/profile">Profile</a></li>
         {props.loggedIn ? <li><a onClick={props.logout}>Logout</a></li> : null}
       </ul>
     </div>

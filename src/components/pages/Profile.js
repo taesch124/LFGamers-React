@@ -2,24 +2,21 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import GameList from '../game-components/GameList';
 
-class Home extends Component {
+class Profile extends Component {
     constructor(props) {
         super(props);
-
-        this.state = {
-            games: []
-        }
     }
 
     render() {
         console.log(this.props);
         return(
             <div className="container">
-                <GameList />
+                <h3>Profile Page</h3>
+                <p>Username: {this.props.user.username}</p>
             </div>
         )
     }
 
 }
 
-export default Home;
+export default Profile;

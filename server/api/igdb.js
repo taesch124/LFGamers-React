@@ -17,8 +17,6 @@ function searchGameByPhrase(searchPhrase, callback) {
     }).then(response => {
         let jsonArr = response.body;
 
-        if(jsonArr.genres && jsonArr.genres.length > 0) jsonArr.genres = parseEnumeratedField(jsonArr.genres, genres);
-        if(jsonArr.platforms && jsonArr.platforms.length > 0) jsonArr.platforms = parseEnumeratedField(jsonArr.platforms, platforms);
         if (typeof callback === 'function') callback(jsonArr);
     }).catch(err => {
         console.error(err);
@@ -55,10 +53,8 @@ function searchPopularGames(callback) {
         fields: fieldList
     }).then(response => {
         let jsonArr = response.body;
-        console.log(jsonArr);
 
-        if(jsonArr.genres && jsonArr.genres.length > 0) jsonArr.genres = parseEnumeratedField(jsonArr.genres, genres);
-        if(jsonArr.platforms && jsonArr.platforms.length > 0) jsonArr.platforms = parseEnumeratedField(jsonArr.platforms, platforms);
+        console.log(jsonArr.genres, jsonArr.platforms);
         if (typeof callback === 'function') callback(jsonArr);
     }).catch(err => {
         console.log(err);
@@ -85,8 +81,8 @@ function parseEnumeratedField(json, data) {
     let fieldValues = [];
     if(!json) return fieldValues;
     for (let i = 0; i < json.length; i++) {
-        if(!data.hasOwnProperty(json[i])) continue;
         let value = data[json[i]];
+        if(!value) continue;
         fieldValues.push(value);
     }
     return fieldValues;
@@ -96,5 +92,6 @@ module.exports = {
     searchGame: searchGameByPhrase,
     // searchGameById: searchGameById,
     searchPopularGames: searchPopularGames,
-    getGenres: getGenres
+    getGenres: getGenres,
+    parseEnumeratedField: parseEnumeratedField
 }
