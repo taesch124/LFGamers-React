@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import EmailInput from '../forms/EmailInput';
+import PlatformContainer from '../forms/PlatformContainer';
 
 class CreateAccount extends Component {
     constructor(props) {
@@ -10,7 +11,8 @@ class CreateAccount extends Component {
             username: '', 
             password: '',
             email: '',
-            emailValidation: ''
+            emailValidation: '',
+            platforms: [],
         };
     }
 
@@ -39,10 +41,7 @@ class CreateAccount extends Component {
                     </div>
 
                     <div className="row">
-                        <div className="input-field col s12">
-                            <input placeholder="PS4 Gamertag (optional)" id="PS4" name="PS4" type="text" onChange={this.onChange} />
-                            <label htmlFor="PS4" className="active">PlayStation 4</label>
-                        </div>
+                        <PlatformContainer platforms={this.state.platforms} onChange={this.handlePlatformChange} />
                     </div>
 
                     <div className="row">
@@ -60,6 +59,7 @@ class CreateAccount extends Component {
                         
                         <div className="col s12 m2">
                             <a href="/auth/login">Login</a>
+                            <span className="btn" onClick={e => console.log(this.state)}>Check state</span>
                         </div>
                     </div>
                 </form>
@@ -123,6 +123,10 @@ class CreateAccount extends Component {
                 emailValidation: ''
             });
         }
+    }
+
+    handlePlatformChange = (e) => {
+        console.log(e.target);
     }
 
     onChange = (e) => {

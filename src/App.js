@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {Route, Redirect} from 'react-router-dom';
+import 'materialize-css/dist/css/materialize.min.css';
 import NavBar from './components/header/NavBar';
 import Login from './components/pages/Login';
 import CreateAccount from './components/pages/CreateAccount';
@@ -50,7 +51,11 @@ class App extends Component {
           ? <Profile user={this.state.currentUser} {...props}/>
           : <Redirect to='/auth/login' />
         )} />
-        <Route path='/games/:id' component={GameDetail}/>
+        <Route path='/games/:id' render={(props) => (
+          this.state.loggedIn
+          ? <GameDetail user={this.state.currentUser} {...props}/>
+          : <Redirect to='/auth/login' />
+        )} />
       </div>
     ) : null;
   }
