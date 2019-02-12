@@ -23,18 +23,16 @@ const UserSchema = new Schema({
         sparse: true,
         match: [/.+@.+\..+/, "Please enter a valid e-mail address"]
     },
-    playstationAccount: {
-        type: String,
-        sparse: true
-    },
-    xboxAccount: {
-        type: String,
-        sparse: true
-    },
-    steamAccount: {
-        type: String,
-        sparse: true
-    }
+    accounts: [
+        {
+            platform: {
+                type: String
+            },
+            account: {
+                type: String
+            }
+        }
+    ]
 });
 
 const User = mongoose.model('User', UserSchema);

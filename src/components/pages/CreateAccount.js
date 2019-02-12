@@ -41,7 +41,7 @@ class CreateAccount extends Component {
                     </div>
 
                     <div className="row">
-                        <PlatformContainer platforms={this.state.platforms} onChange={this.handlePlatformChange} />
+                        <PlatformContainer platforms={this.state.platforms} handleAccountChanges={this.handleAccountChanges} />
                     </div>
 
                     <div className="row">
@@ -125,8 +125,11 @@ class CreateAccount extends Component {
         }
     }
 
-    handlePlatformChange = (e) => {
-        console.log(e.target);
+    handleAccountChanges = (platforms) => {
+        console.log(platforms);
+        this.setState({
+            platforms: platforms
+        });
     }
 
     onChange = (e) => {

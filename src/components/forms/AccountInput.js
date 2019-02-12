@@ -20,6 +20,7 @@ class AccountInput extends React.Component  {
     }
 
     render() {
+
         return (
             <div className="row">
                 <Input s={4}
@@ -27,9 +28,11 @@ class AccountInput extends React.Component  {
                     type='select'
                     onChange={this.handlePlatformChange}
                     defaultValue="none"
-                    ref={this.platformSelect}
+                    ref={this.platformSelect} 
                 >
                     <option disabled value="none">Select One</option>
+                    {/* {this.props.platformOptions.map((e, i) => <option key={e._id} value={e.name}>{e.name}</option>)} */}
+                    
                     <option value="xboxOne">Xbox One</option>
                     <option value="PS4">Playstation 4</option>
                     <option value="steam">Steam</option>
@@ -38,11 +41,12 @@ class AccountInput extends React.Component  {
                 <Input
                     className="account-input"
                     name="accountName"
-                    s={8}
+                    s={7}
                     type="text"
                     placeholder="Gamertag"
                     onChange={this.handleAccountChange}
                 />
+                <i className="material-icons col s1" onClick={e => this.props.removeAccountInput(this.props.id)}>delete</i>
                 <span className="helper-text">{this.state.validationMessage}</span>
             </div>
         );
@@ -59,12 +63,10 @@ class AccountInput extends React.Component  {
         this.setState({
             accoutName: e.target.value
         }, () => {
-            console.log(this.state);
             if(!this.state.platformName) {
                 this.setState({validationMessage: 'Please select a platform.'});
             } else {
                 this.setState({validationMessage: ''});
-                console.log('Change at next level with prop function');
                 this.props.handleAccountChange({
                     platform: this.state.platformName,
                     account: this.state.accoutName
