@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import AccountInput from './AccountInput';
+import axios from 'axios';
 
 class Profile extends Component {
     constructor(props) {
@@ -7,16 +8,33 @@ class Profile extends Component {
 
         this.state = {
             platformNum: 1,
+            availablePlatforms:[],
             platformAccounts: []
         }
     }
 
+    componentDidMount() {
+        axios.get('/platforms')
+        .then(response => {
+            this.setState({
+                availablePlatforms: response.data
+            });
+        })
+        .catch(error => {
+            console.error(error);
+        });
+    }
 
     render() {
-        console.log(this.state);
         let accountInputs = [];
         for(let i = 0; i < this.state.platformNum; i++) {
-            accountInputs.push(<AccountInput key={i} handleAccountChange={this.handleAccountChange} />)
+            accountInputs.push(<AccountInput 
+                platformOptions={this.state.availablePlatforms} 
+                key={i}
+                id={i}
+                handleAccountChange={this.handleAccountChange} 
+                removeAccountInput={this.removeAccountInput}
+                />)
         }
         return(
             <div>
@@ -24,28 +42,40 @@ class Profile extends Component {
                     {accountInputs}
                 </div>
                 <div>
-                    <span className="btn btn-warning" onClick={this.addPlatform}>Add Platform</span>
+                    {this.state.platformNum >= this.state.availablePlatforms.length ? 
+                    null :
+                    <span className="btn btn-warning" onClick={this.addPlatform}>Add Platform</span>}
                 </div>
             </div>
         )
     }
 
     handleAccountChange = (data) => {
-        console.log(data);
+        //console.log(data);
         let current = this.state.platformAccounts;
         let newPlatformAccounts = current.filter(e => e.platform !== data.platform);
         newPlatformAccounts.push(data);
         this.setState({
             platformAccounts: newPlatformAccounts
+        }, () => {
+            console.log('Saving at page level');
+            this.props.handleAccountChanges(this.state.platformAccounts);
         });
     }
 
     addPlatform = (e) => {
-        if(this.state.platformNum <= 4) {
+        if(this.state.platformNum < this.state.availablePlatforms.length) {
             this.setState({
                 platformNum: this.state.platformNum + 1
             });
         }
+    }
+
+    removeAccountInput = (id)  => {
+        console.log(id);
+        this.setState({
+            platformNum: this.state.platformNum  - 1
+        });
     }
 
 }
