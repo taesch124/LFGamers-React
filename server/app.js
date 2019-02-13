@@ -7,6 +7,7 @@ const path = require('path');
 const authRouter = require('./routes/auth');
 const gamesRouter = require('./routes/games');
 const platformRouter = require('./routes/platforms');
+const threadRouter = require('./routes/threads');
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -36,6 +37,7 @@ app.use(passport.session());
 app.use('/auth', authRouter);
 app.use('/games', gamesRouter);
 app.use('/platforms', platformRouter);
+app.use('/threads', threadRouter);
 
 // app.get('*', function (request, response){
 //     response.sendFile(path.resolve(__dirname, '..', 'public', 'index.html'))
