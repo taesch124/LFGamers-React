@@ -25,7 +25,7 @@ class AccountInput extends React.Component  {
             <div className="row">
                 <Input s={4}
                     name="platformName"
-                    type='select'
+                    type="select"
                     onChange={this.handlePlatformChange}
                     defaultValue="none"
                     ref={this.platformSelect} 

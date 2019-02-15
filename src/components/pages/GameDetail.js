@@ -31,7 +31,7 @@ class GameDetail extends Component {
     render(){
         return(
             <div className="container">
-                <div className="row" style={{backgroundImage: `${this.state.poster}`}}>
+                <div className="row">
                     <div className="input-field col s12">
                         <h2 style={{width: '100%', height: 80, backgroundColor: '#607d8b'}}>{this.state.game}</h2>
                     </div> 
