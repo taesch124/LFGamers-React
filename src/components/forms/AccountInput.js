@@ -31,12 +31,12 @@ class AccountInput extends React.Component  {
                     ref={this.platformSelect} 
                 >
                     <option disabled value="none">Select One</option>
-                    {/* {this.props.platformOptions.map((e, i) => <option key={e._id} value={e.name}>{e.name}</option>)} */}
+                    {this.props.platformOptions.map((e, i) => <option key={e._id} value={e.name}>{e.name}</option>)}
                     
-                    <option value="xboxOne">Xbox One</option>
+                    {/* <option value="xboxOne">Xbox One</option>
                     <option value="PS4">Playstation 4</option>
                     <option value="steam">Steam</option>
-                    <option value="origin">Origin</option>
+                    <option value="origin">Origin</option> */}
                 </Input>
                 <Input
                     className="account-input"
@@ -79,3 +79,4 @@ class AccountInput extends React.Component  {
 
 export default AccountInput;
 
+// {this.props.platformOptions.map((e, i) => <option key={e._id} value={e.name}>{e.name}</option>)}
