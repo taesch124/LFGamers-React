@@ -64,17 +64,14 @@ class GameList extends Component {
     }
 
     onGameClick = (id) => {
-        console.log(id);
         this.props.history.push(`/games/${id}`);
     }
 
     handleFormSubmit = (e) => {
         e.preventDefault();
-        console.log(this.state.search);
         this.setState({games: []});
         axios.get(`/games/search-title/${this.state.search}`)
         .then(response => {
-            console.log(response);
             if(response.data.error) {
                 console.error(response.data);
             } else {

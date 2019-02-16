@@ -17,7 +17,6 @@ class CreateThread extends Component  {
         this.setState({title:"",text:""})
     }
     render() {
-        console.log('user: ' + this.props.user);
         return (
             <div className="row">
                 <Input 
@@ -60,7 +59,6 @@ class CreateThread extends Component  {
 
         axios.post('/threads/create', data)
         .then(results => {
-            console.log(results);
 
             this.setState({
                 title: '',

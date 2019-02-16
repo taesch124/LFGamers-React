@@ -20,7 +20,6 @@ const UserSchema = new Schema({
     },
     email: {
         type: String,
-        sparse: true,
         match: [/.+@.+\..+/, "Please enter a valid e-mail address"]
     },
     accounts: [

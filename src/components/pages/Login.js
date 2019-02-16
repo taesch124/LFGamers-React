@@ -50,13 +50,11 @@ class Login extends Component {
 
     login = (e) => {
         e.preventDefault();
-        console.log('Logging in');
         axios.post('/auth/login',  {
             username: this.state.username,
             password: this.state.password
         })
         .then(response => {
-            console.log(response.data);
             if(response.data.success) {
                 this.props.loginHandler(response.data.user);
                 this.props.history.push('/home');

@@ -25,5 +25,12 @@ const CommentSchema = new Schema({
     ]
 });
 
+CommentSchema.methods.populateChildren = function(node) {
+    return node.populate('children').then(function(comment) {
+        console.log(comment);
+      return comment.children.length > 0 ? populateChildren(comment.children) : Promise.fulfill(comment);
+    });
+  }
+
 const Comment = mongoose.model('Comment', CommentSchema);
 module.exports = Comment;
