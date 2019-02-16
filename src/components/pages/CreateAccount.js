@@ -41,7 +41,7 @@ class CreateAccount extends Component {
                     </div>
 
                     <div className="row">
-                        <PlatformContainer platforms={this.state.platforms} handleAccountChanges={this.handleAccountChanges} />
+                        {/* <PlatformContainer platforms={this.state.platforms} handleAccountChanges={this.handleAccountChanges} /> */}
                     </div>
 
                     <div className="row">
@@ -141,7 +141,7 @@ class CreateAccount extends Component {
     validateInput = () => {
         let validated = true;
 
-        if(this.state.username) {
+        if(!this.state.username) {
             this.usernameValidation.textContent = 'Username is required.';
             validated = false;
         }

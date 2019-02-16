@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
 // import Jumbotron from "../components/Jumbotron";
-import { List, ListItem } from "../../components/List";
-import CreateThreadModal from "./../modals/CreateThreadModal";
 
 import axios from 'axios';
-import ThreadPanel from '../thread-components/ThreadPanel';
+import ThreadList from '../thread-components/ThreadList';
+import CommentList from './../thread-components/CommentList';
 
 import './styles/GameDetail.css';
 
@@ -12,13 +11,12 @@ class GameDetail extends Component {
     state = {
             game: '',
             threads: [],
-            comments: [],
+            currentThread: null,
             chat: ''
     };
 
     componentDidMount() {
         let id = this.props.match.params.id;
-        console.log(`/games/${id}`);
         axios.get(`/games/${id}`)
         .then(response => {
 
@@ -35,7 +33,6 @@ class GameDetail extends Component {
     
     render(){
         let game = this.state.game;
-        console.log(this.state.threads);
         return(
             <div className="container container-fluid">
                 <div className="card-panel blue-grey lighten-5">
@@ -51,19 +48,18 @@ class GameDetail extends Component {
                 </div>
                 <div className="row">
                     <div className="input-field col s12 m6">
-                        <CreateThreadModal getThreads={this.getThreads} game={game} user={this.props.user} />
-                        {this.state.comments.length ? (
-                        <List>
-                            {this.state.threads.map(thread => {
-                            return (
-                                <ThreadPanel key={thread._id} threadInfo={thread} />
-                            );
-                            })}
-                        </List>
-                        ) : (
-                        <h3>No Results to Display</h3>
-                        )}
-
+                        {!this.state.currentThread ? 
+                        <ThreadList 
+                            threads={this.state.threads} 
+                            getThreads={this.getThreads} 
+                            user={this.props.user}
+                            game={game}
+                            getThread={this.getThread} />
+                        :
+                        <CommentList
+                            thread={this.state.currentThread}
+                        />
+                        }
                         
                     </div>
                     <div className="input-field col s12 m6">
@@ -77,11 +73,24 @@ class GameDetail extends Component {
     getThreads = (id) => {
         axios.get('/threads/game/' + id)
         .then(response => {
-            
             this.setState({threads: response.data});
         })
         .catch(error => {
             console.error(error)
+        });
+    }
+
+    getThread = (threadId) => {
+        console.log('Getting comments for thread ' + threadId);
+        axios.get('/threads/comments/' + threadId)
+        .then(response => {
+            console.log(response.data);
+            this.setState({
+                currentThread: response.data
+            });
+        })
+        .catch(error => {
+            console.error(error);
         });
     }
 }

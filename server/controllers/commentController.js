@@ -6,12 +6,39 @@ function getThreadsByGame(gameId) {
         Thread.find({gameId: gameId})
         .populate('originalComment')
         .populate('postedBy')
+        .sort({postedAt: -1})
         .then(results => {
             resolve(results);
         })
         .catch(error => {
             reject(error);
         });
+    });
+}
+
+function getCommentsByThread(threadId) {
+    return new Promise((resolve, reject) => {
+        Thread.findOne({_id: threadId})
+        .populate('originalComment')
+        .populate('postedBy')
+        .populate('children')
+        .then(results => {
+            console.log(results);
+            resolve(results);
+            // console.log(results.originalComment);
+            // Comment.populateChildren(results.originalComment)
+            // .then(childrenResults => {
+            //     console.log(results);
+            //     console.log(childrenResults);
+            //     resolve(results);
+            // })
+            // .catch(error => {
+            //     reject(error);
+            // })
+        })
+        .catch(error => {
+            reject(error);
+        })
     });
 }
 
@@ -32,8 +59,6 @@ function createThread(data) {
         };
         let thread = new Thread(threadData);
 
-        console.log(comment);
-        console.log(thread);
         let results = {};
         Comment.create(comment)
         .then(commentResults => {
@@ -55,6 +80,7 @@ function createThread(data) {
 }
 
 module.exports = {
+    getCommentsByThread: getCommentsByThread,
     getThreadsByGame: getThreadsByGame,
     createThread: createThread
 }
