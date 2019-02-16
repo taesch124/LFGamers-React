@@ -4,17 +4,14 @@ import EmailInput from '../forms/EmailInput';
 import PlatformContainer from '../forms/PlatformContainer';
 
 class CreateAccount extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
+           state = {
             username: '', 
             password: '',
             email: '',
             emailValidation: '',
             platforms: [],
         };
-    }
+    
 
     render() {
         return(
