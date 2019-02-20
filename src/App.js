@@ -9,6 +9,8 @@ import './App.css';
 import axios from 'axios';
 import Profile from './components/pages/Profile';
 import GameDetail from './components/pages/GameDetail';
+import socket from 'socket.io';
+
 
 class App extends Component {
   constructor(props) {
