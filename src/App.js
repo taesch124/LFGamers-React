@@ -36,7 +36,7 @@ class App extends Component {
   render() {
     return this.state.loaded ? (
       <div className="App">
-        <NavBar loggedIn={this.state.loggedIn} logout={this.logout}/>
+        <NavBar user={this.state.currentUser} loggedIn={this.state.loggedIn} logout={this.logout}/>
       
         <Route exact path='/' render={(props => <Redirect to="/home"/>)} />
         <Route exact path='/auth/login'  render={props => <Login {...props} loginHandler={this.loginHandler}/>}/>

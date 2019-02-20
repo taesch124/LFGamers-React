@@ -13,6 +13,16 @@ router.get('/game/:gameId', (req, res) => {
     });
 });
 
+router.get('/comments/:threadId', (req, res) => {
+    commentController.getCommentsByThread(req.params.threadId)
+    .then(results => {
+        res.json(results);
+    })
+    .catch(error => {
+        res.json(error);
+    });
+});
+
 router.post('/create', (req, res) => {
     commentController.createThread(req.body)
     .then(results => {

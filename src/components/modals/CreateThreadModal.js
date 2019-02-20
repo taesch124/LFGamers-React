@@ -5,9 +5,10 @@ import CreateThread from './../forms/CreateThread';
 const CreateThreadModal = props => {
   return (
     <Modal
+        id='create-thread-modal'
         header='Create New Thread'
         trigger={<Button waves='light'>Create New Thread<Icon right>add</Icon></Button>}>
-        <CreateThread gameId={props.game._id} userId={props.user._id} />
+        <CreateThread getThreads={props.getThreads} gameId={props.game._id} userId={props.user._id} />
     </Modal>
   );
 };
