@@ -28,20 +28,6 @@ function searchGameByPhrase(searchPhrase, callback) {
     });
 }
 
-// function searchGameById(id, callback) {
-//     igdbClient.games({
-//         ids: [id],
-//         fields: '*'
-//     }).then(response => {
-//         console.log(response.body);
-//         let gameJson = response.body[0];
-//         let game = new Game(gameJson);
-//         if(typeof callback === 'function') callback(game);
-//     }).catch(error => {
-//         throw error;
-//     });
-// }
-
 function searchPopularGames(callback) {
     igdbClient.games({
         filters: {

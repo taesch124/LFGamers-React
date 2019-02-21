@@ -33,4 +33,17 @@ router.post('/create', (req, res) => {
     })
 });
 
+router.post('/:parentId/comments/create', (req, res) => {
+    let parentId = req.params.parentId;
+    let data = req.body;
+    data.parentId = parentId;
+    commentController.createComment(data)
+    .then(results => {
+        res.json(results);
+    })
+    .catch(error => {
+        res.json(error);
+    });
+});
+
 module.exports = router;
