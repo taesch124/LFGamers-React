@@ -9,6 +9,7 @@ function GamePanel(props) {
                 <img className="game-poster" alt={game.name} src={game.cover ? `https:${game.cover.url}` : 'https://via.placeholder.com/180'} />
             </div>
             <div className="card-content">
+                <span className="right" onClick={(e) => {e.stopPropagation(); props.onGameFavorite(game._id);}}>Favorite</span>
                 <h4>{game.name}</h4>
                 <p className="left-align">Rating: {game.rating ? game.rating.toFixed(1) : "N/A"}</p>
                 <p className="left-align">Popularity: {game.popularity ? game.popularity.toFixed(0) : "N/A"}</p>

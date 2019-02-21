@@ -5,6 +5,7 @@ const passport = require('passport');
 const path = require('path');
 
 const authRouter = require('./routes/auth');
+const userRouter = require('./routes/user');
 const gamesRouter = require('./routes/games');
 const platformRouter = require('./routes/platforms');
 const threadRouter = require('./routes/threads');
@@ -35,6 +36,7 @@ app.use(passport.session());
 
 
 app.use('/auth', authRouter);
+app.use('/user', userRouter);
 app.use('/games', gamesRouter);
 app.use('/platforms', platformRouter);
 app.use('/threads', threadRouter);

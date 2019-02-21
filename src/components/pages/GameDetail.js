@@ -9,6 +9,7 @@ import ThreadList from '../thread-components/ThreadList';
 import CommentList from './../thread-components/CommentList';
 
 import './styles/GameDetail.css';
+import { Icon } from 'react-materialize';
 
 class GameDetail extends Component {
     state = {
@@ -52,9 +53,19 @@ class GameDetail extends Component {
                             game={game}
                             getThread={this.getThread} />
                         :
-                        <CommentList
-                            thread={this.state.currentThread}
-                        />
+                        <div>
+                            <div
+                            className="left-align" 
+                            onClick={this.removeCurrentThread}>
+                                <Icon>arrow_back</Icon>
+                            </div>
+                            <CommentList
+                                user={this.props.user}
+                                game={game}
+                                thread={this.state.currentThread}
+                                getThread={this.getThread}
+                            />
+                        </div>
                         }
                         
                     </div>
@@ -77,16 +88,22 @@ class GameDetail extends Component {
     }
 
     getThread = (threadId) => {
-        console.log('Getting comments for thread ' + threadId);
         axios.get('/threads/comments/' + threadId)
         .then(response => {
-            console.log(response.data);
             this.setState({
                 currentThread: response.data
             });
         })
         .catch(error => {
             console.error(error);
+        });
+    }
+
+    removeCurrentThread = () => {
+        this.setState({
+            currentThread: null
+        }, () => {
+            this.getThreads(this.state.game._id);
         });
     }
 }

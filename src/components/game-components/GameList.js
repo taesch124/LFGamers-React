@@ -35,7 +35,7 @@ class GameList extends Component {
         return(
             <div>
                 <div className="row">
-                    <div className="col s12 m8">
+                    <div className="col s12">
                         <form onSubmit={this.handleFormSubmit} id="game-search">
                         <div className="input-field">
                             <input id="search" name="search" type="search" value={this.state.search} onChange={this.onChange} required/>
@@ -46,10 +46,18 @@ class GameList extends Component {
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col s12 m8">
+                    <div className="col s12">
                         {this.state.games.length === 0 ?
                          <CircleLoader /> :
-                         this.state.games.map(e => <GamePanel onGameClick={this.onGameClick} key={e.id} id={e.id} game={e} />)}
+                         this.state.games.map(e => 
+                         <GamePanel 
+                            onGameClick={this.onGameClick}
+                            onGameFavorite={this.onGameFavorite}
+                            key={e.id} 
+                            id={e.id} 
+                            game={e} 
+                        />
+                         )}
                     </div>
                 </div>
             </div>
@@ -65,6 +73,17 @@ class GameList extends Component {
 
     onGameClick = (id) => {
         this.props.history.push(`/games/${id}`);
+    }
+
+    onGameFavorite = (id) => {
+        axios.post('/user/game-favorites/add/' + id)
+        .then(response =>{
+            console.log(response.data);
+            this.props.getUserFavorites();
+        })
+        .catch(error => {
+            console.error(error);
+        });
     }
 
     handleFormSubmit = (e) => {

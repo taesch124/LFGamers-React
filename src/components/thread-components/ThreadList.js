@@ -2,12 +2,14 @@ import React from 'react';
 
 import CreateThreadModal from './../modals/CreateThreadModal';
 import { List } from "./../../components/List";
-import ThreadPanel from "./ThreadPanel"
+import ThreadPanel from "./ThreadPanel";
+
+import './styles/List.css';
 
 function ThreadList(props) {
     let threadInfo = props.threadInfo;
     return (
-        <div>
+        <div className="list">
             <CreateThreadModal getThreads={props.getThreads} game={props.game} user={props.user} />
             {props.threads.length ? (
             <List>

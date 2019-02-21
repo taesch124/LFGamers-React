@@ -20,25 +20,24 @@ function getCommentsByThread(threadId) {
     return new Promise((resolve, reject) => {
         Thread.findOne({_id: threadId})
         .populate('originalComment')
-        .populate('postedBy')
-        .populate('children')
+        .populate({path: 'originalComment',
+                    populate: {path: 'postedBy'}
+                })
         .then(results => {
-            console.log(results);
-            resolve(results);
-            // console.log(results.originalComment);
-            // Comment.populateChildren(results.originalComment)
-            // .then(childrenResults => {
-            //     console.log(results);
-            //     console.log(childrenResults);
-            //     resolve(results);
-            // })
-            // .catch(error => {
-            //     reject(error);
-            // })
+            Comment
+            .populateChildren(results.originalComment)
+            .then(populatedOriginalComment => {
+                //results.originalComment = populatedOriginalComment;
+                resolve(results);
+            }) 
+            .catch(error => {
+                console.error(error);
+            });
+            
         })
         .catch(error => {
             reject(error);
-        })
+        });
     });
 }
 
@@ -46,6 +45,7 @@ function createThread(data) {
     return new Promise((resolve, reject) => {
         let commentData = {
             postedBy: data.userId,
+            postedAt: new Date(),
             title: data.title,
             text: data.text,
         };
@@ -79,8 +79,35 @@ function createThread(data) {
     });
 }
 
+function createComment(data) {
+    return new Promise((resolve, reject) => {
+        let parentId = data.parentId;
+        let commentData = {
+            postedBy: data.userId,
+            postedAt: new Date(),
+            text: data.text
+        }
+        
+        let comment = new Comment(commentData);
+        Comment.create(comment)
+        .then(results => {
+            Comment.update({_id: parentId}, {$push: {children: results._id}})
+            .then(update => {
+                resolve(update);
+            })
+            .catch(error => {
+                reject(error);
+            });
+        })
+        .catch(error => {
+            reject(error);
+        });
+    });    
+}
+
 module.exports = {
     getCommentsByThread: getCommentsByThread,
     getThreadsByGame: getThreadsByGame,
-    createThread: createThread
+    createThread: createThread,
+    createComment: createComment
 }

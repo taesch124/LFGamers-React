@@ -24,6 +24,7 @@
 
 .container {
   margin-top: 3rem;
+  width: 80%;
 }
 
 .flex-row {
@@ -36,8 +37,8 @@
   color: rgb(201, 47, 47) !important;
 }
 
-.container {
-  width: 80%;
+.material-icons {
+  cursor: pointer;
 }
 
 @keyframes App-logo-spin {
