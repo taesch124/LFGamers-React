@@ -23,15 +23,22 @@ class App extends Component {
   }
 
   componentDidMount() {
-    axios.get('/auth')
-        .then(response => {
-          if(!response.data.success) this.loginHandler(null);
-          else  this.loginHandler(response.data.user);
-        })
-        .catch(error => {
-            console.error(error);
-            //this.errorMessage.textContent = error.message;
-        });
+    axios.get('/')
+    .then(connected => {
+      axios.get('/auth')
+      .then(response => {
+        if(!response.data.success) this.loginHandler(null);
+        else  this.loginHandler(response.data.user);
+      })
+      .catch(error => {
+          console.error(error);
+          //this.errorMessage.textContent = error.message;
+      });
+    })
+    .catch(error => {
+      console.error(error);
+    })
+    
   }
 
   render() {
