@@ -42,14 +42,14 @@ app.use('/platforms', platformRouter);
 app.use('/threads', threadRouter);
 
 //Static file declaration
-app.use(express.static(path.join(__dirname, 'client/build')));
+app.use(express.static(path.resolve(__dirname, '..', 'build')));
 
 //production mode
 if(process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../build')));
+  app.use(express.static(path.resolve(__dirname, '..', 'build')));
   //
   app.get('*', (req, res) => {
-    res.sendfile(path.join(__dirname = 'client/build/index.html'));
+    res.sendfile(path.join(__dirname = '/build/index.html'));
   })
 }
 
