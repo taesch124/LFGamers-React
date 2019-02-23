@@ -35,7 +35,7 @@ class GameList extends Component {
         return(
             <div>
                 <div className="row">
-                    <div className="col s12">
+                    <div className="col s6 offset-s3">
                         <form onSubmit={this.handleFormSubmit} id="game-search">
                         <div className="input-field">
                             <input id="search" name="search" type="search" value={this.state.search} onChange={this.onChange} required/>

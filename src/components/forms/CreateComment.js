@@ -72,7 +72,6 @@ class CreateComment extends Component  {
         data)
         .then(results => {
             if($('#create-comment-modal').isOpen) {
-                
                 $('#create-comment-modal').modal('close');
             } else {
                 
@@ -81,7 +80,7 @@ class CreateComment extends Component  {
             this.setState({
                 text: ''
             }, () => {
-                this.props.toggleCommentForm();
+                if($(! '#create-comment-modal').isOpen) this.props.toggleCommentForm();
                 this.props.getThread(this.props.threadId);
                 console.log(results);
             });

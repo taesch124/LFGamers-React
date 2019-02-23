@@ -39,7 +39,7 @@ function CommentList(props) {
             </List>
             ) : (
             <div>
-                <h5>No Threads Yet</h5>
+                <h5>No comments Yet</h5>
                 <p>Be the first to post!</p>
             </div>
             )}
