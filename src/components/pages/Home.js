@@ -15,7 +15,7 @@ class Home extends Component {
 
     render() {
         return(
-            <div className="container">
+            <div className="container container-fluid">
                 <div className="row">
                     <div className="col s12 m8">
                         <GameList getUserFavorites={this.getUserFavorites} {...this.props} />

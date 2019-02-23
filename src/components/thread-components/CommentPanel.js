@@ -17,7 +17,7 @@ class CommentPanel extends Component {
         let commentInfo = this.props.commentInfo;
         console.log(commentInfo)
         return (
-            <div className={`card horizontal left-align ${this.props.level % 2 === 1 ? 'shaded': null}`}>
+            <div className={`comment-card card horizontal left-align ${this.props.level % 2 === 1 ? 'shaded': null}`}>
                 <div className="card-content">
                     <h5>{commentInfo.title}</h5>
                     <h6>{commentInfo.text}</h6>

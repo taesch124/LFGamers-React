@@ -3,10 +3,18 @@ h6 {
     line-height: 1rem;
 }
 
+.card {
+    padding: 0;
+}
+
 .card-content {
     padding: 2px !important;
     padding-left: 8px !important;
     width: 100%;
+}
+
+.comment-card {
+    cursor: auto;
 }
 
 .shaded {

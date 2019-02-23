@@ -17,7 +17,10 @@ function getUserGameFavorites(user) {
 function addGameToFavorites(user, gameId) {
     return new Promise((resolve, reject) => {
         User.updateOne(
-            {_id: user._id},
+            {
+                _id: user._id, 
+                gameFavorites: {$nin: [gameId]} 
+            },
             {$push: {gameFavorites: gameId}}
         )
         .then(results => {

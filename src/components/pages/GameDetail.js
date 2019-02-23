@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 // import Jumbotron from "../components/Jumbotron";
 import { List, ListItem, Reviews } from "../../components/List";
 
-import axios from 'axios';
+// import axios from 'axios';
 
 import axios from 'axios';
 import ThreadList from '../thread-components/ThreadList';
@@ -11,11 +11,14 @@ import CommentList from './../thread-components/CommentList';
 import './styles/GameDetail.css';
 import { Icon } from 'react-materialize';
 
+import CircleLoader from './../loaders/CircleLoader';
+
 class GameDetail extends Component {
     state = {
             game: '',
             threads: [],
             currentThread: null,
+            loadingThread: false,
             chat: ''
     };
 
@@ -28,6 +31,10 @@ class GameDetail extends Component {
 
             this.setState({ game: response.data.name, comments: ["Nice Game", "Good timepass"], chat: "Chat Placeholder", poster: response.data.cover.url});
 
+            this.setState({ game: response.data, chat: "Chat Placeholder"});
+            let _id = response.data._id;
+            this.getThreads(_id);
+            
         })
         .catch(error => {
             console.error(error);
@@ -52,20 +59,21 @@ class GameDetail extends Component {
                             user={this.props.user}
                             game={game}
                             getThread={this.getThread} />
-                        :
-                        <div>
-                            <div
-                            className="left-align" 
-                            onClick={this.removeCurrentThread}>
-                                <Icon>arrow_back</Icon>
+                        : this.state.loadingThread ?
+                            <CircleLoader /> :
+                            <div>
+                                <div
+                                className="left-align" 
+                                onClick={this.removeCurrentThread}>
+                                    <Icon>arrow_back</Icon>
+                                </div>
+                                <CommentList
+                                    user={this.props.user}
+                                    game={game}
+                                    thread={this.state.currentThread}
+                                    getThread={this.getThread}
+                                />
                             </div>
-                            <CommentList
-                                user={this.props.user}
-                                game={game}
-                                thread={this.state.currentThread}
-                                getThread={this.getThread}
-                            />
-                        </div>
                         }
                         
                     </div>
@@ -88,10 +96,12 @@ class GameDetail extends Component {
     }
 
     getThread = (threadId) => {
+        this.setState({loadingThread: true});
         axios.get('/threads/comments/' + threadId)
         .then(response => {
             this.setState({
-                currentThread: response.data
+                currentThread: response.data,
+                loadingThread: false
             });
         })
         .catch(error => {

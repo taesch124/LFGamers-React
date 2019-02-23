@@ -48,7 +48,7 @@ CommentSchema.statics.populateChildren = function(node) {
             }
         })
         .catch(error => {
-            return deferred.reject();
+            return deferred.reject(error);
         })
         
     })
