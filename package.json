@@ -32,7 +32,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "heroku-postbuild":
-      "NPM_CONFIG_PRODUCTION=true npm run build "
+      "NPM_CONFIG_PRODUCTION=true npm run build && npm run start"
   },
   "eslintConfig": {
     "extends": "react-app"
