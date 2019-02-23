@@ -4,6 +4,7 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import ThreadList from '../thread-components/ThreadList';
 import CommentList from './../thread-components/CommentList';
+import PostingList from './../lfg-components/PostingList';
 
 import './styles/GameDetail.css';
 import { Icon } from 'react-materialize';
@@ -78,7 +79,10 @@ class GameDetail extends Component {
                         
                     </div>
                     <div className="input-field col s12 m6">
-                        <strong>{this.state.chat}</strong>
+                        <PostingList
+                            user={this.props.user}
+                            game={game}
+                        />
                     </div>
                 </div>
             </div>

@@ -41,9 +41,9 @@ app.use('/games', gamesRouter);
 app.use('/platforms', platformRouter);
 app.use('/threads', threadRouter);
 
-// app.get('*', function (request, response){
-//     response.sendFile(path.resolve(__dirname, '..', 'public', 'index.html'))
-// });
+app.get('*', function (request, response){
+    response.sendFile(path.resolve(__dirname, '..', 'public', 'index.html'))
+});
 
 app.listen(PORT, () => {
     console.log('Server listening on: http://localhost:' + PORT);

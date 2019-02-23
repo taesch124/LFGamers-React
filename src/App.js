@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import {Route, Redirect} from 'react-router-dom';
-import 'materialize-css/dist/css/materialize.min.css';
+import axios from 'axios';
+
 import NavBar from './components/header/NavBar';
 import Login from './components/pages/Login';
+import Profile from './components/pages/Profile';
 import CreateAccount from './components/pages/CreateAccount';
 import Home from './components/pages/Home';
-import './App.css';
-import axios from 'axios';
-import Profile from './components/pages/Profile';
 import GameDetail from './components/pages/GameDetail';
+
+import './App.css';
 
 class App extends Component {
   constructor(props) {
