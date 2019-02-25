@@ -9,6 +9,7 @@ const userRouter = require('./routes/user');
 const gamesRouter = require('./routes/games');
 const platformRouter = require('./routes/platforms');
 const threadRouter = require('./routes/threads');
+const lfgRouter = require('./routes/lfg');
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -40,6 +41,7 @@ app.use('/user', userRouter);
 app.use('/games', gamesRouter);
 app.use('/platforms', platformRouter);
 app.use('/threads', threadRouter);
+app.use('/lfg', lfgRouter);
 
 //Static file declaration
 app.use(express.static(path.resolve(__dirname, '..', 'build')));

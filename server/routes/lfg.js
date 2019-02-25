@@ -9,4 +9,10 @@ router.get('/postings/:gameId', (req, res) => {
     .catch(err => res.json(err));
 });
 
+router.post('/postings/create', (req, res) => {
+    lfgController.createLfgPosting(req.body)
+    .then(results => res.json(results))
+    .catch(error => res.json(error));
+})
+
 module.exports = router;

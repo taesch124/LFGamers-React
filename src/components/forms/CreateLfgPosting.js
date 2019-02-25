@@ -20,33 +20,56 @@ class CreateLfgPosting extends Component  {
     }
 
     componentDidMount() {
-    }
-
-    componentWillUnmount(){
-        this.setState({title:"",text:""})
+        $('select').formSelect();
     }
 
     render() {
         return (
             <div className="row">
-                <Input
-                    s={12}
-                    type="text"
-                    label="Title"
-                    value={this.state.title}
-                    name="title"
-                    placeholder="Enter a title"
-                    onChange={this.onChange}
-                />
-                <Input
-                    s={12}
-                    type="textarea"
-                    label="Description"
-                    value={this.state.description}
-                    name="description"
-                    placeholder="Enter description"
-                    onChange={this.onChange}    
-                />
+                <Row>
+                    <Input
+                        s={12}
+                        type="text"
+                        label="Title"
+                        value={this.state.title}
+                        name="title"
+                        placeholder="Enter a title"
+                        onChange={this.onChange}
+                    />
+                </Row>
+                <Row>
+                    <Input
+                        s={12}
+                        type="textarea"
+                        label="Description"
+                        value={this.state.description}
+                        name="description"
+                        placeholder="Enter description"
+                        onChange={this.onChange}    
+                    />
+                </Row>
+                <Row>
+                    <div 
+                        className="input-field col s12 player-limit-select"
+                        
+                    >
+                        <select 
+                            name="playerLimit"
+                            value={this.state.playerLimit}
+                            onChange={this.onPlayerLimitChange}
+                        >
+                            <option value={0} defaultValue disabled>Select an option</option>
+                            <option value={2}>2</option>
+                            <option value={3}>3</option>
+                            <option value={4}>4</option>
+                            <option value={5}>5</option>
+                            <option value={6}>6</option>
+                            <option value={7}>7</option>
+                            <option value={8}>8</option>
+                        </select>
+                        <label>Player Limit</label>
+                    </div>
+                </Row>
                 <Row>
                     <Input
                         s={12}
@@ -83,7 +106,9 @@ class CreateLfgPosting extends Component  {
                         label="End Time"
                     />
                 </Row>
-                <span className="helper-text">{this.state.validationMessage}</span>
+                <Row>
+                    <span className="helper-text">{this.state.validationMessage}</span>
+                </Row>
                 <Button className="btn-flat submit-comment" onClick={this.onSubmit} onSubmit={this.onSubmit}>Submit</Button>
                 <Button className="btn btn-flat" onClick={this.checkState} >Check state</Button>
                 {this.props.toggleCommentForm ?
@@ -99,13 +124,40 @@ class CreateLfgPosting extends Component  {
         });
     }
 
+    onPlayerLimitChange = (e) => {
+        this.setState({
+            [e.target.name]: parseInt(e.target.value)
+        });
+    }
+
     validateInput = () => {
         if(!this.state.title) {
             this.setState({
                 validationMessage: 'Posting must have a title'
             });
             return false;
-        } else {
+        }
+        else if(!this.state.description) {
+            this.setState({
+                validationMessage: 'Posting must have a description'
+            });
+            return false;
+        } 
+        else if(this.state.playerLimit === 0) {
+            this.setState({
+                validationMessage: 'Posting requires at least 2 players'
+            })
+        } else if(!this.state.startDate) {
+            this.setState({
+                validationMessage: 'Posting must have a start date'
+            });
+        }
+        else if(!this.state.startTime) {
+            this.setState({
+                validationMessage: 'Posting must have a start time'
+            });
+        }
+        else {
             this.setState({
                 validationMessage: ''
             });
@@ -124,32 +176,38 @@ class CreateLfgPosting extends Component  {
             userId: this.props.userId,
             gameId: this.props.gameId,
             title: this.state.title,
-            text: this.state.description,
+            description: this.state.description,
+            playerLimit: this.state.playerLimit,
+            startDate: this.state.startDate,
+            startTime: this.state.startTime,
+            endDate: this.state.endDate,
+            endTime: this.state.endTime
         };
 
-        console.log(data);
-
-        // axios.post(`/threads/${data.parentComment}/comments/create`,
-        // data)
-        // .then(results => {
-        //     if($('#create-comment-modal').isOpen) {
-        //         $('#create-comment-modal').modal('close');
-        //     } else {
+        axios.post(`/lfg/postings/create`,
+        data)
+        .then(results => {
+            if($('#create-lfg-modal').isOpen) {
+                $('#create-lfg-modal').modal('close');
+            } else {
                 
-        //     }
+            }
             
-        //     this.setState({
-        //         text: ''
-        //     }, () => {
-        //         if($(! '#create-comment-modal').isOpen) this.props.toggleCommentForm();
-        //         this.props.getThread(this.props.threadId);
-        //         console.log(results);
-        //     });
+            this.setState({
+                title: '',
+                description: '',
+                playerLimit: 0,
+                startDate: new Date(),
+                startTime: null,
+                endDate: null,
+                endTime: null,
+                validationMessage: ''
+            });
             
-        // })
-        // .catch(error => {
-        //     console.error(error);
-        // });
+        })
+        .catch(error => {
+            console.error(error);
+        });
     }
 }
 

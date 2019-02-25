@@ -1,8 +1,11 @@
+const moment = require('moment');
 const LFG = require('./../models/LFG');
 
 function getGameLfgPostings(gameId) {
     return new Promise((resolve, reject) => {
-        LFG.find({gameId: gameId}, {sort: {postedAt: -1}})
+        LFG.find({gameId: gameId}, null, {sort: {postedAt: -1}})
+        .populate('postedBy')
+        .populate('players')
         .then(results => {
             resolve(results);
         })
@@ -12,6 +15,41 @@ function getGameLfgPostings(gameId) {
     });
 }
 
+function createLfgPosting(data) {
+    return new Promise((resolve, reject) => {
+        let startDate = moment(`${data.startDate} ${data.startTime}`, 'DD MMMM, YYYY HH:mm A').toDate();
+        let endDate = null;
+        if(data.endDate && data.endTime) {
+            endDate = moment(`${data.endDate} ${data.endTime}`, 'DD MMMM, YYYY HH:mm A').toDate();
+        }
+        else if(data.endDate) {
+            endDate = moment(`${data.endDate}`, 'DD MMMM, YYYY').toDate();
+        }
+
+        let posting = {
+            postedBy: data.userId,
+            postedAt: new Date(),
+            gameId: data.gameId,
+            title: data.title,
+            description:data.description,
+            playerLimit: data.playerLimit,
+            players: [data.userId],
+            startDate: startDate,
+            endDate: endDate
+        };
+
+        let lfg = new LFG(posting);
+        LFG.create(lfg)
+        .then(results => {
+            resolve(results);
+        })
+        .catch(error => {
+            reject.error()
+        });
+    });
+}
+
 module.exports = {
-    getGameLfgPostings: getGameLfgPostings
+    getGameLfgPostings: getGameLfgPostings,
+    createLfgPosting: createLfgPosting
 }

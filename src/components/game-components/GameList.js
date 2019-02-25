@@ -53,8 +53,8 @@ class GameList extends Component {
                          <GamePanel 
                             onGameClick={this.onGameClick}
                             onGameFavorite={this.onGameFavorite}
-                            key={e.id} 
-                            id={e.id} 
+                            key={e._id} 
+                            id={e._id} 
                             game={e} 
                         />
                          )}

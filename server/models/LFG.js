@@ -28,6 +28,12 @@ const LFGSchema = new Schema({
         type: Date,
         required: false
     },
+    players: [
+        {
+            type: mongoose.Schema.Types.ObjectId, 
+            ref: 'User'
+        }
+    ],
     postedBy: {
         type: mongoose.Schema.Types.ObjectId, 
         ref: 'User',

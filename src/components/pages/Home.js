@@ -18,11 +18,18 @@ class Home extends Component {
             <div className="container container-fluid">
                 <div className="row">
                     <div className="col s12 m8">
-                        <GameList getUserFavorites={this.getUserFavorites} {...this.props} />
+                        <GameList 
+                            getUserFavorites={this.getUserFavorites} 
+                            {...this.props} 
+                        />
                     </div>
 
                     <div className="col s12 m4">
-                        <FavoritesList getUserFavorites={this.getUserFavorites} favorites={this.state.favorites} {...this.props} />
+                        <FavoritesList 
+                            getUserFavorites={this.getUserFavorites} 
+                            favorites={this.state.favorites} 
+                            {...this.props} 
+                        />
                     </div>
                 </div>
     

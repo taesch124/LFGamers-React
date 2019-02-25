@@ -1,30 +1,35 @@
 import React from 'react';
 
 import { List } from "./../../components/List";
+import {Icon} from 'react-materialize';
 
 //import './styles/List.css';
 import CreateLfgModal from '../modals/CreateLfgModal';
+import PostingPanel from '../lfg-components/PostingPanel';
 
 function PostingList(props) {
+    let postings = props.postings;
     return (
         <div className="list">
-            <CreateLfgModal 
-                game={props.game} 
-                user={props.user} 
-            />
-            {props.postings ? (
+            <div className="flex-row">
+                <div onClick={(e) =>  props.getPostings(props.game._id)}>
+                    <Icon>refresh</Icon>
+                </div>
+
+                <CreateLfgModal 
+                    game={props.game} 
+                    user={props.user} 
+                />
+            </div>
+            {postings.length > 0 ? (
             <List>
-                {props.postings.map(posting => {
-                return ( null
-                    // <CommentPanel
-                    //     level={0}
-                    //     key={comment._id} 
-                    //     commentInfo={comment}
-                    //     getThread={props.getThread} 
-                    //     thread={props.thread} 
-                    //     parentComment={props.thread.originalComment} 
-                    //     game={props.game} 
-                    //     user={props.user} />
+                {postings.map(posting => {
+                return (
+                    <PostingPanel
+                        key={posting._id}
+                        id={posting._id}
+                        posting={posting}
+                    />
                 );
                 })}
             </List>
