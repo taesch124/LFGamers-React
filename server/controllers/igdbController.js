@@ -23,7 +23,6 @@ function getAndSaveGames() {
                     let newGames = igdbResults.filter(e => {
                         return !DBids.includes(e.id);
                     });
-                    console.log(newGames)
 
                     for(let i = 0; i < newGames.length; i++) {
                         createAndSaveGame(newGames[i], response, bulk);
@@ -116,7 +115,7 @@ function createAndSaveGame(gameObj, response, bulk) {
     let command = {
         updateOne: {
             "filter": {id: game.id},
-            "replacement": update,
+            "replacement": game._doc,
             "upsert": true,
             "multi": true
         }

@@ -78,7 +78,6 @@ class GameList extends Component {
     onGameFavorite = (id) => {
         axios.post('/user/game-favorites/add/' + id)
         .then(response =>{
-            console.log(response.data);
             this.props.getUserFavorites();
         })
         .catch(error => {
