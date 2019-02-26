@@ -47,7 +47,7 @@ app.use('/lfg', lfgRouter);
 if(process.env.NODE_ENV === 'production') {
   app.use(express.static(path.resolve(__dirname, '..', 'build')));
   //
-  console.log('serving build index');
+  console.log('serving build index: ' + path.resolve(__dirname, '..', 'build', 'index.html'));
   app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
   });
