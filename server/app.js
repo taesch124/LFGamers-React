@@ -41,21 +41,20 @@ app.use('/games', gamesRouter);
 app.use('/platforms', platformRouter);
 app.use('/threads', threadRouter);
 
-//Static file declaration
-app.use(express.static(path.resolve(__dirname, '..', 'build')));
-
 //production mode
 if(process.env.NODE_ENV === 'production') {
   app.use(express.static(path.resolve(__dirname, '..', 'build')));
   //
   app.get('*', (req, res) => {
-    res.sendfile(path.resolve(__dirname, '..', 'build'));
-  })
+    res.sendfile(path.resolve(__dirname, '..', 'build', 'index.html'));
+  });
+} else {
+    app.get('*', function (request, response){
+        response.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'))
+    });
 }
 
-app.get('*', function (request, response){
-    response.sendFile(path.resolve(__dirname, '..', 'public', 'index.html'))
-});
+
 
 app.listen(PORT, () => {
     console.log('Server listening on: http://localhost:' + PORT);
