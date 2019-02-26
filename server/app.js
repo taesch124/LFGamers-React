@@ -21,7 +21,6 @@ mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.static(path.resolve(__dirname, '..', 'public')));
 
 app.use(
     session({
@@ -34,8 +33,6 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-
-
 app.use('/auth', authRouter);
 app.use('/user', userRouter);
 app.use('/games', gamesRouter);
@@ -46,19 +43,19 @@ app.use('/lfg', lfgRouter);
 //production mode
 if(process.env.NODE_ENV === 'production') {
   app.use(express.static(path.resolve(__dirname, '..', 'build')));
-  //
+  
   console.log('serving build index: ' + path.resolve(__dirname, '..', 'build', 'index.html'));
   app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
   });
 } else {
+    app.use(express.static(path.resolve(__dirname, '..', 'public')));
+    
     console.log('serving public index');
     app.get('*', function (request, response){
         response.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'))
     });
 }
-
-
 
 app.listen(PORT, () => {
     console.log('Server listening on: http://localhost:' + PORT);
