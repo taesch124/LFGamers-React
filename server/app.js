@@ -47,7 +47,7 @@ if(process.env.NODE_ENV === 'production') {
   //
   console.log('serving build index');
   app.get('*', (req, res) => {
-    res.sendfile(path.resolve(__dirname, '..', 'build', 'index.html'));
+    res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
   });
 } else {
     console.log('serving public index');
