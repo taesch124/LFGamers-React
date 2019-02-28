@@ -21,7 +21,6 @@ mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.static(path.resolve(__dirname, '..', 'public')));
 
 app.use(
     session({
@@ -34,6 +33,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+<<<<<<< HEAD
 
 
 app.use('/api/auth', authRouter);
@@ -42,22 +42,31 @@ app.use('/api/games', gamesRouter);
 app.use('/api/platforms', platformRouter);
 app.use('/api/threads', threadRouter);
 app.use('/api/lfg', lfgRouter);
-
-//Static file declaration
-app.use(express.static(path.resolve(__dirname, '..', 'build')));
+=======
+app.use('/auth', authRouter);
+app.use('/user', userRouter);
+app.use('/games', gamesRouter);
+app.use('/platforms', platformRouter);
+app.use('/threads', threadRouter);
+app.use('/lfg', lfgRouter);
+>>>>>>> ba0cc298db3c1bd0fab9b156cdb60656ef60ee89
 
 //production mode
 if(process.env.NODE_ENV === 'production') {
   app.use(express.static(path.resolve(__dirname, '..', 'build')));
-  //
+  
+  console.log('serving build index: ' + path.resolve(__dirname, '..', 'build', 'index.html'));
   app.get('*', (req, res) => {
-    res.sendfile(path.resolve(__dirname, '..', 'build', 'index.html'));
-  })
+    res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
+  });
+} else {
+    app.use(express.static(path.resolve(__dirname, '..', 'public')));
+    
+    console.log('serving public index');
+    app.get('*', function (request, response){
+        response.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'))
+    });
 }
-
-app.get('*', function (request, response){
-    response.sendFile(path.resolve(__dirname, '..', 'public', 'index.html'))
-});
 
 app.listen(PORT, () => {
     console.log('Server listening on: http://localhost:' + PORT);
