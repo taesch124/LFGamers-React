@@ -33,7 +33,6 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-<<<<<<< HEAD
 
 
 app.use('/api/auth', authRouter);
@@ -42,14 +41,6 @@ app.use('/api/games', gamesRouter);
 app.use('/api/platforms', platformRouter);
 app.use('/api/threads', threadRouter);
 app.use('/api/lfg', lfgRouter);
-=======
-app.use('/auth', authRouter);
-app.use('/user', userRouter);
-app.use('/games', gamesRouter);
-app.use('/platforms', platformRouter);
-app.use('/threads', threadRouter);
-app.use('/lfg', lfgRouter);
->>>>>>> ba0cc298db3c1bd0fab9b156cdb60656ef60ee89
 
 //production mode
 if(process.env.NODE_ENV === 'production') {
