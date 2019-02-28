@@ -40,7 +40,7 @@ class LfgContainer extends Component {
     getPostings = (id) => {
         this.setState({loadingPostings: true},
             () => {
-                axios.get(`/lfg/postings/${id}`)
+                axios.get(`/api/lfg/postings/${id}`)
                 .then(response => {
                     this.setState({
                         lfgPostings: response.data,

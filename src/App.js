@@ -25,7 +25,7 @@ class App extends Component {
   componentDidMount() {
     axios.get('/')
     .then(connected => {
-      axios.get('/auth')
+      axios.get('/api/auth')
       .then(response => {
         if(!response.data.success) this.loginHandler(null);
         else  this.loginHandler(response.data.user);
@@ -77,7 +77,7 @@ class App extends Component {
   }
 
   logout = () => {
-    axios.get('/auth/logout')
+    axios.get('/api/auth/logout')
     .then(response => {
       console.log(response.data);
         if(response.data.success) {

@@ -68,13 +68,11 @@ class CreateComment extends Component  {
             text: this.state.text,
         };
 
-        axios.post(`/threads/${data.parentComment}/comments/create`,
+        axios.post(`/api/threads/${data.parentComment}/comments/create`,
         data)
         .then(results => {
             if($('#create-comment-modal').isOpen) {
                 $('#create-comment-modal').modal('close');
-            } else {
-                
             }
             
             this.setState({

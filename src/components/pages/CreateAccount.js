@@ -73,7 +73,7 @@ class CreateAccount extends Component {
         if(!this.validateInput()) return;
     
         console.log('Creating acount');
-        axios.post('/auth/create-account',  {
+        axios.post('/api/auth/create-account',  {
             username: this.state.username,
             password: this.state.password
         })

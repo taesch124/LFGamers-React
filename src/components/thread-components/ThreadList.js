@@ -8,7 +8,6 @@ import {Icon} from 'react-materialize';
 import './styles/List.css';
 
 function ThreadList(props) {
-    let threadInfo = props.threadInfo;
     return (
         <div className="list">
             <div className="flex-row">

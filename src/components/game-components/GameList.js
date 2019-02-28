@@ -14,7 +14,7 @@ class GameList extends Component {
     }
 
     componentDidMount() {
-        axios.get('/games')
+        axios.get('/api/games')
         .then(response => {
             if(response.data.error) {
                 console.error(response.data.message);
@@ -76,7 +76,7 @@ class GameList extends Component {
     }
 
     onGameFavorite = (id) => {
-        axios.post('/user/game-favorites/add/' + id)
+        axios.post('/api/user/game-favorites/add/' + id)
         .then(response =>{
             console.log(response.data);
             this.props.getUserFavorites();
@@ -89,7 +89,7 @@ class GameList extends Component {
     handleFormSubmit = (e) => {
         e.preventDefault();
         this.setState({games: []});
-        axios.get(`/games/search-title/${this.state.search}`)
+        axios.get(`/api/games/search-title/${this.state.search}`)
         .then(response => {
             if(response.data.error) {
                 console.error(response.data);

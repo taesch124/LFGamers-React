@@ -38,7 +38,7 @@ class Home extends Component {
     }
 
     getUserFavorites = () => {
-        axios.get('/user/game-favorites')
+        axios.get('/api/user/game-favorites')
         .then(response => {
             this.setState({
                 favorites: response.data

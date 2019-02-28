@@ -36,12 +36,12 @@ app.use(passport.session());
 
 
 
-app.use('/auth', authRouter);
-app.use('/user', userRouter);
-app.use('/games', gamesRouter);
-app.use('/platforms', platformRouter);
-app.use('/threads', threadRouter);
-app.use('/lfg', lfgRouter);
+app.use('/api/auth', authRouter);
+app.use('/api/user', userRouter);
+app.use('/api/games', gamesRouter);
+app.use('/api/platforms', platformRouter);
+app.use('/api/threads', threadRouter);
+app.use('/api/lfg', lfgRouter);
 
 //Static file declaration
 app.use(express.static(path.resolve(__dirname, '..', 'build')));

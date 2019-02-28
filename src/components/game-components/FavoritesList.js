@@ -34,7 +34,7 @@ class FavoritesList extends Component {
     }
 
     removeGameFavorite = (id) => {
-        axios.post('/user/game-favorites/remove/' + id)
+        axios.post('/api/user/game-favorites/remove/' + id)
         .then(response =>{
             this.props.getUserFavorites();
         })

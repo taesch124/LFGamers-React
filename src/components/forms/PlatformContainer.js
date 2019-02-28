@@ -14,7 +14,7 @@ class Profile extends Component {
     }
 
     componentDidMount() {
-        axios.get('/platforms')
+        axios.get('/api/platforms')
         .then(response => {
             this.setState({
                 availablePlatforms: response.data

@@ -71,7 +71,7 @@ class ThreadContainer extends Component {
     getThreads = (id) => {
         this.setState({loadingThreads: true},
             () => {
-                axios.get('/threads/game/' + id)
+                axios.get('/api/threads/game/' + id)
                 .then(response => {
                     this.setState({
                         threads: response.data,
@@ -88,7 +88,7 @@ class ThreadContainer extends Component {
     getThread = (threadId) => {
         this.setState({loadingThread: true},
             () => {
-                axios.get('/threads/comments/' + threadId)
+                axios.get('/api/threads/comments/' + threadId)
                 .then(response => {
                     this.setState({
                         currentThread: response.data,

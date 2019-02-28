@@ -4,7 +4,6 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import ThreadContainer from '../thread-components/ThreadContainer';
 import LfgContainer from '../lfg-components/LfgContainer';
-import PostingList from './../lfg-components/PostingList';
 
 import './styles/GameDetail.css';
 import GameHeader from '../game-components/GameHeader';
@@ -14,13 +13,11 @@ import GameHeader from '../game-components/GameHeader';
 class GameDetail extends Component {
     state = {
             game: '',
-            lfgPostings: [],
-            chat: ''
     };
 
     componentDidMount() {
         let id = this.props.match.params.id;
-        axios.get(`/games/${id}`)
+        axios.get(`/api/games/${id}`)
         .then(response => {
 
             this.setState({ game: response.data, chat: "Chat Placeholder"});
@@ -35,7 +32,6 @@ class GameDetail extends Component {
     }
     
     render(){
-        let game = this.state.game;
         return(
             <div className="container container-fluid">
                 <GameHeader 
@@ -57,11 +53,7 @@ class GameDetail extends Component {
                             game={this.state.game}
                             user={this.props.user}
                         />
-                        {/* <PostingList
-                            postings={this.state.lfgPostings}
-                            user={this.props.user}
-                            game={game}
-                        /> */}
+
                     </div>
                 </div>
             </div>
@@ -69,7 +61,7 @@ class GameDetail extends Component {
     }
 
     getPostings = (id) => {
-        axios.get(`/lfg/postings/${id}`)
+        axios.get(`/api/lfg/postings/${id}`)
         .then(response => {
             this.setState({
                 lfgPostings: response.data

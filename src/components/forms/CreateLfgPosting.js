@@ -11,7 +11,7 @@ class CreateLfgPosting extends Component  {
             title: '',
             description: '',
             playerLimit: 0,
-            startDate: new Date(),
+            startDate: null,
             startTime: null,
             endDate: null,
             endTime: null,
@@ -75,6 +75,7 @@ class CreateLfgPosting extends Component  {
                         s={12}
                         m={6}
                         name='startDate' 
+                        value={this.state.startDate}
                         type='date' 
                         onChange={this.onChange} 
                         label="Start Date"
@@ -83,6 +84,7 @@ class CreateLfgPosting extends Component  {
                         s={12}
                         m={6}
                         name="startTime"
+                        value={this.state.startTime}
                         type="time"
                         onChange={this.onChange}
                         label="Start Time"
@@ -93,16 +95,18 @@ class CreateLfgPosting extends Component  {
                         s={12}
                         m={6}
                         name='endDate' 
+                        value={this.state.endDate}
                         type='date' 
-                        onChange={function(e, value) {}} 
+                        onChange={this.onChange} 
                         label="End Date"
                     />
                     <Input
                         s={12}
                         m={6}
                         name="endTime"
+                        value={this.state.endTime}
                         type="time"
-                        onChange={function(e, value) {}}
+                        onChange={this.onChange}
                         label="End Time"
                     />
                 </Row>
@@ -184,20 +188,18 @@ class CreateLfgPosting extends Component  {
             endTime: this.state.endTime
         };
 
-        axios.post(`/lfg/postings/create`,
+        axios.post(`/api/lfg/postings/create`,
         data)
         .then(results => {
             if($('#create-lfg-modal').isOpen) {
                 $('#create-lfg-modal').modal('close');
-            } else {
-                
             }
             
             this.setState({
                 title: '',
                 description: '',
                 playerLimit: 0,
-                startDate: new Date(),
+                startDate: null,
                 startTime: null,
                 endDate: null,
                 endTime: null,
