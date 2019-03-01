@@ -29,6 +29,7 @@ function PostingList(props) {
                         key={posting._id}
                         id={posting._id}
                         posting={posting}
+                        joinPostingChat={props.joinPostingChat}
                     />
                 );
                 })}

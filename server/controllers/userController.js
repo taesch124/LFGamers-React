@@ -47,8 +47,22 @@ function removeGameFromFavorites(user, gameId) {
     })
 }
 
+function getAccounts(user) {
+    return new Promise((resolve, reject) => {
+        User.findOne({_id: user._id})
+        //.populate('accounts')
+        .then(results => {
+            resolve(results.accounts);
+        })
+        .catch(error => {
+            reject(error);
+        });
+    });
+}
+
 module.exports = {
     getUserGameFavorites: getUserGameFavorites,
     addGameToFavorites: addGameToFavorites,
-    removeGameFromFavorites: removeGameFromFavorites
+    removeGameFromFavorites: removeGameFromFavorites,
+    getAccounts
 }

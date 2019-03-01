@@ -33,7 +33,7 @@ class PostingPanel extends Component {
                     </div>
                     
                     <div className="col s4 flex-column">
-                        <div onClick={e => this.joinPostingChat(posting._id)}>
+                        <div onClick={e => this.props.joinPostingChat(posting._id)}>
                             <Button>Join</Button>
                         </div>
                     </div>
@@ -43,9 +43,7 @@ class PostingPanel extends Component {
         )
     }
 
-    joinPostingChat = (id) => {
-        console.log(`Joining posting ${id}`);
-    }
+    
 }
 
 export default PostingPanel;

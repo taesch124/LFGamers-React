@@ -59,6 +59,19 @@
   cursor: pointer;
 }
 
+.App .MessageList {
+  box-sizing: border-box;
+  flex: 1;
+}
+
+.App .MessageForm {
+  background: #eee;
+  border-top: 1px solid #ccc;
+  border-radius: 0 0 3px 3px;
+  box-sizing: border-box;
+  flex: 0 0 30px;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

@@ -10,17 +10,21 @@ class CreateLfgPosting extends Component  {
         this.state = {
             title: '',
             description: '',
+            accounts: [],
+            platform: 'none',
+            account: '',
             playerLimit: 0,
-            startDate: null,
-            startTime: null,
-            endDate: null,
-            endTime: null,
+            startDate: '',
+            startTime: '',
+            endDate: '',
+            endTime: '',
             validationMessage: ''
         }
     }
 
     componentDidMount() {
         $('select').formSelect();
+        this.getUserAccounts();
     }
 
     render() {
@@ -68,6 +72,32 @@ class CreateLfgPosting extends Component  {
                             <option value={8}>8</option>
                         </select>
                         <label>Player Limit</label>
+                    </div>
+                </Row>
+                <Row>
+                    <div className="col s12">
+                        <div className="input-field">
+                            <select 
+                                name="platform"
+                                className="platform-select"
+                                value={this.state.platform}
+                                onChange={this.onChange}
+                            >
+                                <option key="none" value="none" defaultValue disabled>Select one</option>
+                                {this.state.accounts.map(e => {
+                                    console.log(e);
+                                    return (
+                                        <option 
+                                            key={e.platform}
+                                            value={e.platform}
+                                        >{e.platform}
+                                        </option>
+                                    )
+                                })}
+                                
+                            </select>
+                            <label>Platform</label>
+                        </div>
                     </div>
                 </Row>
                 <Row>
@@ -167,6 +197,21 @@ class CreateLfgPosting extends Component  {
             });
             return true;
         }
+    }
+
+    getUserAccounts = () => {
+        axios.get('/api/user/platforms')
+        .then(response => {
+            console.log(response.data);
+            this.setState({
+                accounts: response.data
+            }, () => {
+                $('.platform-select').formSelect();
+            });
+        })
+        .catch(error => {
+            console.error(error);
+        })
     }
 
     checkState = () => {

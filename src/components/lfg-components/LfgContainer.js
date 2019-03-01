@@ -3,6 +3,7 @@ import axios from 'axios';
 
 import PostingList from './../lfg-components/PostingList';
 import CircleLoader from '../loaders/CircleLoader';
+import ChatContainer from '../chat-components/ChatContainer';
 
 class LfgContainer extends Component {
     constructor(props) {
@@ -12,7 +13,8 @@ class LfgContainer extends Component {
             postingsLoaded: false,
             loadingPostings: true,
             lfgPostings: [],
-            chat: ''
+            chat: false,
+            chatChannel: null
         };
     }
 
@@ -25,14 +27,20 @@ class LfgContainer extends Component {
     render() {
         return (
             <div>
-                {this.state.loadingPostings ?
-                <CircleLoader /> :
-                <PostingList
-                    postings={this.state.lfgPostings}
-                    user={this.props.user}
-                    game={this.props.game}
-                    getPostings={this.getPostings}
-                />}
+                {this.state.chat ? 
+                <ChatContainer 
+                    channelId={this.state.chatChannel}
+                /> :
+                this.state.loadingPostings ?
+                    <CircleLoader /> :
+                    <PostingList
+                        postings={this.state.lfgPostings}
+                        user={this.props.user}
+                        game={this.props.game}
+                        getPostings={this.getPostings}
+                        joinPostingChat={this.joinPostingChat}
+                    />
+                }
             </div>
         )
     }
@@ -51,6 +59,14 @@ class LfgContainer extends Component {
                 .catch(error => {
                     console.error(error);
                 });
+        });
+    }
+
+    joinPostingChat = (id) => {
+        console.log(`Joining posting ${id}`);
+        this.setState({
+            chat: true,
+            chatChannel: `${this.props.game._id}-${id}`,
         });
     }
 }
