@@ -41,7 +41,7 @@ class CreateAccount extends Component {
                     </div>
 
                     <div className="row">
-                        {/* <PlatformContainer platforms={this.state.platforms} handleAccountChanges={this.handleAccountChanges} /> */}
+                        <PlatformContainer onChange={this.addPlatforms} platforms={this.state.platforms} handleAccountChanges={this.handleAccountChanges} />
                     </div>
 
                     <div className="row">
@@ -65,6 +65,14 @@ class CreateAccount extends Component {
                 </form>
             </div>
         )
+    }
+    addPlatforms = (p) => {
+        console.log(this.state.platforms);
+        var newArray = this.state.platforms.slice();    
+        newArray.push(p);
+        this.setState({
+            platforms: newArray
+        });
     }
 
     createAccount = (e) => {

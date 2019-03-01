@@ -47,6 +47,9 @@
   cursor: pointer;
 }
 
+.platform-name {
+  display: inline !important;
+}
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
