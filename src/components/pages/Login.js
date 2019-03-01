@@ -50,7 +50,7 @@ class Login extends Component {
 
     login = (e) => {
         e.preventDefault();
-        axios.post('/auth/login',  {
+        axios.post('/api/auth/login',  {
             username: this.state.username,
             password: this.state.password
         })

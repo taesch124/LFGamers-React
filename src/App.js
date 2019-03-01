@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import {Route, Redirect} from 'react-router-dom';
-import 'materialize-css/dist/css/materialize.min.css';
+import axios from 'axios';
+
 import NavBar from './components/header/NavBar';
 import Login from './components/pages/Login';
+import Profile from './components/pages/Profile';
 import CreateAccount from './components/pages/CreateAccount';
 import Home from './components/pages/Home';
-import './App.css';
-import axios from 'axios';
-import Profile from './components/pages/Profile';
 import GameDetail from './components/pages/GameDetail';
+
+import './App.css';
 
 class App extends Component {
   constructor(props) {
@@ -22,15 +23,22 @@ class App extends Component {
   }
 
   componentDidMount() {
-    axios.get('/auth')
-        .then(response => {
-          if(!response.data.success) this.loginHandler(null);
-          else  this.loginHandler(response.data.user);
-        })
-        .catch(error => {
-            console.error(error);
-            //this.errorMessage.textContent = error.message;
-        });
+    axios.get('/')
+    .then(connected => {
+      axios.get('/api/auth')
+      .then(response => {
+        if(!response.data.success) this.loginHandler(null);
+        else  this.loginHandler(response.data.user);
+      })
+      .catch(error => {
+          console.error(error);
+          //this.errorMessage.textContent = error.message;
+      });
+    })
+    .catch(error => {
+      console.error(error);
+    })
+    
   }
 
   render() {
@@ -69,7 +77,7 @@ class App extends Component {
   }
 
   logout = () => {
-    axios.get('/auth/logout')
+    axios.get('/api/auth/logout')
     .then(response => {
       console.log(response.data);
         if(response.data.success) {
