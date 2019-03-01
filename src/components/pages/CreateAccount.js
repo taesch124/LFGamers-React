@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import EmailInput from '../forms/EmailInput';
-import PlatformContainer from '../forms/PlatformContainer';
+import Profile from '../forms/PlatformContainer';
 
 class CreateAccount extends Component {
     constructor(props) {
@@ -41,7 +41,7 @@ class CreateAccount extends Component {
                     </div>
 
                     <div className="row">
-                        <PlatformContainer onChange={this.addPlatforms} platforms={this.state.platforms} handleAccountChanges={this.handleAccountChanges} />
+                        <Profile onChange={this.addPlatforms} platforms={this.state.platforms} handleAccountChanges={this.handleAccountChanges} />
                     </div>
 
                     <div className="row">

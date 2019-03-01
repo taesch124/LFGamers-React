@@ -33,8 +33,8 @@ class Profile extends Component {
             accountInputs.push(
             <div key={i} className="row">
                 <div className="col s6">
-                    <div className="input-field row s4">
-                        <select className="platform-name" name="platformName" defaultValue="none"
+                    {/* <div className="input-field row s4"> */}
+                        <select className="platform-name" name="platformName" defaultValue="none" id={i + '_platform'}
                         onChange={this.handlePlatformChange}>
                         <option value="none" disabled>Select One</option>
                         {
@@ -44,7 +44,7 @@ class Profile extends Component {
                             <option id={i + '_platform'} key={e._id} value={e.name}>{e.name}</option>
                         )}
                         </select>
-                    </div>
+                    {/* </div> */}
                 </div>
                 <div className="col s6">
                     <Input
@@ -52,6 +52,7 @@ class Profile extends Component {
                         id={i + '_account'}
                         label="Account Name"
                         type="text"
+                        onChange={this.handleAccountChange}
                     />
                 </div>
             </div>
@@ -78,9 +79,15 @@ class Profile extends Component {
         this.setState({
             selectedPlatforms: newArray
         });
+       // this.props.onChange(e.target.value);
     }
 
-    handleAccountChange = (data) => {
+    handleAccountChange = (e) => {
+        var id = e.target.id;
+        var data = {};
+        data.account = e.target.value;
+        var platformid= id.substring(0,1);
+        data.platform = this.state.selectedPlatforms[platformid];
         let current = this.state.platformAccounts;
         let newPlatformAccounts = current.filter(e => e.platform !== data.platform);
         newPlatformAccounts.push(data);
