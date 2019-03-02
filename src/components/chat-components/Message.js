@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import classNames from "classnames"
 import './../../App.css'
+import './../chat-components/styles/Message.css';
 
 class Message extends Component {
   static propTypes = {
@@ -11,7 +12,7 @@ class Message extends Component {
   }
 
   render() {
-    const classes = classNames('Message', {
+    const classes = classNames('Message', 'align-left', {
       log: !this.props.author,
       me: this.props.me
     })

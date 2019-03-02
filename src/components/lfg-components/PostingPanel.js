@@ -26,7 +26,9 @@ class PostingPanel extends Component {
                         null :
                         <div>
                             <p>Players:</p>
-                            <li>{posting.players.map(e => <ul key={e._id}>{e.username}</ul>)}</li>
+                            <li>{posting.players.map(e => {
+                                return (<ul key={e._id}>{e.username} - {e.accounts.filter(account => account.platform === posting.platform._id)[0].account}</ul>)
+                            })}</li>
                         </div>
                         }
                         <p className="posted-by">By: {posting.postedBy.username}</p>

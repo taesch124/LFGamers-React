@@ -4,6 +4,7 @@ import axios from 'axios';
 import PostingList from './../lfg-components/PostingList';
 import CircleLoader from '../loaders/CircleLoader';
 import ChatContainer from '../chat-components/ChatContainer';
+import {Toast} from 'react-materialize';
 
 class LfgContainer extends Component {
     constructor(props) {
@@ -63,7 +64,7 @@ class LfgContainer extends Component {
     }
 
     joinPostingChat = (id) => {
-        console.log(`Joining posting ${id}`);
+        //window.Materialize.toast(`Joining posting ${id}`, 4000);
         this.setState({
             chat: true,
             chatChannel: `${this.props.game._id}-${id}`,

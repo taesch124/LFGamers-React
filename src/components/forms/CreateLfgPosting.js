@@ -172,7 +172,12 @@ class CreateLfgPosting extends Component  {
                 validationMessage: 'Posting must have a description'
             });
             return false;
-        } 
+        }
+        else if(this.state.platform === 'none') {
+            this.setState({
+                validationMessage: 'A platform is required.'
+            })
+        }
         else if(this.state.playerLimit === 0) {
             this.setState({
                 validationMessage: 'Posting requires at least 2 players'
@@ -238,6 +243,7 @@ class CreateLfgPosting extends Component  {
                 title: '',
                 description: '',
                 playerLimit: 0,
+                platform: 'none',
                 startDate: '',
                 startTime: '',
                 endDate: '',

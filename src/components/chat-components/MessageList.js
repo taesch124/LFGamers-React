@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Message from './Message'
-import './../../App.css'
+import './../../App.css';
+import './styles/MessageList.css';
 
 class MessageList extends Component {
   static propTypes = {
