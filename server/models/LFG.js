@@ -20,6 +20,10 @@ const LFGSchema = new Schema({
         type: Number,
         required: true
     },
+    platform: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Platform'
+    },
     startDate: {
         type: Date,
         required: true

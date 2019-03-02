@@ -6,6 +6,7 @@ function getGameLfgPostings(gameId) {
         LFG.find({gameId: gameId}, null, {sort: {postedAt: -1}})
         .populate('postedBy')
         .populate('players')
+        .populate('platform')
         .then(results => {
             resolve(results);
         })
@@ -33,6 +34,7 @@ function createLfgPosting(data) {
             title: data.title,
             description:data.description,
             playerLimit: data.playerLimit,
+            platform: data.platform,
             players: [data.userId],
             startDate: startDate,
             endDate: endDate

@@ -33,15 +33,20 @@ class Profile extends Component {
             <div key={i} className="row">
                 <div className="col s6">
                     {/* <div className="input-field row s4"> */}
-                        <select className="platform-name" name="platformName" defaultValue="none" id={i + '_platform'}
-                        onChange={this.handlePlatformChange}>
-                        <option value="none" disabled>Select One</option>
-                        {
-                        this.state.availablePlatforms.map((e, index) => 
-                            this.state.selectedPlatforms.indexOf(e.name)>=0?
-                            <option disabled id={i + '_platform'} key={e._id} value={e._id}>{e.name}</option>:
-                            <option id={i + '_platform'} key={e._id} value={e._id}>{e.name}</option>
-                        )}
+                        <select 
+                            className="platform-name" 
+                            name="platformName" 
+                            defaultValue="none" 
+                            id={i + '_platform'}
+                            onChange={this.handlePlatformChange}
+                        >
+                            <option value="none" disabled>Select One</option>
+                            {
+                            this.state.availablePlatforms.map((e, index) => 
+                                this.state.selectedPlatforms.indexOf(e._id)>=0?
+                                <option disabled id={i + '_platform'} key={e._id} value={e._id}>{e.name}</option>:
+                                <option id={i + '_platform'} key={e._id} value={e._id}>{e.name}</option>
+                            )}
                         </select>
                     {/* </div> */}
                 </div>

@@ -51,6 +51,10 @@
   flex-grow: 1;
 }
 
+select {
+  display: block; 
+}
+
 .helper-text {
   color: rgb(201, 47, 47) !important;
 }

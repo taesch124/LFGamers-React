@@ -23,12 +23,10 @@ class CreateLfgPosting extends Component  {
     }
 
     componentDidMount() {
-        $('.player-limit-select').material_select();
         this.getUserAccounts();
     }
 
     render() {
-        console.log(this.props.user);
         return (
             <div className="row">
                 <Row>
@@ -53,18 +51,17 @@ class CreateLfgPosting extends Component  {
                         onChange={this.onChange}    
                     />
                 </Row>
-                <Row>
-                    <div 
-                        className="input-field col s12"
-                        
-                    >
+                <div className="row">
+                    <div className="col s12">
+                        <label>Player Limit</label>
                         <select 
                             name="playerLimit"
                             className="player-limit-select"
-                            value={this.state.playerLimit}
+                            //value={this.state.playerLimit}
+                            defaultValue="0"
                             onChange={this.onPlayerLimitChange}
                         >
-                            <option value={0} defaultValue disabled>Select an option</option>
+                            <option value="0" disabled>Select an option</option>
                             <option value={2}>2</option>
                             <option value={3}>3</option>
                             <option value={4}>4</option>
@@ -73,33 +70,30 @@ class CreateLfgPosting extends Component  {
                             <option value={7}>7</option>
                             <option value={8}>8</option>
                         </select>
-                        <label>Player Limit</label>
+                        
                     </div>
-                </Row>
+                </div>
                 <Row>
                     <div className="col s12">
-                        <div className="input-field">
-                            <select 
-                                name="platform"
-                                className="platform-select"
-                                value={this.state.platform}
-                                onChange={this.onChange}
-                            >
-                                <option key="none" value="none" defaultValue disabled>Select one</option>
-                                {this.state.accounts.map(e => {
-                                    console.log(e);
-                                    return (
-                                        <option 
-                                            key={e.platform._id}
-                                            value={e.platform._id}
-                                        >{e.platform.name} - {e.account}
-                                        </option>
-                                    )
-                                })}
-                                
-                            </select>
-                            <label>Platform</label>
-                        </div>
+                        <label>Platform</label>
+                        <select 
+                            name="platform"
+                            className="platform-select"
+                            value={this.state.platform}
+                            onChange={this.onChange}
+                        >
+                            <option key="none" value="none" defaultValue disabled>Select one</option>
+                            {this.state.accounts.map(e => {
+                                return (
+                                    <option 
+                                        key={e.platform._id}
+                                        value={e.platform._id}
+                                    >{e.platform.name} - {e.account}
+                                    </option>
+                                )
+                            })}
+                            
+                        </select>
                     </div>
                 </Row>
                 <Row>
@@ -204,11 +198,8 @@ class CreateLfgPosting extends Component  {
     getUserAccounts = () => {
         axios.get('/api/user/platforms')
         .then(response => {
-            console.log(response.data);
             this.setState({
                 accounts: response.data
-            }, () => {
-                $('.platform-select').material_select();
             });
         })
         .catch(error => {
@@ -229,6 +220,7 @@ class CreateLfgPosting extends Component  {
             title: this.state.title,
             description: this.state.description,
             playerLimit: this.state.playerLimit,
+            platform: this.state.platform,
             startDate: this.state.startDate,
             startTime: this.state.startTime,
             endDate: this.state.endDate,
@@ -246,10 +238,10 @@ class CreateLfgPosting extends Component  {
                 title: '',
                 description: '',
                 playerLimit: 0,
-                startDate: null,
-                startTime: null,
-                endDate: null,
-                endTime: null,
+                startDate: '',
+                startTime: '',
+                endDate: '',
+                endTime: '',
                 validationMessage: ''
             });
             

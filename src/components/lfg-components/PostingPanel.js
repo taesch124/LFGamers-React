@@ -19,6 +19,7 @@ class PostingPanel extends Component {
                             <span>Start: {moment(posting.startDate).format("MM/DD/YYYY HH:mm A")}</span>
                             {posting.endDate ? <span> - End: {moment(posting.endDate).format("MM/DD/YYYY HH:mm A")}</span> : null}
                         </div>
+                        <p>Platform: {posting.platform.name}</p>
                         <p>Player Limit: {posting.playerLimit}</p>
                         
                         {posting.players.length === 0 ?

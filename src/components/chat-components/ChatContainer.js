@@ -57,24 +57,30 @@ class ChatContainer extends Component {
 
   joinGeneralChannel = () => {
     return new Promise((resolve, reject) => {
-        console.log(`Joining channel ${this.props.channelId}`)
-        console.log(this.state.client);
         this.state.client.getChannelByUniqueName(this.props.channelId)
         .then((channel) => {
             console.log(`Joining ${this.props.channelId} channel...`);
           this.addMessage({ body: `Joining ${this.props.channelId} channel...` })
           this.setState({ channel })
 
-          channel.join().then(() => {
-            this.addMessage({ body: `Joined general channel as ${this.state.twilioId}` })
-            window.addEventListener('beforeunload', () => channel.leave())
-          }).catch(() => reject(Error('Could not join general channel.')))
+          if(channel.state.status !== "joined") {  
+            channel.join().then(() => {
+              this.addMessage({ body: `Joined general channel as ${this.state.twilioId}` })
+              window.addEventListener('beforeunload', () => channel.leave())
+            }).catch((error) => {
+              console.error(error);
+              reject(Error('Could not join general channel.'))
+            });
+          } else {
+            this.addMessage({ body: `Joined general channel as ${this.state.twilioId}` });
+          }
 
-          resolve(channel)
-        }).catch((error) => {
-            console.error(error);
-            this.createGeneralChannel();
-        })
+            resolve(channel)
+          }).catch((error) => {
+              console.error(error);
+              this.createGeneralChannel();
+          });
+      
     })
   }
 
@@ -87,7 +93,7 @@ class ChatContainer extends Component {
         .then(() => this.joinGeneralChannel(this.state.client))
         .catch((error) => {
             console.error(error);
-            reject(Error(`Could not create ${this.props.channelId} channel.`))
+            reject(new Error(`Could not create ${this.props.channelId} channel.`))
         });
     })
   }

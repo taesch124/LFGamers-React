@@ -79,7 +79,6 @@ class App extends Component {
   logout = () => {
     axios.get('/api/auth/logout')
     .then(response => {
-      console.log(response.data);
         if(response.data.success) {
           this.loginHandler(null);
         }
