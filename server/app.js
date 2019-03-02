@@ -5,9 +5,12 @@ const passport = require('passport');
 const path = require('path');
 
 const authRouter = require('./routes/auth');
+const userRouter = require('./routes/user');
 const gamesRouter = require('./routes/games');
 const platformRouter = require('./routes/platforms');
 const threadRouter = require('./routes/threads');
+const lfgRouter = require('./routes/lfg');
+const twilioRouter = require('./routes/twilio-chat');
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -19,7 +22,6 @@ mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.static(path.resolve(__dirname, '..', 'public')));
 
 app.use(
     session({
@@ -34,14 +36,29 @@ app.use(passport.session());
 
 
 
-app.use('/auth', authRouter);
-app.use('/games', gamesRouter);
-app.use('/platforms', platformRouter);
-app.use('/threads', threadRouter);
+app.use('/api/auth', authRouter);
+app.use('/api/user', userRouter);
+app.use('/api/games', gamesRouter);
+app.use('/api/platforms', platformRouter);
+app.use('/api/threads', threadRouter);
+app.use('/api/lfg', lfgRouter);
+app.use('/api/chat', twilioRouter);
 
-// app.get('*', function (request, response){
-//     response.sendFile(path.resolve(__dirname, '..', 'public', 'index.html'))
-// });
+
+//production mode
+if(process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.resolve(__dirname, '..', 'build')));
+  
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
+  });
+} else {
+    app.use(express.static(path.resolve(__dirname, '..', 'public')));
+    
+    app.get('*', function (request, response){
+        response.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'))
+    });
+}
 
 app.listen(PORT, () => {
     console.log('Server listening on: http://localhost:' + PORT);

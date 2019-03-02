@@ -1,0 +1,18 @@
+.posted-by,
+.posted-at {
+    font-size: .8rem;
+    color: grey;
+}
+
+.posting-card {
+    cursor: auto;
+    padding-left: .5rem;
+}
+
+.no-margin {
+    margin: 0 !important;
+}
+
+p {
+    margin: 0 auto;
+}

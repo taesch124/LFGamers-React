@@ -2,92 +2,70 @@ import React, {Component} from 'react';
 // import Jumbotron from "../components/Jumbotron";
 
 import axios from 'axios';
-import ThreadList from '../thread-components/ThreadList';
-import CommentList from './../thread-components/CommentList';
+import ThreadContainer from '../thread-components/ThreadContainer';
+import LfgContainer from '../lfg-components/LfgContainer';
 
 import './styles/GameDetail.css';
+import GameHeader from '../game-components/GameHeader';
+
+
 
 class GameDetail extends Component {
     state = {
             game: '',
-            threads: [],
-            currentThread: null,
-            chat: ''
     };
 
     componentDidMount() {
         let id = this.props.match.params.id;
-        axios.get(`/games/${id}`)
+        axios.get(`/api/games/${id}`)
         .then(response => {
 
-            this.setState({ game: response.data, comments: ["Nice Game", "Good timepass"], chat: "Chat Placeholder"});
+            this.setState({ game: response.data, chat: "Chat Placeholder"});
             let _id = response.data._id;
-            this.getThreads(_id);
-            
+
+            this.getPostings(_id);
+
         })
         .catch(error => {
             console.error(error);
         });
-        
     }
     
     render(){
-        let game = this.state.game;
         return(
             <div className="container container-fluid">
-                <div className="card-panel blue-grey lighten-5">
-                    <div className="row">
-                        <div className="col s12 m4">
-                            {game.cover ? <img src={game.cover.url} alt={`poster for ${game.name}`} /> : null}
-                        </div>
-                        <div className=" col s12 m8">
-                            <h2>{game.name}</h2>
-                            <p></p>
-                        </div> 
-                    </div>
-                </div>
+                <GameHeader 
+                    game={this.state.game} 
+                />
+
                 <div className="row">
                     <div className="input-field col s12 m6">
-                        {!this.state.currentThread ? 
-                        <ThreadList 
-                            threads={this.state.threads} 
-                            getThreads={this.getThreads} 
+
+                        <ThreadContainer 
+                            game={this.state.game} 
                             user={this.props.user}
-                            game={game}
-                            getThread={this.getThread} />
-                        :
-                        <CommentList
-                            thread={this.state.currentThread}
                         />
-                        }
                         
                     </div>
                     <div className="input-field col s12 m6">
-                        <strong>{this.state.chat}</strong>
+
+                        <LfgContainer
+                            game={this.state.game}
+                            user={this.props.user}
+                        />
+
                     </div>
                 </div>
             </div>
         )
     }
 
-    getThreads = (id) => {
-        axios.get('/threads/game/' + id)
+    getPostings = (id) => {
+        axios.get(`/api/lfg/postings/${id}`)
         .then(response => {
-            this.setState({threads: response.data});
-        })
-        .catch(error => {
-            console.error(error)
-        });
-    }
-
-    getThread = (threadId) => {
-        console.log('Getting comments for thread ' + threadId);
-        axios.get('/threads/comments/' + threadId)
-        .then(response => {
-            console.log(response.data);
             this.setState({
-                currentThread: response.data
-            });
+                lfgPostings: response.data
+            })
         })
         .catch(error => {
             console.error(error);

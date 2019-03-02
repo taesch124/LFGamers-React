@@ -1,19 +1,50 @@
 import React from 'react';
 
 import { List } from "./../../components/List";
-import ThreadPanel from './ThreadPanel';
+import CommentPanel from './CommentPanel';
+import CreateCommentModel from './../modals/CreateCommentModal';
 
-function ThreadList(props) {
-    console.log(props);
+import './styles/List.css';
+
+function CommentList(props) {
+    let originalComment = props.thread.originalComment;
     return (
-        <div>
-            <ThreadPanel 
-                getThread={null}
-                threadInfo={props.thread}
+        <div className="list">
+            <CommentPanel
+                commentInfo={originalComment}
+                originalComment={true}
             />
-            <p>Comments coming</p>
+            <CreateCommentModel 
+                getThread={props.getThread} 
+                thread={props.thread} 
+                parentComment={props.thread.originalComment} 
+                game={props.game} 
+                user={props.user} 
+            />
+            {props.thread.originalComment.children.length ? (
+            <List>
+                {props.thread.originalComment.children.map(comment => {
+                return (
+                    <CommentPanel
+                        level={0}
+                        key={comment._id} 
+                        commentInfo={comment}
+                        getThread={props.getThread} 
+                        thread={props.thread} 
+                        parentComment={props.thread.originalComment} 
+                        game={props.game} 
+                        user={props.user} />
+                );
+                })}
+            </List>
+            ) : (
+            <div>
+                <h5>No comments Yet</h5>
+                <p>Be the first to post!</p>
+            </div>
+            )}
         </div>
     );
 }
 
-export default ThreadList;
+export default CommentList;

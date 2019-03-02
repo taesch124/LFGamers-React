@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import EmailInput from '../forms/EmailInput';
-import PlatformContainer from '../forms/PlatformContainer';
+import Profile from '../forms/PlatformContainer';
 
 class CreateAccount extends Component {
     constructor(props) {
@@ -41,7 +41,7 @@ class CreateAccount extends Component {
                     </div>
 
                     <div className="row">
-                        {/* <PlatformContainer platforms={this.state.platforms} handleAccountChanges={this.handleAccountChanges} /> */}
+                        <Profile onChange={this.addPlatforms} platforms={this.state.platforms} handleAccountChanges={this.handleAccountChanges} />
                     </div>
 
                     <div className="row">
@@ -66,6 +66,14 @@ class CreateAccount extends Component {
             </div>
         )
     }
+    addPlatforms = (p) => {
+        console.log(this.state.platforms);
+        var newArray = this.state.platforms.slice();    
+        newArray.push(p);
+        this.setState({
+            platforms: newArray
+        });
+    }
 
     createAccount = (e) => {
         e.preventDefault();
@@ -73,7 +81,7 @@ class CreateAccount extends Component {
         if(!this.validateInput()) return;
     
         console.log('Creating acount');
-        axios.post('/auth/create-account',  {
+        axios.post('/api/auth/create-account',  {
             username: this.state.username,
             password: this.state.password
         })

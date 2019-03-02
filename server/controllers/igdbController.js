@@ -6,25 +6,43 @@ const platforms = require('./../config/utility').igdbPlatforms;
 
 function getAndSaveGames() {
     return new Promise((resolve, reject) =>{
-        igdb.searchPopularGames(results => {
+        igdb.searchPopularGames(igdbResults => {
             //console.log(results);
+            let ids = igdbResults.map(e => e.id)
             let bulk = [];
             let response = [];
-
-            for(let i = 0; i < results.length; i++) {
-                createAndSaveGame(results[i], response, bulk);
-            }
-    
-            if(bulk.length === 0 ) {
-                resolve();
-            }
-    
-            Game.bulkWrite(bulk)
-            .then(results => {
-                resolve(response);
+            Game.find({
+                'id': {$in: ids}
             })
-            .catch(err => {
-                reject(err);
+            .then(results => {
+                if(results.length === igdbResults.length) {
+                    resolve(results);
+                } else {
+                    response = results;
+                    let DBids = results.map(e => e.id);
+                    let newGames = igdbResults.filter(e => {
+                        return !DBids.includes(e.id);
+                    });
+
+                    for(let i = 0; i < newGames.length; i++) {
+                        createAndSaveGame(newGames[i], response, bulk);
+                    }
+            
+                    if(bulk.length === 0 ) {
+                        resolve();
+                    }
+            
+                    Game.bulkWrite(bulk)
+                    .then(results => {
+                        resolve(response);
+                    })
+                    .catch(err => {
+                        reject(err);
+                    });
+                }
+            })
+            .catch(error => {
+                reject(error);
             });
 
         });
@@ -34,27 +52,46 @@ function getAndSaveGames() {
 
 function searchGameByTitle(searchPhrase) {
     return new Promise((resolve, reject) => {
-        igdb.searchGame(searchPhrase, results => {
-            if(results.error) {
-                reject(results);
+        igdb.searchGame(searchPhrase, igdbResults => {
+            if(igdbResults.error) {
+                reject(igdbResults);
             }
     
+            let ids = igdbResults.map(e => e.id);
             let bulk = [];
             let response = [];
-            for(let i = 0; i < results.length; i++) {
-                createAndSaveGame(results[i], response, bulk);
-            }
-            
-            if(bulk.length === 0 ) {
-                resolve();
-            }
-    
-            Game.bulkWrite(bulk)
-            .then(dbRresults => {
-                resolve(response);
+            Game.find({
+                'id': {$in: ids}
             })
-            .catch(err => {
-                reject(err);
+            .then(results => {
+                if(results.length === igdbResults.length) {
+                    resolve(results);
+                } else {
+                    response = results;
+                    let DBids = results.map(e => e.id);
+                    let newGames = igdbResults.filter(e => {
+                        return !DBids.includes(e.id);
+                    });
+
+                    for(let i = 0; i < newGames.length; i++) {
+                        createAndSaveGame(newGames[i], response, bulk);
+                    }
+            
+                    if(bulk.length === 0 ) {
+                        resolve();
+                    }
+            
+                    Game.bulkWrite(bulk)
+                    .then(dbResults => {
+                        resolve(response);
+                    })
+                    .catch(err => {
+                        reject(err);
+                    });
+                }
+            })
+            .catch(error => {
+                reject(error);
             });
         });
     });
@@ -78,7 +115,7 @@ function createAndSaveGame(gameObj, response, bulk) {
     let command = {
         updateOne: {
             "filter": {id: game.id},
-            "replacement": update,
+            "replacement": game._doc,
             "upsert": true,
             "multi": true
         }

@@ -1,0 +1,11 @@
+.game-header-poster {
+    width: 160px;
+    height: 160px;
+}
+
+.center-row {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-items: center;
+    margin-bottom: 0;
+}

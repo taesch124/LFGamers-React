@@ -31,6 +31,11 @@ const UserSchema = new Schema({
                 type: String
             }
         }
+    ],
+    gameFavorites: [
+        {
+            type: mongoose.Schema.Types.ObjectId, ref: 'Game'
+        }
     ]
 });
 

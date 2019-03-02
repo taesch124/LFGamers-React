@@ -24,22 +24,57 @@
 
 .container {
   margin-top: 3rem;
+  width: 80%;
+}
+
+.container-fluid {
+  width: 100%;
+  max-width: 100%;
+  margin-top: 0;
+}
+
+.row-fluid {
+  width: 100%;
+  max-width: 100%;
 }
 
 .flex-row {
   display: flex;
   flex-flow: row nowrap;
-  justify-content: space-around;
+  justify-content: space-evenly;
+}
+
+.flex-column {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  flex-grow: 1;
 }
 
 .helper-text {
   color: rgb(201, 47, 47) !important;
 }
 
-.container {
-  width: 80%;
+.material-icons {
+  cursor: pointer;
 }
 
+.App .MessageList {
+  box-sizing: border-box;
+  flex: 1;
+}
+
+.App .MessageForm {
+  background: #eee;
+  border-top: 1px solid #ccc;
+  border-radius: 0 0 3px 3px;
+  box-sizing: border-box;
+  flex: 0 0 30px;
+}
+
+.platform-name {
+  display: inline !important;
+}
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
