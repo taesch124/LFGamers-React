@@ -23,11 +23,12 @@ class CreateLfgPosting extends Component  {
     }
 
     componentDidMount() {
-        $('select').formSelect();
+        $('.player-limit-select').material_select();
         this.getUserAccounts();
     }
 
     render() {
+        console.log(this.props.user);
         return (
             <div className="row">
                 <Row>
@@ -54,11 +55,12 @@ class CreateLfgPosting extends Component  {
                 </Row>
                 <Row>
                     <div 
-                        className="input-field col s12 player-limit-select"
+                        className="input-field col s12"
                         
                     >
                         <select 
                             name="playerLimit"
+                            className="player-limit-select"
                             value={this.state.playerLimit}
                             onChange={this.onPlayerLimitChange}
                         >
@@ -88,9 +90,9 @@ class CreateLfgPosting extends Component  {
                                     console.log(e);
                                     return (
                                         <option 
-                                            key={e.platform}
-                                            value={e.platform}
-                                        >{e.platform}
+                                            key={e.platform._id}
+                                            value={e.platform._id}
+                                        >{e.platform.name} - {e.account}
                                         </option>
                                     )
                                 })}
@@ -206,7 +208,7 @@ class CreateLfgPosting extends Component  {
             this.setState({
                 accounts: response.data
             }, () => {
-                $('.platform-select').formSelect();
+                $('.platform-select').material_select();
             });
         })
         .catch(error => {

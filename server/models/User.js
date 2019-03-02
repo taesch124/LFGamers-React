@@ -25,7 +25,7 @@ const UserSchema = new Schema({
     accounts: [
         {
             platform: {
-                type: String
+                type: mongoose.Schema.Types.ObjectId, ref: 'Platform'
             },
             account: {
                 type: String

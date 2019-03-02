@@ -37,9 +37,10 @@ router.get('/logout', (req, res) => {
 });
 
 router.post('/create-account', (req, res) => {
+    console.log(req.body);
     AuthController.createAccount(req.body, (results) => {
         res.json(results);
-    })
+    });
 });
 
 module.exports = router;

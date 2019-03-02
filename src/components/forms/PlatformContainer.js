@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import AccountInput from './AccountInput';
 import {Input} from 'react-materialize';
 import axios from 'axios';
 
@@ -40,8 +39,8 @@ class Profile extends Component {
                         {
                         this.state.availablePlatforms.map((e, index) => 
                             this.state.selectedPlatforms.indexOf(e.name)>=0?
-                            <option disabled id={i + '_platform'} key={e._id} value={e.name}>{e.name}</option>:
-                            <option id={i + '_platform'} key={e._id} value={e.name}>{e.name}</option>
+                            <option disabled id={i + '_platform'} key={e._id} value={e._id}>{e.name}</option>:
+                            <option id={i + '_platform'} key={e._id} value={e._id}>{e.name}</option>
                         )}
                         </select>
                     {/* </div> */}
@@ -73,7 +72,6 @@ class Profile extends Component {
     }
 
     handlePlatformChange = (e) => {
-        console.log(e.target.value);
         var newArray = this.state.selectedPlatforms.slice();    
         newArray.push(e.target.value);
         this.setState({
@@ -94,7 +92,6 @@ class Profile extends Component {
         this.setState({
             platformAccounts: newPlatformAccounts
         }, () => {
-            console.log('Saving at page level');
             this.props.handleAccountChanges(this.state.platformAccounts);
         });
     }
@@ -108,7 +105,6 @@ class Profile extends Component {
     }
 
     removeAccountInput = (id)  => {
-        console.log(id);
         this.setState({
             platformNum: this.state.platformNum  - 1
         });
