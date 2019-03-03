@@ -13,14 +13,14 @@ class MessageForm extends Component {
   }
 
   handleFormSubmit = (event) => {
-    event.preventDefault()
-    this.props.onMessageSend(this.input.value)
-    this.input.value = ""
+    event.preventDefault();
+    this.props.onMessageSend(this.input.value);
+    this.input.value = "";
   }
 
   render() {
     return (
-      <form className="MessageForm" onSubmit={this.handleFormSubmit}>
+      <form className="chat-message-form" onSubmit={this.handleFormSubmit}>
         <div className="input-container">
           <input
             type="text"

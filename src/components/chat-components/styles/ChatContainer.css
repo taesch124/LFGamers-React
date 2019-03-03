@@ -1,0 +1,11 @@
+.chat-container {
+    min-height: 420px;
+}
+
+.leave-posting-chat:hover {
+    background-color: rgb(252, 87, 87);
+}
+
+.justify-left {
+    justify-content: left;
+}

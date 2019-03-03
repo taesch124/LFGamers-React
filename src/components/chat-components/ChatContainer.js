@@ -4,7 +4,9 @@ import MessageList from './MessageList'
 import TwilioChat from 'twilio-chat'
 import {Button, Icon} from 'react-materialize';
 import $ from 'jquery'
-import './../../App.css'
+import './../../App.css';
+import './styles/ChatContainer.css'
+import CircleLoader from '../loaders/CircleLoader';
 
 class ChatContainer extends Component {
   constructor(props) {
@@ -32,8 +34,11 @@ class ChatContainer extends Component {
       this.addMessage({ body: 'Connecting...' })
 
       $.getJSON('/api/chat/token', (token) => {
-        this.setState({ twilioId: token.identity })
-        resolve(token)
+        this.setState({ twilioId: token.identity }, 
+        () => {
+            resolve(token);
+        });
+        
       }).fail(() => {
         reject(Error('Failed to connect.'))
       })
@@ -47,11 +52,11 @@ class ChatContainer extends Component {
             this.setState({
                 client: client
             }, () => {
+                this.state.client.on('tokenExpired', this.getToken);
                 resolve(client);
             });
         })
         .catch(error => {
-            console.error(error);
             reject(new Error(error));
         });
         
@@ -59,29 +64,22 @@ class ChatContainer extends Component {
     })
   }
 
-  joinChatChannel = () => {
+  joinChatChannel = (client) => {
     return new Promise((resolve, reject) => {
-        this.state.client.getSubscribedChannels().then(() => {
-            this.state.client.getChannelByUniqueName(this.props.channel.id)
+            client.getChannelByUniqueName(this.props.chatChannel.id)
             .then((channel) => {
-                console.log(channel);
-                this.addMessage({ body: `Joining ${this.props.channel.id} channel...` })
-                let newClient = this.state.client;
-                newClient.currentChannel = channel;
+                this.addMessage({ body: `Joining ${this.props.chatChannel.id} channel...` })
                 this.setState({ 
-                    channel: channel,
-                    client: newClient
-                })
+                    channel: channel
+                });
 
                 if(channel.state.status !== "joined") {  
                     channel.join().then(() => {
                         this.addMessage({ body: `Joined ${this.state.channel.state.friendlyName} channel as ${this.state.twilioId}` })
                         window.addEventListener('beforeunload', () => {
                             channel.leave();
-                            this.deleteChatChannel(false)
                         });
                     }).catch((error) => {
-                        console.error(error);
                         reject(Error('Could not join channel.'))
                     });
                 } else {
@@ -91,30 +89,22 @@ class ChatContainer extends Component {
 
                 resolve(channel);
             }).catch((error) => {
-                console.error('cannot find unique name');
-                this.createChatChannel();
+                this.createChatChannel(client);
             });
-        })
-        .catch(error => {
-            console.error('error getting subscribed channels');
-            reject(new Error(error));
-        })
-        
-    })
+    });
   }
 
-  createChatChannel = () => {
-      console.log(`Creating ${this.props.channel.id} channel...`);
+  createChatChannel = (client) => {
     return new Promise((resolve, reject) => {
-      this.addMessage({ body: `Creating ${this.props.channel.id} channel...` })
-      this.state.client
-        .createChannel({ uniqueName: this.props.channel.id, friendlyName: this.props.channel.name })
+        this.addMessage({ body: `Creating ${this.props.chatChannel.id} channel...` })
+        client
+        .createChannel({ uniqueName: this.props.chatChannel.id, friendlyName: this.props.chatChannel.name })
         .then((channel) => {
-            this.joinChatChannel(this.state.client);
+            this.joinChatChannel(client)
+            .then(this.configureChannelEvents);
         })
         .catch((error) => {
-            console.error(error);
-            reject(new Error(`Could not create ${this.props.channelId} channel.`))
+            reject(new Error(`Could not create ${this.props.chatChannelId} channel.`))
         });
     })
   }
@@ -122,12 +112,12 @@ class ChatContainer extends Component {
   deleteChatChannel = (prompt) => {
     let deletePosting = true;
     if(prompt) {
-        deletePosting = window.confirm('Delete chat channel and posting?');
+        deletePosting = window.confirm('As leader, do you want to delete chat channel and posting?');
     }
 
     if(!deletePosting) return;
     this.state.channel.leave();
-    this.state.client.currentChannel.delete()
+    this.state.channel.delete()
     .then(channel => {
         this.setState({channel: null}, () => {
             
@@ -135,7 +125,6 @@ class ChatContainer extends Component {
         });
     })
     .catch((error) => {
-        console.error(error);
         return Error('Could not delete channel')
     });
   }
@@ -153,18 +142,19 @@ class ChatContainer extends Component {
     const messageData = { ...message, me: message.author === this.state.twilioId }
     this.setState({
       messages: [...this.state.messages, messageData],
-    })
+    });
   }
 
   handleNewMessage = (text) => {
     if (this.state.channel) {
-      this.state.channel.sendMessage(text)
+        this.state.channel.sendMessage(text);
     }
   }
 
   configureChannelEvents = (channel) => {
     channel.on('messageAdded', ({ author, body }) => {
-      this.addMessage({ author, body })
+        console.log(channel);
+        this.addMessage({ author, body })
     })
 
     channel.on('memberJoined', (member) => {
@@ -172,19 +162,29 @@ class ChatContainer extends Component {
     })
 
     channel.on('memberLeft', (member) => {
-      this.addMessage({ body: `${member.identity} has left the channel.` })
+        console.log(channel);
+        this.addMessage({ body: `${member.identity} has left the channel.` })
+        if(channel.members.size === 0) {
+            this.deleteChatChannel(false);
+        }
     })
   }
 
   render() {
     return (
-      <div  className="chat-container">
-        <div className="flex-row" onClick={this.leaveChatChannel}>
-            <Button className="left"><Icon>arrow_left</Icon>Back</Button>
-        </div>
-        <MessageList messages={this.state.messages} />
-        <MessageForm onMessageSend={this.handleNewMessage} />
-      </div>
+        this.state.channel ?
+            <div  className="chat-container">
+                <div className="flex-row justify-left" onClick={this.leaveChatChannel}>
+                    <Button className="btn-flat leave-posting-chat" waves='light'><Icon>arrow_left</Icon>Back</Button>
+                </div>
+                
+                <div className="chat-title">
+                    <h5>{this.state.channel.friendlyName}</h5>
+                </div>
+                <MessageList messages={this.state.messages} />
+                <MessageForm onMessageSend={this.handleNewMessage} />
+            </div> :
+        <CircleLoader />
     )
   }
 }

@@ -19,7 +19,7 @@ class MessageList extends Component {
 
   render() {
     return (
-      <div className="MessageList" ref={(node) => (this.node = node)}>
+      <div className="chat-message-list" ref={(node) => (this.node = node)}>
         {this.props.messages.map((message, i) => (
           <Message key={i} {...message} />
         ))}

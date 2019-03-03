@@ -12,7 +12,7 @@ class Message extends Component {
   }
 
   render() {
-    const classes = classNames('Message', 'align-left', {
+    const classes = classNames('chat-message', 'align-left', {
       log: !this.props.author,
       me: this.props.me
     })
@@ -20,7 +20,7 @@ class Message extends Component {
     return (
       <div className={classes}>
         {this.props.author && (
-          <span className="author">{this.props.author}:</span>
+          <p className="author">{this.props.author}</p>
         )}
         {this.props.body}
       </div>

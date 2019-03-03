@@ -63,8 +63,24 @@ function deleteLfgPosting(_id) {
     })
 }
 
+function getUserPostings(user) {
+    console.log('Getting users postings');
+    console.log(user);
+    return new Promise((resolve, reject) => {
+        
+        LFG.findOne({postedBy: user._id})
+        .then(results => {
+            resolve(results);
+        })
+        .catch(error => {
+            reject(error);
+        })
+    })
+}
+
 module.exports = {
     getGameLfgPostings: getGameLfgPostings,
     createLfgPosting: createLfgPosting,
-    deleteLfgPosting: deleteLfgPosting
+    deleteLfgPosting: deleteLfgPosting,
+    getUserPostings: getUserPostings
 }

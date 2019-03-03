@@ -20,9 +20,25 @@ class LfgContainer extends Component {
         };
     }
 
+    componentDidMount() {
+        
+    }
+
     componentWillReceiveProps() {
         if(!this.state.postingsLoaded && this.props.game) {
-            this.getPostings(this.props.game._id);
+            axios.get('/api/lfg/postings/user')
+            .then(response => {
+                console.log(response.data);
+                if(response.data) {
+                    this.joinPostingChat(response.data)
+                } else {
+                    this.getPostings(this.props.game._id);
+                }
+                
+            })
+            .catch(error => {
+                console.error(error);
+            })
         }
     }
 
@@ -32,7 +48,7 @@ class LfgContainer extends Component {
                 {this.state.chat ? 
                 <ChatContainer 
                     selectedPosting={this.state.selectedPosting}
-                    channel={this.state.chatChannel}
+                    chatChannel={this.state.chatChannel}
                     leavePostingChat={this.leavePostingChat}
                 /> :
                 this.state.loadingPostings ?
@@ -52,7 +68,7 @@ class LfgContainer extends Component {
     getPostings = (id) => {
         this.setState({loadingPostings: true},
             () => {
-                axios.get(`/api/lfg/postings/${id}`)
+                axios.get(`/api/lfg/postings/game/${id}`)
                 .then(response => {
                     this.setState({
                         lfgPostings: response.data,
@@ -68,7 +84,6 @@ class LfgContainer extends Component {
 
     joinPostingChat = (posting) => {
         //window.Materialize.toast(`Joining posting ${id}`, 4000);
-        console.log(posting);
         let chatChannel = {
             id: `${this.props.game._id}-${posting._id}`,
             name: `${this.props.game.name} posting - ${posting.title}`
@@ -82,7 +97,6 @@ class LfgContainer extends Component {
     }
 
     leavePostingChat = () => {
-        console.log(this.state.selectedPosting._id);
         axios.post('/api/lfg/postings/delete',
         {_id: this.state.selectedPosting._id})
         .then(response => {

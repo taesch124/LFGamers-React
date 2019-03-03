@@ -14,6 +14,7 @@ function getUserGameFavorites(user) {
         });
     });
 }
+
 function addGameToFavorites(user, gameId) {
     return new Promise((resolve, reject) => {
         User.updateOne(
