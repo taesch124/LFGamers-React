@@ -36,7 +36,7 @@ class PostingPanel extends Component {
                     </div>
                     
                     <div className="col s4 flex-column">
-                        <div onClick={e => this.props.joinPostingChat(posting._id)}>
+                        <div onClick={e => this.props.joinPostingChat(posting)}>
                             <Button>Join</Button>
                         </div>
                     </div>

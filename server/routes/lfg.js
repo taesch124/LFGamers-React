@@ -13,6 +13,13 @@ router.post('/postings/create', (req, res) => {
     lfgController.createLfgPosting(req.body)
     .then(results => res.json(results))
     .catch(error => res.json(error));
-})
+});
+
+router.post('/postings/delete', (req, res) => {
+    console.log(req.body);
+    lfgController.deleteLfgPosting(req.body._id)
+    .then(results => res.json(results))
+    .catch(error => res.json(Error(error)));
+});
 
 module.exports = router;

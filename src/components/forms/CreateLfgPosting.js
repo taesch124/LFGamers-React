@@ -234,11 +234,7 @@ class CreateLfgPosting extends Component  {
 
         axios.post(`/api/lfg/postings/create`,
         data)
-        .then(results => {
-            if($('#create-lfg-modal').isOpen) {
-                $('#create-lfg-modal').modal('close');
-            }
-            
+        .then(response => {         
             this.setState({
                 title: '',
                 description: '',
@@ -249,6 +245,9 @@ class CreateLfgPosting extends Component  {
                 endDate: '',
                 endTime: '',
                 validationMessage: ''
+            }, () => {
+                $('#create-lfg-modal').modal('close');
+                this.props.joinPostingChat(response.data);
             });
             
         })

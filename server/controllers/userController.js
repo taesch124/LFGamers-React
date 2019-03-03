@@ -52,7 +52,6 @@ function getAccounts(user) {
         User.findOne({_id: user._id})
         .populate('accounts.platform')
         .then(results => {
-            console.log(results);
             resolve(results.accounts);
         })
         .catch(error => {

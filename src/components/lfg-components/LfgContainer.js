@@ -15,7 +15,8 @@ class LfgContainer extends Component {
             loadingPostings: true,
             lfgPostings: [],
             chat: false,
-            chatChannel: null
+            chatChannel: null,
+            selectedPosting: null,
         };
     }
 
@@ -30,7 +31,9 @@ class LfgContainer extends Component {
             <div>
                 {this.state.chat ? 
                 <ChatContainer 
-                    channelId={this.state.chatChannel}
+                    selectedPosting={this.state.selectedPosting}
+                    channel={this.state.chatChannel}
+                    leavePostingChat={this.leavePostingChat}
                 /> :
                 this.state.loadingPostings ?
                     <CircleLoader /> :
@@ -63,12 +66,38 @@ class LfgContainer extends Component {
         });
     }
 
-    joinPostingChat = (id) => {
+    joinPostingChat = (posting) => {
         //window.Materialize.toast(`Joining posting ${id}`, 4000);
+        console.log(posting);
+        let chatChannel = {
+            id: `${this.props.game._id}-${posting._id}`,
+            name: `${this.props.game.name} posting - ${posting.title}`
+        };
+
         this.setState({
             chat: true,
-            chatChannel: `${this.props.game._id}-${id}`,
+            chatChannel: chatChannel,
+            selectedPosting: posting,
         });
+    }
+
+    leavePostingChat = () => {
+        console.log(this.state.selectedPosting._id);
+        axios.post('/api/lfg/postings/delete',
+        {_id: this.state.selectedPosting._id})
+        .then(response => {
+            this.setState({
+                chat: false,
+                chatChannel: null,
+                selectedPosting: null
+            }, () => {
+                this.getPostings(this.props.game._id);
+            });
+        })
+        .catch(error => {
+            console.error(error);
+        });
+        
     }
 }
 

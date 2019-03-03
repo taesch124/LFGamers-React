@@ -51,7 +51,20 @@ function createLfgPosting(data) {
     });
 }
 
+function deleteLfgPosting(_id) {
+    return new Promise((resolve, reject) => {
+        LFG.deleteOne({_id: _id})
+        .then(results => {
+            resolve(results);
+        })
+        .catch(error => {
+            reject(error);
+        });
+    })
+}
+
 module.exports = {
     getGameLfgPostings: getGameLfgPostings,
-    createLfgPosting: createLfgPosting
+    createLfgPosting: createLfgPosting,
+    deleteLfgPosting: deleteLfgPosting
 }
