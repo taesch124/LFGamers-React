@@ -2,6 +2,9 @@ import React, {Component} from 'react';
 import GamePanel from './../game-components/GamePanel';
 import CircleLoader from './../loaders/CircleLoader';
 import axios from 'axios';
+import './GameList.css';
+
+
 
 class GameList extends Component {
     constructor(props) {
@@ -36,11 +39,13 @@ class GameList extends Component {
             <div>
                 <div className="row">
                     <div className="col s6 offset-s3">
+                        
                         <form onSubmit={this.handleFormSubmit} id="game-search">
                         <div className="input-field">
                             <input id="search" name="search" type="search" value={this.state.search} onChange={this.onChange} required/>
                             <label className="label-icon left" htmlFor="search"><i className="material-icons">search</i></label>
                             <i className="material-icons">close</i>
+                            
                         </div>
                         </form>
                     </div>
