@@ -1,5 +1,6 @@
 .card {
     cursor: pointer;
+    
 }
 
 .card-image {
@@ -8,10 +9,15 @@
     flex-flow: column nowrap;
     justify-content: center;
     flex-shrink: 0;
+    /* background-color: lightgray; */
+    
 }
 
 .card-content {
     max-width: 100%;
+    /* background-color: lightgray; */
+    margin-left: 1rem;
+    
 }
 
 .game-poster {
@@ -19,9 +25,12 @@
     width: 180px;
     max-width: 1800px;
     max-height: 180px;
+    
 }
 
 .game-summary {
     max-height: 120px;
     overflow: hidden;
+    
+    
 }
