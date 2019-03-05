@@ -68,19 +68,16 @@ class CreateComment extends Component  {
             text: this.state.text,
         };
 
-        axios.post(`/threads/${data.parentComment}/comments/create`,
+        axios.post(`/api/threads/${data.parentComment}/comments/create`,
         data)
         .then(results => {
-            if($('#create-comment-modal').isOpen) {
-                $('#create-comment-modal').modal('close');
-            } else {
-                
-            }
+            //debugger;
             
             this.setState({
                 text: ''
             }, () => {
-                if($(! '#create-comment-modal').isOpen) this.props.toggleCommentForm();
+                if(!$('#create-comment-modal').isOpen) this.props.toggleCommentForm();
+                else $('#create-comment-modal').modal('close');
                 this.props.getThread(this.props.threadId);
                 console.log(results);
             });

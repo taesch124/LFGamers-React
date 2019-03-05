@@ -10,17 +10,20 @@ class CreateLfgPosting extends Component  {
         this.state = {
             title: '',
             description: '',
+            accounts: [],
+            platform: 'none',
+            account: '',
             playerLimit: 0,
-            startDate: new Date(),
-            startTime: null,
-            endDate: null,
-            endTime: null,
+            startDate: '',
+            startTime: '',
+            endDate: '',
+            endTime: '',
             validationMessage: ''
         }
     }
 
     componentDidMount() {
-        $('select').formSelect();
+        this.getUserAccounts();
     }
 
     render() {
@@ -48,17 +51,17 @@ class CreateLfgPosting extends Component  {
                         onChange={this.onChange}    
                     />
                 </Row>
-                <Row>
-                    <div 
-                        className="input-field col s12 player-limit-select"
-                        
-                    >
+                <div className="row">
+                    <div className="col s12">
+                        <label>Player Limit</label>
                         <select 
                             name="playerLimit"
-                            value={this.state.playerLimit}
+                            className="player-limit-select"
+                            //value={this.state.playerLimit}
+                            defaultValue="0"
                             onChange={this.onPlayerLimitChange}
                         >
-                            <option value={0} defaultValue disabled>Select an option</option>
+                            <option value="0" disabled>Select an option</option>
                             <option value={2}>2</option>
                             <option value={3}>3</option>
                             <option value={4}>4</option>
@@ -67,7 +70,30 @@ class CreateLfgPosting extends Component  {
                             <option value={7}>7</option>
                             <option value={8}>8</option>
                         </select>
-                        <label>Player Limit</label>
+                        
+                    </div>
+                </div>
+                <Row>
+                    <div className="col s12">
+                        <label>Platform</label>
+                        <select 
+                            name="platform"
+                            className="platform-select"
+                            value={this.state.platform}
+                            onChange={this.onChange}
+                        >
+                            <option key="none" value="none" defaultValue disabled>Select one</option>
+                            {this.state.accounts.map(e => {
+                                return (
+                                    <option 
+                                        key={e.platform._id}
+                                        value={e.platform._id}
+                                    >{e.platform.name} - {e.account}
+                                    </option>
+                                )
+                            })}
+                            
+                        </select>
                     </div>
                 </Row>
                 <Row>
@@ -75,6 +101,7 @@ class CreateLfgPosting extends Component  {
                         s={12}
                         m={6}
                         name='startDate' 
+                        value={this.state.startDate}
                         type='date' 
                         onChange={this.onChange} 
                         label="Start Date"
@@ -83,6 +110,7 @@ class CreateLfgPosting extends Component  {
                         s={12}
                         m={6}
                         name="startTime"
+                        value={this.state.startTime}
                         type="time"
                         onChange={this.onChange}
                         label="Start Time"
@@ -93,16 +121,18 @@ class CreateLfgPosting extends Component  {
                         s={12}
                         m={6}
                         name='endDate' 
+                        value={this.state.endDate}
                         type='date' 
-                        onChange={function(e, value) {}} 
+                        onChange={this.onChange} 
                         label="End Date"
                     />
                     <Input
                         s={12}
                         m={6}
                         name="endTime"
+                        value={this.state.endTime}
                         type="time"
-                        onChange={function(e, value) {}}
+                        onChange={this.onChange}
                         label="End Time"
                     />
                 </Row>
@@ -142,7 +172,12 @@ class CreateLfgPosting extends Component  {
                 validationMessage: 'Posting must have a description'
             });
             return false;
-        } 
+        }
+        else if(this.state.platform === 'none') {
+            this.setState({
+                validationMessage: 'A platform is required.'
+            })
+        }
         else if(this.state.playerLimit === 0) {
             this.setState({
                 validationMessage: 'Posting requires at least 2 players'
@@ -165,6 +200,18 @@ class CreateLfgPosting extends Component  {
         }
     }
 
+    getUserAccounts = () => {
+        axios.get('/api/user/platforms')
+        .then(response => {
+            this.setState({
+                accounts: response.data
+            });
+        })
+        .catch(error => {
+            console.error(error);
+        })
+    }
+
     checkState = () => {
         console.log(this.state);
     }
@@ -178,30 +225,29 @@ class CreateLfgPosting extends Component  {
             title: this.state.title,
             description: this.state.description,
             playerLimit: this.state.playerLimit,
+            platform: this.state.platform,
             startDate: this.state.startDate,
             startTime: this.state.startTime,
             endDate: this.state.endDate,
             endTime: this.state.endTime
         };
 
-        axios.post(`/lfg/postings/create`,
+        axios.post(`/api/lfg/postings/create`,
         data)
-        .then(results => {
-            if($('#create-lfg-modal').isOpen) {
-                $('#create-lfg-modal').modal('close');
-            } else {
-                
-            }
-            
+        .then(response => {         
             this.setState({
                 title: '',
                 description: '',
                 playerLimit: 0,
-                startDate: new Date(),
-                startTime: null,
-                endDate: null,
-                endTime: null,
+                platform: 'none',
+                startDate: '',
+                startTime: '',
+                endDate: '',
+                endTime: '',
                 validationMessage: ''
+            }, () => {
+                $('#create-lfg-modal').modal('close');
+                this.props.joinPostingChat(response.data);
             });
             
         })

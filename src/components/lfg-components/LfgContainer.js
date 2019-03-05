@@ -3,6 +3,8 @@ import axios from 'axios';
 
 import PostingList from './../lfg-components/PostingList';
 import CircleLoader from '../loaders/CircleLoader';
+import ChatContainer from '../chat-components/ChatContainer';
+import {Toast} from 'react-materialize';
 
 class LfgContainer extends Component {
     constructor(props) {
@@ -12,27 +14,53 @@ class LfgContainer extends Component {
             postingsLoaded: false,
             loadingPostings: true,
             lfgPostings: [],
-            chat: ''
+            chat: false,
+            chatChannel: null,
+            selectedPosting: null,
         };
+    }
+
+    componentDidMount() {
+        
     }
 
     componentWillReceiveProps() {
         if(!this.state.postingsLoaded && this.props.game) {
-            this.getPostings(this.props.game._id);
+            axios.get('/api/lfg/postings/user')
+            .then(response => {
+                console.log(response.data);
+                if(response.data) {
+                    this.joinPostingChat(response.data)
+                } else {
+                    this.getPostings(this.props.game._id);
+                }
+                
+            })
+            .catch(error => {
+                console.error(error);
+            })
         }
     }
 
     render() {
         return (
             <div>
-                {this.state.loadingPostings ?
-                <CircleLoader /> :
-                <PostingList
-                    postings={this.state.lfgPostings}
-                    user={this.props.user}
-                    game={this.props.game}
-                    getPostings={this.getPostings}
-                />}
+                {this.state.chat ? 
+                <ChatContainer 
+                    selectedPosting={this.state.selectedPosting}
+                    chatChannel={this.state.chatChannel}
+                    leavePostingChat={this.leavePostingChat}
+                /> :
+                this.state.loadingPostings ?
+                    <CircleLoader /> :
+                    <PostingList
+                        postings={this.state.lfgPostings}
+                        user={this.props.user}
+                        game={this.props.game}
+                        getPostings={this.getPostings}
+                        joinPostingChat={this.joinPostingChat}
+                    />
+                }
             </div>
         )
     }
@@ -40,7 +68,7 @@ class LfgContainer extends Component {
     getPostings = (id) => {
         this.setState({loadingPostings: true},
             () => {
-                axios.get(`/lfg/postings/${id}`)
+                axios.get(`/api/lfg/postings/game/${id}`)
                 .then(response => {
                     this.setState({
                         lfgPostings: response.data,
@@ -52,6 +80,67 @@ class LfgContainer extends Component {
                     console.error(error);
                 });
         });
+    }
+
+    joinPostingChat = (posting) => {
+        //window.Materialize.toast(`Joining posting ${id}`, 4000);
+        let chatChannel = {
+            id: `${this.props.game._id}-${posting._id}`,
+            name: `${this.props.game.name} posting - ${posting.title}`
+        };
+
+        this.setState({
+            chat: true,
+            chatChannel: chatChannel,
+            selectedPosting: posting,
+        }, () => {
+            if (!this.state.selectedPosting.players.includes(this.props.user._id))
+            axios.post('/api/lfg/postings/add-player/' + this.state.selectedPosting._id)
+            .then(response => {
+                //don't do anything
+            })
+            .catch(error => {
+                console.error(error);
+            });
+        });
+
+        
+
+        
+    }
+
+    leavePostingChat = (remove) => {
+        axios.post('/api/lfg/postings/remove-player/' + this.state.selectedPosting._id)
+        .then(done => {
+            if(remove) {
+                axios.post('/api/lfg/postings/delete',
+                {_id: this.state.selectedPosting._id})
+                .then(response => {
+                    this.setState({
+                        chat: false,
+                        chatChannel: null,
+                        selectedPosting: null
+                    }, () => {
+                        this.getPostings(this.props.game._id);
+                    });
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+            } else {
+                this.setState({
+                    chat: false,
+                    chatChannel: null,
+                    selectedPosting: null
+                }, () => {
+                    this.getPostings(this.props.game._id);
+                });
+            }
+        })
+        .catch(error => {
+            console.error(error);
+        })
+        
     }
 }
 

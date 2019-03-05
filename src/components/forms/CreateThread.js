@@ -57,7 +57,7 @@ class CreateThread extends Component  {
             text: this.state.text,
         };
 
-        axios.post('/threads/create', data)
+        axios.post('/api/threads/create', data)
         .then(results => {
 
             this.setState({

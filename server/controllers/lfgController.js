@@ -6,6 +6,7 @@ function getGameLfgPostings(gameId) {
         LFG.find({gameId: gameId}, null, {sort: {postedAt: -1}})
         .populate('postedBy')
         .populate('players')
+        .populate('platform')
         .then(results => {
             resolve(results);
         })
@@ -33,6 +34,7 @@ function createLfgPosting(data) {
             title: data.title,
             description:data.description,
             playerLimit: data.playerLimit,
+            platform: data.platform,
             players: [data.userId],
             startDate: startDate,
             endDate: endDate
@@ -49,7 +51,64 @@ function createLfgPosting(data) {
     });
 }
 
+function addPlayerToPosting(user, postingId) {
+    return new Promise((resolve, reject) => {
+        LFG.updateOne({_id: postingId},
+            {$push: {players: user._id}})
+        .then(results => {
+            resolve(results);
+        })
+        .catch(error => {
+            reject(error);
+        })
+    });
+}
+
+function removePlayerFromPosting(user, postingId) {
+    return new Promise((resolve, reject) => {
+        LFG.updateOne({_id: postingId},
+            {$pull: {players: user._id}})
+        .then(results => {
+            resolve(results);
+        })
+        .catch(error => {
+            reject(error);
+        })
+    });
+}
+
+function deleteLfgPosting(_id) {
+    return new Promise((resolve, reject) => {
+        LFG.deleteOne({_id: _id})
+        .then(results => {
+            resolve(results);
+        })
+        .catch(error => {
+            reject(error);
+        });
+    })
+}
+
+function getUserPostings(user) {
+    console.log('Getting users postings');
+    console.log(user);
+    return new Promise((resolve, reject) => {
+        
+        LFG.findOne({postedBy: user._id})
+        .then(results => {
+            resolve(results);
+        })
+        .catch(error => {
+            reject(error);
+        })
+    })
+}
+
 module.exports = {
     getGameLfgPostings: getGameLfgPostings,
-    createLfgPosting: createLfgPosting
+    createLfgPosting: createLfgPosting,
+    deleteLfgPosting: deleteLfgPosting,
+    addPlayerToPosting: addPlayerToPosting,
+    removePlayerFromPosting: removePlayerFromPosting,
+    getUserPostings: getUserPostings
 }

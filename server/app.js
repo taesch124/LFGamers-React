@@ -10,6 +10,7 @@ const gamesRouter = require('./routes/games');
 const platformRouter = require('./routes/platforms');
 const threadRouter = require('./routes/threads');
 const lfgRouter = require('./routes/lfg');
+const twilioRouter = require('./routes/twilio-chat');
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -33,27 +34,29 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use('/auth', authRouter);
-app.use('/user', userRouter);
-app.use('/games', gamesRouter);
-app.use('/platforms', platformRouter);
-app.use('/threads', threadRouter);
-app.use('/lfg', lfgRouter);
+
+
+app.use('/api/auth', authRouter);
+app.use('/api/user', userRouter);
+app.use('/api/games', gamesRouter);
+app.use('/api/platforms', platformRouter);
+app.use('/api/threads', threadRouter);
+app.use('/api/lfg', lfgRouter);
+app.use('/api/chat', twilioRouter);
+
 
 //production mode
 if(process.env.NODE_ENV === 'production') {
   app.use(express.static(path.resolve(__dirname, '..', 'build')));
   
-  console.log('serving build index: ' + path.resolve(__dirname, '..', 'build', 'index.html'));
   app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
   });
 } else {
     app.use(express.static(path.resolve(__dirname, '..', 'public')));
     
-    console.log('serving public index');
     app.get('*', function (request, response){
-        response.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'))
+        response.sendFile(path.resolve(__dirname, '..', 'public', 'index.html'))
     });
 }
 

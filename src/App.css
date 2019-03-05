@@ -52,6 +52,10 @@
   flex-grow: 1;
 }
 
+select {
+  display: block; 
+}
+
 .helper-text {
   color: rgb(201, 47, 47) !important;
 }
@@ -60,6 +64,22 @@
   cursor: pointer;
 }
 
+.App .MessageList {
+  box-sizing: border-box;
+  flex: 1;
+}
+
+.App .MessageForm {
+  background: #eee;
+  border-top: 1px solid #ccc;
+  border-radius: 0 0 3px 3px;
+  box-sizing: border-box;
+  flex: 0 0 30px;
+}
+
+.platform-name {
+  display: inline !important;
+}
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

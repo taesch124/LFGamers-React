@@ -18,7 +18,9 @@ function PostingList(props) {
 
                 <CreateLfgModal 
                     game={props.game} 
-                    user={props.user} 
+                    user={props.user}
+                    getPostings={props.getPostings}
+                    joinPostingChat={props.joinPostingChat}
                 />
             </div>
             {postings.length > 0 ? (
@@ -29,6 +31,7 @@ function PostingList(props) {
                         key={posting._id}
                         id={posting._id}
                         posting={posting}
+                        joinPostingChat={props.joinPostingChat}
                     />
                 );
                 })}

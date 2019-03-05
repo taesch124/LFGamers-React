@@ -19,13 +19,16 @@ class PostingPanel extends Component {
                             <span>Start: {moment(posting.startDate).format("MM/DD/YYYY HH:mm A")}</span>
                             {posting.endDate ? <span> - End: {moment(posting.endDate).format("MM/DD/YYYY HH:mm A")}</span> : null}
                         </div>
+                        <p>Platform: {posting.platform.name}</p>
                         <p>Player Limit: {posting.playerLimit}</p>
                         
                         {posting.players.length === 0 ?
                         null :
                         <div>
                             <p>Players:</p>
-                            <li>{posting.players.map(e => <ul key={e._id}>{e.username}</ul>)}</li>
+                            <li>{posting.players.map(e => {
+                                return (<ul key={e._id}>{e.username} - {e.accounts.filter(account => account.platform === posting.platform._id)[0].account}</ul>)
+                            })}</li>
                         </div>
                         }
                         <p className="posted-by">By: {posting.postedBy.username}</p>
@@ -33,7 +36,7 @@ class PostingPanel extends Component {
                     </div>
                     
                     <div className="col s4 flex-column">
-                        <div onClick={e => this.joinPostingChat(posting._id)}>
+                        <div onClick={e => this.props.joinPostingChat(posting)}>
                             <Button>Join</Button>
                         </div>
                     </div>
@@ -43,9 +46,7 @@ class PostingPanel extends Component {
         )
     }
 
-    joinPostingChat = (id) => {
-        console.log(`Joining posting ${id}`);
-    }
+    
 }
 
 export default PostingPanel;

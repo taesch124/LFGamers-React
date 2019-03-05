@@ -41,7 +41,7 @@ class CreateAccount extends Component {
                     </div>
 
                     <div className="row">
-                        {/* <PlatformContainer platforms={this.state.platforms} handleAccountChanges={this.handleAccountChanges} /> */}
+                        <PlatformContainer onChange={this.addPlatforms} platforms={this.state.platforms} handleAccountChanges={this.handleAccountChanges} />
                     </div>
 
                     <div className="row">
@@ -66,6 +66,14 @@ class CreateAccount extends Component {
             </div>
         )
     }
+    addPlatforms = (p) => {
+        console.log(this.state.platforms);
+        var newArray = this.state.platforms.slice();    
+        newArray.push(p);
+        this.setState({
+            platforms: newArray
+        });
+    }
 
     createAccount = (e) => {
         e.preventDefault();
@@ -73,9 +81,11 @@ class CreateAccount extends Component {
         if(!this.validateInput()) return;
     
         console.log('Creating acount');
-        axios.post('/auth/create-account',  {
+        axios.post('/api/auth/create-account',  {
             username: this.state.username,
-            password: this.state.password
+            password: this.state.password,
+            email: this.state.email,
+            accounts: this.state.platforms,
         })
         .then(response => {
             if(response.data.success) {

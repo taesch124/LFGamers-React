@@ -1,0 +1,34 @@
+.chat-message-form {
+  display: flex;
+  background: rgb(255, 255, 255);
+}
+
+.chat-message-form .input-container {
+  flex: 1;
+  margin: 1px;
+}
+
+.chat-message-form .button-container {
+  flex: 0 0 6em;
+  margin: 1px 1px 1px 0;
+}
+
+.chat-message-form input, .chat-message-form button {
+  background: #26a69a;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  
+  font-size: inherit;
+  height: 100%;
+  outline: none;
+  width: 100%;
+}
+
+.chat-message-form button {
+  color: white;
+}
+
+.chat-message-form input {
+  padding: 0 0 0 4px;
+}

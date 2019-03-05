@@ -1,0 +1,25 @@
+.chat-message {
+  line-height: 1.5em;
+  text-align: left;
+  background-color: rgb(255, 174, 174);
+}
+
+.chat-message.log {
+  color: #bbb;
+  background-color: white;
+}
+
+.chat-message .author {
+  font-weight: bold;
+  color: rgb(144, 33, 33);
+  margin: 0 5px 0 0;
+}
+
+.chat-message.me {
+  text-align: right;
+  background-color: rgb(161, 255, 161);
+}
+
+.chat-message.me .author {
+  color: #033f08;
+}

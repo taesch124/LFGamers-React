@@ -21,4 +21,10 @@ router.post('/game-favorites/remove/:gameId', (req, res) => {
     .catch(error => res.json(error));
 });
 
+router.get('/platforms', (req, res) => {
+    userController.getAccounts(req.user.user)
+    .then(results => res.json(results))
+    .catch(error => res.json(error));
+});
+
 module.exports = router;
