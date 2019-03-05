@@ -89,17 +89,21 @@ class LfgContainer extends Component {
             name: `${this.props.game.name} posting - ${posting.title}`
         };
 
-        axios.post('/api/lfg/postings/add-player' + this.state.selectedPosting._id)
-        .then(response => {
-            this.setState({
-                chat: true,
-                chatChannel: chatChannel,
-                selectedPosting: posting,
+        this.setState({
+            chat: true,
+            chatChannel: chatChannel,
+            selectedPosting: posting,
+        }, () => {
+            axios.post('/api/lfg/postings/add-player' + this.state.selectedPosting._id)
+            .then(response => {
+                //don't do anything
+            })
+            .catch(error => {
+                console.error(error);
             });
-        })
-        .catch(error => {
-            console.error(error);
-        })
+        });
+
+        
 
         
     }
