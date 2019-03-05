@@ -21,7 +21,7 @@ router.post('/postings/delete', (req, res) => {
     .catch(error => res.json(Error(error)));
 });
 
-router.post('/posting/add-player/:postingId', (req, res) => {
+router.post('/postings/add-player/:postingId', (req, res) => {
     lfgController.addPlayerToPosting(req.user.user, req.params.postingId)
     .then(results => res.json(results))
     .catch(error => res.json(error));
