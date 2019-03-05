@@ -89,28 +89,52 @@ class LfgContainer extends Component {
             name: `${this.props.game.name} posting - ${posting.title}`
         };
 
-        this.setState({
-            chat: true,
-            chatChannel: chatChannel,
-            selectedPosting: posting,
-        });
-    }
-
-    leavePostingChat = () => {
-        axios.post('/api/lfg/postings/delete',
-        {_id: this.state.selectedPosting._id})
+        axios.post('/api/lfg/postings/add-player' + this.state.selectedPosting._id)
         .then(response => {
             this.setState({
-                chat: false,
-                chatChannel: null,
-                selectedPosting: null
-            }, () => {
-                this.getPostings(this.props.game._id);
+                chat: true,
+                chatChannel: chatChannel,
+                selectedPosting: posting,
             });
         })
         .catch(error => {
             console.error(error);
-        });
+        })
+
+        
+    }
+
+    leavePostingChat = (remove) => {
+        axios.post('/api/lfg/postings/remove-player/' + this.state.selectedPosting._id)
+        .then(done => {
+            if(remove) {
+                axios.post('/api/lfg/postings/delete',
+                {_id: this.state.selectedPosting._id})
+                .then(response => {
+                    this.setState({
+                        chat: false,
+                        chatChannel: null,
+                        selectedPosting: null
+                    }, () => {
+                        this.getPostings(this.props.game._id);
+                    });
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+            } else {
+                this.setState({
+                    chat: false,
+                    chatChannel: null,
+                    selectedPosting: null
+                }, () => {
+                    this.getPostings(this.props.game._id);
+                });
+            }
+        })
+        .catch(error => {
+            console.error(error);
+        })
         
     }
 }

@@ -76,7 +76,7 @@ class CreateComment extends Component  {
             this.setState({
                 text: ''
             }, () => {
-                if($(! '#create-comment-modal').isOpen) this.props.toggleCommentForm();
+                if(!$('#create-comment-modal').isOpen) this.props.toggleCommentForm();
                 else $('#create-comment-modal').modal('close');
                 this.props.getThread(this.props.threadId);
                 console.log(results);

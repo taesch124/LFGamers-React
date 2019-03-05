@@ -121,7 +121,7 @@ class ChatContainer extends Component {
     .then(channel => {
         this.setState({channel: null}, () => {
             
-            this.props.leavePostingChat();
+            this.props.leavePostingChat(true);
         });
     })
     .catch((error) => {
@@ -134,7 +134,7 @@ class ChatContainer extends Component {
         this.deleteChatChannel(true);
     } else {
         this.state.channel.leave();
-        this.props.leavePostingChat();
+        this.props.leavePostingChat(false);
     }
   }
 
@@ -153,7 +153,6 @@ class ChatContainer extends Component {
 
   configureChannelEvents = (channel) => {
     channel.on('messageAdded', ({ author, body }) => {
-        console.log(channel);
         this.addMessage({ author, body })
     })
 
@@ -162,7 +161,6 @@ class ChatContainer extends Component {
     })
 
     channel.on('memberLeft', (member) => {
-        console.log(channel);
         this.addMessage({ body: `${member.identity} has left the channel.` })
         if(channel.members.size === 0) {
             this.deleteChatChannel(false);

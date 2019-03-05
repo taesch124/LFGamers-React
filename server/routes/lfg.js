@@ -21,6 +21,18 @@ router.post('/postings/delete', (req, res) => {
     .catch(error => res.json(Error(error)));
 });
 
+router.post('/posting/add-player/:postingId', (req, res) => {
+    lfgController.addPlayerToPosting(req.user.user, req.params.postingId)
+    .then(results => res.json(results))
+    .catch(error => res.json(error));
+});
+
+router.post('/postings/remove-player/:postingId', (req, res) => {
+    lfgController.removePlayerFromPosting(req.user.user, req.params.postingId)
+    .then(results => res.json(results))
+    .catch(error => res.json(results));
+})
+
 router.get('/postings/user', (req, res) => {
     console.log(req.user);
     lfgController.getUserPostings(req.user.user)

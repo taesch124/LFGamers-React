@@ -51,6 +51,32 @@ function createLfgPosting(data) {
     });
 }
 
+function addPlayerToPosting(user, postingId) {
+    return new Promise((resolve, reject) => {
+        LFG.updateOne({_id: postingId},
+            {$push: {players: user._id}})
+        .then(results => {
+            resolve(results);
+        })
+        .catch(error => {
+            reject(error);
+        })
+    });
+}
+
+function removePlayerFromPosting(user, postingId) {
+    return new Promise((resolve, reject) => {
+        LFG.updateOne({_id: postingId},
+            {$pull: {players: user._id}})
+        .then(results => {
+            resolve(results);
+        })
+        .catch(error => {
+            reject(error);
+        })
+    });
+}
+
 function deleteLfgPosting(_id) {
     return new Promise((resolve, reject) => {
         LFG.deleteOne({_id: _id})
@@ -82,5 +108,7 @@ module.exports = {
     getGameLfgPostings: getGameLfgPostings,
     createLfgPosting: createLfgPosting,
     deleteLfgPosting: deleteLfgPosting,
+    addPlayerToPosting: addPlayerToPosting,
+    removePlayerFromPosting: removePlayerFromPosting,
     getUserPostings: getUserPostings
 }
