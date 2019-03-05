@@ -94,7 +94,8 @@ class LfgContainer extends Component {
             chatChannel: chatChannel,
             selectedPosting: posting,
         }, () => {
-            axios.post('/api/lfg/postings/add-player' + this.state.selectedPosting._id)
+            if (!this.state.selectedPosting.players.includes(this.props.user._id))
+            axios.post('/api/lfg/postings/add-player/' + this.state.selectedPosting._id)
             .then(response => {
                 //don't do anything
             })
