@@ -45,22 +45,18 @@ class CreateAccount extends Component {
                     </div>
 
                     <div className="row">
-                        <div className="col s10 offset-s1">
+                        <div className="col m8 s10 offset-s1">
                             <span className="helper-text" ref={input => this.errorMessage = input}></span>
                         </div>
                     </div>
 
                     <div className="row">
-                        <div className="col m2 s12 offset-m4">
+                        <div className="col m4 s12 offset-m4">
                             <div className="flex-row">
                                 <button className="btn btn-primary waves-effect blue" onClick={this.createAccount}>CreateAccount</button>
                             </div>
                         </div>
                         
-                        <div className="col s12 m2">
-                            <a href="/auth/login">Login</a>
-                            <span className="btn" onClick={e => console.log(this.state)}>Check state</span>
-                        </div>
                     </div>
                 </form>
             </div>

@@ -15,7 +15,6 @@ function GamePanel(props) {
                 <p className="left-align">Popularity: {game.popularity ? game.popularity.toFixed(0) : "N/A"}</p>
                 <p className="left-align">Genres: {game.genres ? game.genres.map((e,i) => i === game.genres.length - 1 ? e : `${e}, `) : 'N/A'}</p>
                 <p className="left-align">Platforms: {game.platforms ? game.platforms.map((e,i) => i === game.platforms.length - 1 ? e : `${e}, `) : 'N/A'}</p>
-                <p className="game-summary">{game.summary}</p>
             </div>
         </div>
     );

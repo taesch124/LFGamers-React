@@ -1,5 +1,6 @@
 const Dotenv = require('dotenv').config();
 const IGDB = require('igdb-api-node').default;
+const moment = require('moment');
 const Keys = require('../config/keys');
 const igdbClient = IGDB(Keys.igdb);
 
@@ -29,11 +30,15 @@ function searchGameByPhrase(searchPhrase, callback) {
 }
 
 function searchPopularGames(callback) {
+    let currentDate = new Date();
+    let endDate = moment(currentDate).format('YYYY-MM-DD');
+    let startDate = moment(currentDate).subtract(2, 'months').format('YYYY-MM-DD');
+    console.log(startDate, endDate);
     igdbClient.games({
         filters: {
-            'release_dates.date-gt': '2019-01-01',
-            'release_dates.date-lt': '2019-02-01',
-            'popularity-gt': '80'
+            'release_dates.date-gt': startDate,
+            'release_dates.date-lt': endDate,
+            'rating-gt': '75'
         },
         limit: 10,
         fields: fieldList

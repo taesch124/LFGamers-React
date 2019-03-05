@@ -140,7 +140,6 @@ class CreateLfgPosting extends Component  {
                     <span className="helper-text">{this.state.validationMessage}</span>
                 </Row>
                 <Button className="btn-flat submit-comment" onClick={this.onSubmit} onSubmit={this.onSubmit}>Submit</Button>
-                <Button className="btn btn-flat" onClick={this.checkState} >Check state</Button>
                 {this.props.toggleCommentForm ?
                 <Button className="btn-flat close-comment-form" onClick={this.props.toggleCommentForm}>Close</Button> :
                 null}
@@ -210,10 +209,6 @@ class CreateLfgPosting extends Component  {
         .catch(error => {
             console.error(error);
         })
-    }
-
-    checkState = () => {
-        console.log(this.state);
     }
 
     onSubmit = (e) => {

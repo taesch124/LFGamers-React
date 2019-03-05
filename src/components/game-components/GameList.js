@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import GamePanel from './../game-components/GamePanel';
 import CircleLoader from './../loaders/CircleLoader';
 import axios from 'axios';
-import './GameList.css';
+import './styles/GameList.css';
 
 
 
