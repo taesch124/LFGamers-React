@@ -1,23 +1,23 @@
 .card {
     cursor: pointer;
-    
+    border-radius: 10px;
+    margin-left: 20px;
 }
 
 .card-image {
-    margin-left: 1rem;
+    /* margin-left: 1rem; */
     display: flex;
     flex-flow: column nowrap;
     justify-content: center;
     flex-shrink: 0;
     /* background-color: lightgray; */
-    
+    padding: 10px;
 }
 
 .card-content {
     max-width: 100%;
     /* background-color: lightgray; */
-    margin-left: 1rem;
-    
+    margin-left: 2rem;
 }
 
 .game-poster {
@@ -31,6 +31,10 @@
 .game-summary {
     max-height: 120px;
     overflow: hidden;
-    
-    
+}
+.left-align{
+    font-weight: bold;
+}
+.right{
+    font-size: 25px;
 }
