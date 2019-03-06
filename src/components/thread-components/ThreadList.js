@@ -11,15 +11,15 @@ function ThreadList(props) {
     return (
         <div className="list">
             <div className="flex-row">
-                <div onClick={e => props.getThreads(props.game._id)}>
-                    <Icon>refresh</Icon>
-                </div>
-
                 <CreateThreadModal 
                     getThreads={props.getThreads} 
                     game={props.game} 
                     user={props.user} 
                 />
+
+                <div onClick={e => props.getThreads(props.game._id)}>
+                    <Icon>refresh</Icon>
+                </div>
             </div>
             
             {props.threads.length ? (

@@ -52,6 +52,7 @@ class Profile extends Component {
                 </div>
                 <div className="col s6">
                     <Input
+                        s={12}
                         key={i + '_account'}
                         id={i + '_account'}
                         label="Account Name"

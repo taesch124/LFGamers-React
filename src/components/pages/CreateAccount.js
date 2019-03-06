@@ -53,8 +53,11 @@ class CreateAccount extends Component {
                     <div className="row">
                         <div className="col m4 s12 offset-m4">
                             <div className="flex-row">
-                                <button className="btn btn-primary waves-effect blue" onClick={this.createAccount}>CreateAccount</button>
+                                <button className="btn btn-primary waves-effect blue" onClick={this.createAccount}>Create Account</button>
                             </div>
+                        </div>
+                        <div className="col s12 m2">
+                            <a href="/auth/Login">Login</a>
                         </div>
                         
                     </div>

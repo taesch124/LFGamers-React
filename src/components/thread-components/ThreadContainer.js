@@ -6,6 +6,8 @@ import CommentList from './../thread-components/CommentList';
 import CircleLoader from './../loaders/CircleLoader';
 import { Icon } from 'react-materialize';
 
+import './styles/ThreadContainer.css';
+
 class ThreadContainer extends Component {
     constructor(props) {
         super(props);
@@ -30,7 +32,7 @@ class ThreadContainer extends Component {
         let game = this.props.game;
         if (!game) return (<CircleLoader />) 
         else return (
-            <div>
+            <div className="thread-container">
             {!this.state.currentThread ? 
                 this.state.loadingThreads ? 
                 <CircleLoader /> :

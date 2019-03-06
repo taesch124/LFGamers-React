@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import FavoritePanel from './FavoritePanel';
 import axios from 'axios';
 
+import './styles/FavoritesList.css'
+
 class FavoritesList extends Component {
 
     componentDidMount() {
@@ -10,7 +12,7 @@ class FavoritesList extends Component {
 
     render() {
         return(
-            <div className="card">
+            <div className="card favorites-card">
                 <h4>Favorites</h4>
                 {this.props.favorites === 0 ?
                          <h4>Currently no favorites</h4> :

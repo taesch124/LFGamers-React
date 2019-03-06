@@ -1,0 +1,4 @@
+.favorites-card {
+    overflow-y: auto;
+    max-height: 100vh;
+}

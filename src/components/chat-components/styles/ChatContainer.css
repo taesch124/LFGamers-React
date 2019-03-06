@@ -2,6 +2,14 @@
     min-height: 420px;
 }
 
+.chat-title {
+    border: 1px solid black;
+}
+
+.chat-title h5 {
+    font-weight: bold;
+}
+
 .leave-posting-chat:hover {
     background-color: rgb(252, 87, 87);
 }

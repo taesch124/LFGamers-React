@@ -12,16 +12,16 @@ function PostingList(props) {
     return (
         <div className="list">
             <div className="flex-row">
-                <div onClick={(e) =>  props.getPostings(props.game._id)}>
-                    <Icon>refresh</Icon>
-                </div>
-
                 <CreateLfgModal 
                     game={props.game} 
                     user={props.user}
                     getPostings={props.getPostings}
                     joinPostingChat={props.joinPostingChat}
                 />
+
+                <div onClick={(e) =>  props.getPostings(props.game._id)}>
+                    <Icon>refresh</Icon>
+                </div>
             </div>
             {postings.length > 0 ? (
             <List>
