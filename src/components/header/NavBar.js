@@ -5,7 +5,7 @@ import './NavBar.css';
 function NavBar(props) {
   return (
     <nav>
-    <div className="nav-wrapper blue-grey lighten-2">
+    <div className="nav-wrapper navbar">
       
       {props.loggedIn ? <span className="left" >{props.user.username}</span> : null}
       <a href="/" className="brand-logo">LFGamer</a>

@@ -17,7 +17,7 @@ class Home extends Component {
 
     render() {
         return(
-            <div className="container container-fluid">
+            <div className="container container-fluid home-container">
                 <div className="row">
                     <div className="col s12 m8">
                         <GameList 

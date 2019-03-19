@@ -2,3 +2,7 @@
     position: sticky;
     top: 0;
 }
+
+.home-container {
+    padding: 0 1rem;
+}

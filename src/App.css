@@ -1,5 +1,7 @@
 .App {
   text-align: center;
+  background-color: #282828;
+  color: white;
 }
 
 .App-logo {
@@ -50,6 +52,18 @@
   flex-flow: column nowrap;
   justify-content: center;
   flex-grow: 1;
+}
+
+.navbar {
+  background-color: #0C0032;
+}
+
+.game-header {
+  background-color: #3500d3;
+}
+
+.card {
+  background-color: #240090;
 }
 
 select {

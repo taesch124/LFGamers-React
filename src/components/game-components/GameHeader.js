@@ -4,7 +4,7 @@ import './styles/GameHeader.css';
 function GameHeader(props) {
     let game = props.game;
     return (
-        <div className="card-panel blue-grey lighten-5 center-row">
+        <div className="card-panel game-header center-row">
             <div className="row row-fluid center-row">
                 <div className="col s12 m4">
                     {game.cover ? 

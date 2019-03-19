@@ -43,8 +43,8 @@ class GameList extends Component {
                         <form onSubmit={this.handleFormSubmit} id="game-search">
                         <div className="input-field">
                             <input id="search" name="search" type="search" value={this.state.search} onChange={this.onChange} required/>
-                            <label className="label-icon left" htmlFor="search"><i className="material-icons">search</i></label>
-                            <i className="material-icons">close</i>
+                            <label className="label-icon search-label" htmlFor="search"><i className="material-icons search-icon">search</i></label>
+                            <i className="material-icons close-search-label">close</i>
                             
                         </div>
                         </form>

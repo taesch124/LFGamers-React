@@ -1,6 +1,10 @@
 .favorites-card {
     overflow-y: scroll;
-    max-height: 400px;
+    max-height: 95vh;
     position: sticky;
     border-radius: 10px;
+}
+
+.favorites-title {
+    font-weight: bold;
 }
