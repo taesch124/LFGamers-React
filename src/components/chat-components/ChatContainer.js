@@ -33,7 +33,7 @@ class ChatContainer extends Component {
     return new Promise((resolve, reject) => {
       this.addMessage({ body: 'Connecting...' })
 
-      $.getJSON(`/api/chat/token/${this.props.selectedPosting.platform}`, (token) => {
+      $.getJSON(`/api/chat/token/${typeof this.props.selectedPosting.platform === 'object' ? this.props.selectedPosting.platform._id : this.props.selectedPosting.platform}`, (token) => {
         this.setState({ twilioId: token.identity }, 
         () => {
             resolve(token);
