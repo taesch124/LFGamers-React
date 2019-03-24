@@ -1,6 +1,6 @@
 .chat-message-form {
   display: flex;
-  background: rgb(255, 255, 255);
+  background: #282828;
 }
 
 .chat-message-form .input-container {
@@ -14,9 +14,9 @@
 }
 
 .chat-message-form input, .chat-message-form button {
-  background: #26a69a;
+  background: #240090;
   border-radius: 3px;
-  border: 1px solid #ccc;
+  border: 1px solid rgb(0, 0, 0);
   box-sizing: border-box;
   
   font-size: inherit;

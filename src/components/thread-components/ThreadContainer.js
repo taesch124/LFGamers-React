@@ -44,7 +44,7 @@ class ThreadContainer extends Component {
                     getThread={this.getThread} />
                 : this.state.loadingThread ?
                     <CircleLoader /> :
-                    <div>
+                    <div className="comment-container">
                         <div className="flex-row">
 
                             <div

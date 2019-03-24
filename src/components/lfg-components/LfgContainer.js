@@ -47,6 +47,7 @@ class LfgContainer extends Component {
             <div>
                 {this.state.chat ? 
                 <ChatContainer 
+                    user={this.props.user}
                     selectedPosting={this.state.selectedPosting}
                     chatChannel={this.state.chatChannel}
                     leavePostingChat={this.leavePostingChat}

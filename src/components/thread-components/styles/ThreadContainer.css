@@ -1,3 +1,7 @@
 .thread-container {
     height: 95vh;
 }
+
+.comment-container {
+    height: 100%;
+}

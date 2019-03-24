@@ -9,6 +9,7 @@ const CreateLfgModal = props => {
     <Modal
         id='create-lfg-modal'
         header='Create New LFG Posting'
+        footer={null}
         trigger={<Button className="btn-flat" waves='light'>Create New Posting<Icon right>add</Icon></Button>}>
         <CreateLfgPosting 
           gameId={props.game._id} 

@@ -33,7 +33,7 @@ class ChatContainer extends Component {
     return new Promise((resolve, reject) => {
       this.addMessage({ body: 'Connecting...' })
 
-      $.getJSON('/api/chat/token', (token) => {
+      $.getJSON(`/api/chat/token/${this.props.selectedPosting.platform}`, (token) => {
         this.setState({ twilioId: token.identity }, 
         () => {
             resolve(token);
@@ -153,6 +153,7 @@ class ChatContainer extends Component {
 
   configureChannelEvents = (channel) => {
     channel.on('messageAdded', ({ author, body }) => {
+      console.log(author);
         this.addMessage({ author, body })
     })
 

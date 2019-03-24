@@ -18,7 +18,7 @@ h6 {
 }
 
 .shaded {
-    background-color: rgb(193, 229, 240);
+    background-color: rgb(122, 122, 122) !important;
 }
 
 .reply-button {

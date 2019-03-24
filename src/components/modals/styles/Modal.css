@@ -1,7 +1,7 @@
-.btn-flat:hover {
-    background-color: #a5d8a8;
-}
-
 .btn-flat {
     display: inline;
+}
+
+.modal-footer {
+    display: none;
 }
