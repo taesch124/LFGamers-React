@@ -107,7 +107,7 @@ class GameList extends Component {
         .catch(err => {
             console.error(err);
         });
-    }
+    }  
 
 }
 

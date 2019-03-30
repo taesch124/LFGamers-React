@@ -1,9 +1,9 @@
 const moment = require('moment');
 const LFG = require('./../models/LFG');
 
-function getGameLfgPostings(gameId) {
+function getGameLfgPostings(gameId, userPlatforms) {
     return new Promise((resolve, reject) => {
-        LFG.find({gameId: gameId}, null, {sort: {postedAt: -1}})
+        LFG.find({gameId: gameId, platform: {$in: userPlatforms}}, null, {sort: {postedAt: -1}})
         .populate('postedBy')
         .populate('players')
         .populate('platform')
@@ -14,6 +14,22 @@ function getGameLfgPostings(gameId) {
             reject(error)
         });
     });
+}
+
+function filterGameLfgPostings(gameId, filterObject) {
+    let titleRegex = new RegExp(filterObject.title, "i")
+    return new Promise((resolve, reject) => {
+        LFG.find({gameId: gameId, platform: {$in: filterObject.platform}, title: titleRegex}, null, {sort: {postedAt: -1}})
+        .populate('postedBy')
+        .populate('players')
+        .populate('platform')
+        .then(results => {
+            resolve(results);
+        })
+        .catch(error => {
+            reject(error)
+        });
+    })
 }
 
 function createLfgPosting(data) {
@@ -106,6 +122,7 @@ function getUserPostings(user) {
 
 module.exports = {
     getGameLfgPostings: getGameLfgPostings,
+    filterGameLfgPostings: filterGameLfgPostings,
     createLfgPosting: createLfgPosting,
     deleteLfgPosting: deleteLfgPosting,
     addPlayerToPosting: addPlayerToPosting,

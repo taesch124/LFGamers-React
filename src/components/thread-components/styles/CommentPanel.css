@@ -17,6 +17,10 @@ h6 {
     cursor: auto;
 }
 
+.comment-content {
+    margin: .15rem .5rem;
+}
+
 .shaded {
     background-color: rgb(122, 122, 122) !important;
 }
@@ -25,10 +29,6 @@ h6 {
     padding: 0;
     height: auto;
     line-height: 18px; 
-}
-
-.btn-flat:hover {
-    background-color: #a5d8a8;
 }
 
 .comment-by,
