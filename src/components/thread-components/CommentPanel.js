@@ -18,7 +18,7 @@ class CommentPanel extends Component {
         return (
             <div className={`comment-card card horizontal left-align ${this.props.level % 2 === 1 ? 'shaded': null}`}>
                 <div className="card-content comment-content">
-                    <h5>{commentInfo.title}</h5>
+                    {commentInfo.title ? <h5>{commentInfo.title}</h5> : null}
                     <h6>{commentInfo.text}</h6>
                     {commentInfo.postedBy ? <p className="comment-by">By: {commentInfo.postedBy.username} </p> : null}
                     <p className="comment-at">At: {moment(commentInfo.postedAt).format("MM/DD/YYYY HH:mm A")}</p>
