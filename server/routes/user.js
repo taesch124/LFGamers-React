@@ -27,4 +27,10 @@ router.get('/platforms', (req, res) => {
     .catch(error => res.json(error));
 });
 
+router.post('/platforms', (req, res) => {
+    userController.updateAccounts(req.user.user, req.body)
+    .then(results => res.json(results))
+    .catch(error => res.json(error));
+})
+
 module.exports = router;

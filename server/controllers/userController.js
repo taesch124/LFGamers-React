@@ -61,9 +61,23 @@ function getAccounts(user) {
     });
 }
 
+function updateAccounts(user, accounts) {
+    return new Promise((resolve, reject) => {
+        User.updateOne({_id: user._id},
+            {accounts: accounts})
+        .then(results => {
+            resolve(results);
+        })
+        .catch(error => {
+            reject(error);
+        });
+    })
+}
+
 module.exports = {
     getUserGameFavorites: getUserGameFavorites,
     addGameToFavorites: addGameToFavorites,
     removeGameFromFavorites: removeGameFromFavorites,
-    getAccounts
+    getAccounts: getAccounts,
+    updateAccounts: updateAccounts
 }

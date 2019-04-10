@@ -35,6 +35,14 @@ body,
   color: #61dafb;
 }
 
+.hidden {
+  display: none;
+}
+
+.filter-active {
+  color: rgb(87, 168, 87);
+}
+
 select {
   color: black;
 }
@@ -118,6 +126,13 @@ select {
 .card {
   background-color: #240090;
 }
+
+/* .user-account label {
+-webkit-transform: translateY(-14px) scale(0.8);
+transform: translateY(-14px) scale(0.8);
+-webkit-transform-origin: 0 0;
+transform-origin: 0 0;
+} */
 
 select {
   display: block; 

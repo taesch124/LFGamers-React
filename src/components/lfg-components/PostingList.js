@@ -8,6 +8,8 @@ import {Icon} from 'react-materialize';
 import CreateLfgModal from '../modals/CreateLfgModal';
 import PostingPanel from '../lfg-components/PostingPanel';
 
+import './styles/PostingList.css'
+
 class PostingList extends Component {
     constructor(props) {
         super(props);
@@ -16,7 +18,8 @@ class PostingList extends Component {
             accounts: [],
             search: '',
             platform: 'none',
-            postings: []
+            postings: [],
+            filterPostings: false
         }
     }
 
@@ -37,6 +40,10 @@ class PostingList extends Component {
                         joinPostingChat={this.props.joinPostingChat}
                     />
 
+                    <div onClick={(e) => this.togglePostingFilter()}>
+                        <Icon className={this.state.filterPostings ? `filter-active`: null}>filter_list</Icon>
+                    </div>
+
                     <div onClick={(e) =>  this.props.getPostings(this.props.game._id)}>
                         <Icon>refresh</Icon>
                     </div>
@@ -46,33 +53,36 @@ class PostingList extends Component {
                     <div className="row">
                     <div className="col s6 offset-s3">
                         
-                        <form onSubmit={this.handleFormSubmit} id="game-search">
+                        <form className={this.state.filterPostings ? null : `hidden`} onSubmit={this.handleFormSubmit} id="game-search">
                             <div className="input-field">
                                 <input id="search" name="search" type="search" value={this.state.search} onChange={this.onChange} required/>
                                 <label className="label-icon search-label" htmlFor="search"><i className="material-icons search-icon">search</i></label>
                                 <i className="material-icons close-search-label">close</i>
                                 
                             </div>
-                            <div className="col s12">
-                                <label>Platform</label>
-                                <select 
-                                    name="platform"
-                                    className="platform-select"
-                                    value={this.state.platform}
-                                    onChange={this.onChange}
-                                >
-                                    <option key="none" value="none" defaultValue>Select one</option>
-                                    {this.state.accounts.map(e => {
-                                        return (
-                                            <option 
-                                                key={e.platform._id}
-                                                value={e.platform._id}
-                                            >{e.platform.name} - {e.account}
-                                            </option>
-                                        )
-                                    })}
+                        <div className="row">
+                                <div className="col s12">
+                                
+                                    <label class=" align-left platform-label">Platform</label>
+                                    <select 
+                                        name="platform"
+                                        className="platform-select"
+                                        value={this.state.platform}
+                                        onChange={this.onChange}
+                                    >
+                                        <option key="none" value="none" defaultValue>Select one</option>
+                                        {this.state.accounts.map(e => {
+                                            return (
+                                                <option 
+                                                    key={e.platform._id}
+                                                    value={e.platform._id}
+                                                >{e.platform.name} - {e.account}
+                                                </option>
+                                            )
+                                        })}
+                                    </select>
                                     
-                                </select>
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -127,6 +137,12 @@ class PostingList extends Component {
                 .catch(error => {
                     console.error(error);
                 });
+    }
+
+    togglePostingFilter = () => {
+        this.setState({
+            filterPostings: !this.state.filterPostings
+        })
     }
 
     getUserAccounts = () => {
