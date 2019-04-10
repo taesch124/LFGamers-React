@@ -1,5 +1,5 @@
 .favorites-card {
-    overflow-y: scroll;
+    overflow-y: auto;
     max-height: 95vh;
     position: sticky;
     border-radius: 10px;
